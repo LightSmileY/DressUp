@@ -1,11 +1,11 @@
 package com.ynu.makeup_you.controller;
 
-import com.ynu.makeup_you.entity.Favorites;
+import com.ynu.makeup_you.entity.Likes;
 import com.ynu.makeup_you.entity.PostMessage;
 import com.ynu.makeup_you.entity.User;
 import com.ynu.makeup_you.repository.PostMessageRepository;
 import com.ynu.makeup_you.repository.UserRepository;
-import com.ynu.makeup_you.service.FavoritesService;
+import com.ynu.makeup_you.service.LikesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,16 +13,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created on 2019/5/15 0015
+ * Created on 2019/5/16
  * BY hujianlong
  */
 
 @RestController
-@RequestMapping("/favorites")
-public class FavoritesController {
+@RequestMapping("/likes")
+public class LikesController {
 
     @Autowired
-    private FavoritesService favoritesService;
+    private LikesService likesService;
 
     @Autowired
     private PostMessageRepository postMessageRepository;
@@ -30,67 +30,62 @@ public class FavoritesController {
     @Autowired
     private UserRepository userRepository;
 
+
     /**
-     * 得到某用户的所有收藏
+     * 得到某用户的所有点赞
      * @param id
      * @return
      */
-
-    @GetMapping("/getFavoritesForUID/{userid}")
-    public List<PostMessage> getFavoritesForUser(@PathVariable("userid") Integer id){
-        List<Favorites> favorites_list = favoritesService.getAllfavorites(id);
+    @GetMapping("/getLikesForUID/{userid}")
+    public List<PostMessage> getFavorites(@PathVariable("userid") Integer id){
+        List<Likes> likes_list = likesService.getAllLikes(id);
         List<PostMessage> post_list = new ArrayList<>();
-        for (Favorites f:favorites_list){
-            post_list.add(postMessageRepository.findById(f.getPostID()).orElse(null));
+        for (Likes l:likes_list){
+            post_list.add(postMessageRepository.findById(l.getPostID()).orElse(null));
         }
         return post_list;
     }
 
     /**
-     * 得到所有收藏此帖子的用户
+     * 得到所有点赞此帖子的用户
      * @param id
      * @return
      */
-
     @GetMapping("/getUsersForPID/{postid}")
-    public List<User> getUsersForPostmsg(@PathVariable("postid") Integer id){
-        List<Favorites> favorites_list = favoritesService.getAlluser(id);
+    public List<User> getUsers(@PathVariable("postid") Integer id){
+        List<Likes> likes_list = likesService.getAlluser(id);
         List<User> user_list = new ArrayList<>();
-        for (Favorites f:favorites_list){
-            user_list.add(userRepository.findById(f.getUserID()).orElse(null));
+        for (Likes l:likes_list){
+            user_list.add(userRepository.findById(l.getUserID()).orElse(null));
         }
         return user_list;
     }
 
-
     /**
-     * 增加一条收藏记录
+     * 增加一条点赞记录
      * @param userID
      * @param postID
+     * @param time
      */
-
     @PostMapping("/addRecord")
     public void addRecord(@RequestParam("userID") Integer userID,
                           @RequestParam("postID") Integer postID,
                           @RequestParam("time") String time){
-        Favorites favorites = new Favorites();
-        favorites.setUserID(userID);
-        favorites.setPostID(postID);
-        favorites.setTime(time);
-        favoritesService.addRecord(favorites);
+        Likes likes = new Likes();
+        likes.setUserID(userID);
+        likes.setPostID(postID);
+        likes.setTime(time);
+        likesService.addRecord(likes);
     }
 
     /**
-     * 删除一条收藏记录
+     * 删除一条点赞记录
      * @param uid
      * @param pid
      */
 
     @DeleteMapping("/deleteRecord/{uid,pid}")
-    public void deleteRecord(@PathVariable("uid") Integer uid, @PathVariable("pid") Integer pid){
-        favoritesService.deleteRecord(uid,pid);
+    public void deleteUser(@PathVariable("uid") Integer uid, @PathVariable("pid") Integer pid){
+        likesService.deleteRecord(uid,pid);
     }
-
-
-
 }
