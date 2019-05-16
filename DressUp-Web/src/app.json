@@ -43,7 +43,7 @@
     "borderStyle": "black",
     "list": [{
         "pagePath": "pages/index/main",
-        "text": "首页",
+        "text": "帖子",
         "iconPath": "static/icon/index.png", 
         "selectedIconPath": "static/icon/index-active.png"
       },

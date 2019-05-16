@@ -82,16 +82,10 @@ export default {
     this.newDynamics = [
       {
         userHeadURL: "../../static/assets/images/1.jpeg",
-        userName: "浅笑半离兮",
+        userName: "袁乾峰",
         publishTime: "今天12:20",
         content: "自由的本质不是放纵自己，不是无所不为，而是自律后的舒畅，是有所为，有所不为。",
         images: [
-          "../../static/assets/images/2.jpg",
-          "../../static/assets/images/2.jpg",
-          "../../static/assets/images/2.jpg",
-          "../../static/assets/images/2.jpg",
-          "../../static/assets/images/2.jpg",
-          "../../static/assets/images/2.jpg",
           "../../static/assets/images/2.jpg",
           "../../static/assets/images/2.jpg",
           "../../static/assets/images/2.jpg"
@@ -103,15 +97,46 @@ export default {
         comments: [
           {
             userName: '张凤云',
-            content: '好哒好哒好哒好哒好哒好哒好哒好哒好哒好哒好哒好哒好哒好哒'
+            content: '好哒好哒好哒好哒好哒好哒'
           },
           {
             userName: '杨伟艺',
-            content: '麻油麻油麻油麻油麻油麻油麻油麻油麻油麻油麻油麻油麻油麻油'
+            content: '麻油麻油麻油麻油麻油麻油麻油麻油麻油'
           },
           {
             userName: '胡健龙',
-            content: '哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈'
+            content: '哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈'
+          }
+        ]
+      },
+      {
+        userHeadURL: "../../static/assets/images/1.jpeg",
+        userName: "胡健龙",
+        publishTime: "今天12:20",
+        content: "活在当下",
+        images: [
+          "../../static/assets/images/2.jpg",
+          "../../static/assets/images/2.jpg",
+          "../../static/assets/images/2.jpg",
+          "../../static/assets/images/2.jpg",
+          "../../static/assets/images/2.jpg"
+        ],
+        like: 66,
+        collection: 38,
+        forward: 24,
+        //评论列表
+        comments: [
+          {
+            userName: '张凤云',
+            content: '好哒好哒好哒好哒好哒好哒好哒'
+          },
+          {
+            userName: '杨伟艺',
+            content: '麻油麻油麻油麻油麻油麻油麻油麻油'
+          },
+          {
+            userName: '袁乾峰',
+            content: '哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈'
           }
         ]
       }
@@ -136,15 +161,15 @@ export default {
         comments: [
           {
             userName: '张凤云',
-            content: '好哒好哒好哒好哒好哒好哒好哒好哒好哒好哒好哒好哒好哒好哒'
+            content: '好哒好哒好哒好哒好哒好哒好哒好哒好哒好哒'
           },
           {
             userName: '杨伟艺',
-            content: '麻油麻油麻油麻油麻油麻油麻油麻油麻油麻油麻油麻油麻油麻油'
+            content: '麻油麻油麻油麻油麻油麻油麻油麻油麻油'
           },
           {
             userName: '袁乾峰',
-            content: '哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈'
+            content: '哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈'
           }
         ]
       }

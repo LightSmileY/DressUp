@@ -33,10 +33,6 @@
             "../../static/assets/images/2.jpg",
             "../../static/assets/images/2.jpg",
             "../../static/assets/images/2.jpg",
-            "../../static/assets/images/2.jpg",
-            "../../static/assets/images/2.jpg",
-            "../../static/assets/images/2.jpg",
-            "../../static/assets/images/2.jpg",
             "../../static/assets/images/2.jpg"
           ],
           like: 20,
@@ -46,15 +42,15 @@
           comments: [
             {
               userName: '张凤云',
-              content: '好哒好哒好哒好哒好哒好哒好哒好哒好哒好哒好哒好哒好哒好哒'
+              content: '好哒好哒好哒好哒好哒'
             },
             {
               userName: '杨伟艺',
-              content: '麻油麻油麻油麻油麻油麻油麻油麻油麻油麻油麻油麻油麻油麻油'
+              content: '麻油麻油麻油麻油麻油麻油麻油麻油麻油'
             },
             {
               userName: '胡健龙',
-              content: '哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈'
+              content: '哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈'
             }
           ]
         }

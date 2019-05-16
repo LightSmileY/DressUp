@@ -4,8 +4,8 @@
       <textarea type="text" placeholder="分享化妆技巧..."></textarea>
     </div>
     <div class="j-pic-upload">
-      <img @click="previewImg(index)" v-for="(src,index) in urls" :key="src" :src="src" :style="{'width':width || '120rpx','height':height || '120rpx'}" class="img" >
-      <div class="j-upload-btn" @click="uploadImg()" :style="{'width':width || '120rpx','height':height || '120rpx'}">
+      <img @click="previewImg(index)" v-for="(src,index) in urls" :key="src" :src="src" :style="{'width':width || '150rpx','height':height || '150rpx'}" class="img" >
+      <div class="j-upload-btn" @click="uploadImg()" :style="{'width':width || '150rpx','height':height || '150rpx'}">
         <span class="j-upload-add">+</span>
       </div>
     </div>
@@ -71,12 +71,13 @@
   }
   .content textarea{
     width: 95%;
-    height: 90%;
+    height: 90px;
     margin: 12px 2.5%;
     font-size: 16px;
   }
   .j-pic-upload{
-    padding: 20rpx;
+    padding-left: 49rpx;
+    padding-bottom: 25rpx;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -84,7 +85,8 @@
     border-bottom: 1px solid #E2E2E2;
   }
   .j-upload-btn{
-    border: 1px dashed #ddd;
+    border: 1px solid #ddd;
+    border-radius: 5px;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -98,6 +100,9 @@
   }
   .img{
     margin:10rpx 20rpx 10rpx 0;
+  }
+  .img:last-child{
+    margin:10rpx 0 10rpx 0;
   }
   button{
     position: relative;

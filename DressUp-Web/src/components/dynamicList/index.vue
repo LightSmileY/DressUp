@@ -56,7 +56,10 @@ export default {
 	.dymamicList-li{
 		position: relative;
 		padding: 15px 0;
-		border-bottom: 1px solid #ddd;
+		border-bottom: 1px solid #D3D3D3;
+	}
+	.dymamicList-li:last-child{
+		border: none;
 	}
 	.user{
 		width: 100%;
@@ -124,7 +127,7 @@ export default {
 	}
 	.comment-li{
 		line-height: 16px;
-		margin: 5px 0;
+		margin: 5px;
 	}
 	.comment li .username{
 		color: #12AADE;
@@ -135,8 +138,8 @@ export default {
 	.comment .toComent{
 		height: 30px;
 		margin-bottom: 5px;
-		margin-top: 5px;
-		border: 1px solid #FFA79E;
+		margin-top: 10px;
+		border: 1px solid #FFC1BB;
 		border-radius: 5px;
 		text-align: center;
 		font-size: 14px;

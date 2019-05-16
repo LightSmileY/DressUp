@@ -12,7 +12,7 @@
 	},
 	"miniprogramRoot": "dist/wx/",
 	"compileType": "miniprogram",
-	"appid": "touristappid",
+	"appid": "wx3f1f623fc2ee0247",
 	"projectname": "dress-up",
 	"simulatorType": "wechat",
 	"simulatorPluginLibVersion": {},
