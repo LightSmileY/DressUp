@@ -1,11 +1,15 @@
 package com.ynu.makeup_you.controller;
 
 import com.ynu.makeup_you.entity.PostMessage;
+import com.ynu.makeup_you.entity.Posts;
+import com.ynu.makeup_you.repository.PostMessageRepository;
+import com.ynu.makeup_you.repository.PostsRepository;
 import com.ynu.makeup_you.service.PostMessageService;
-import com.ynu.makeup_you.service.UserService;
+import com.ynu.makeup_you.service.PostsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,6 +26,10 @@ public class PostMessageController {
 
     @Autowired
     private PostMessageService postMessageService;
+    @Autowired
+    private PostMessageRepository postMessageRepository;
+    @Autowired
+    private PostsService postsService;
 
     /**
      * 发帖
@@ -72,6 +80,19 @@ public class PostMessageController {
         postMessage.setTitle(title);
         postMessage.setMessagebody(messageBody);
         postMessageService.updatePost(postMessage);
+    }
+
+    /**
+     * 查询某用户发表的所有帖子
+     */
+    @GetMapping("/findPostsByUID/{uid}")
+    public List<PostMessage> findPostsByUid(@PathVariable("uid") Integer uid){
+        List<Posts> posts_list = postsService.getAllPosts(uid);
+        List<PostMessage> postMsg_list = new ArrayList<>();
+        for (Posts p:posts_list){
+            postMsg_list.add(postMessageRepository.findById(p.getPostID()).orElse(null));
+        }
+        return postMsg_list;
     }
 
     /**
