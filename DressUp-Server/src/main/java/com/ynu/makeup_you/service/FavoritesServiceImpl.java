@@ -1,9 +1,7 @@
 package com.ynu.makeup_you.service;
 
+import com.ynu.makeup_you.entity.CommDoubleKey;
 import com.ynu.makeup_you.entity.Favorites;
-import com.ynu.makeup_you.entity.FavoritesKey;
-import com.ynu.makeup_you.entity.PostMessage;
-import com.ynu.makeup_you.entity.User;
 import com.ynu.makeup_you.repository.FavoritesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,7 +26,7 @@ public class FavoritesServiceImpl implements FavoritesService {
 
     @Override
     public void deleteRecord(Integer userID, Integer postID) {
-        FavoritesKey favoritesKey = new FavoritesKey();
+        CommDoubleKey favoritesKey = new CommDoubleKey();
         favoritesKey.setUserID(userID);
         favoritesKey.setPostID(postID);
         favoritesRepository.deleteById(favoritesKey);

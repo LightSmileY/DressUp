@@ -36,8 +36,8 @@ public class FavoritesController {
      * @return
      */
 
-    @GetMapping("/getFavorites/{userid}")
-    public List<PostMessage> getFavorites(@PathVariable("userid") Integer id){
+    @GetMapping("/getFavoritesForUID/{userid}")
+    public List<PostMessage> getFavoritesForUser(@PathVariable("userid") Integer id){
         List<Favorites> favorites_list = favoritesService.getAllfavorites(id);
         List<PostMessage> post_list = new ArrayList<>();
         for (Favorites f:favorites_list){
@@ -52,9 +52,9 @@ public class FavoritesController {
      * @return
      */
 
-    @GetMapping("/getUsers/{postid}")
-    public List<User> getUsers(@PathVariable("postid") Integer id){
-        List<Favorites> favorites_list = favoritesService.getAllfavorites(id);
+    @GetMapping("/getUsersForPID/{postid}")
+    public List<User> getUsersForPostmsg(@PathVariable("postid") Integer id){
+        List<Favorites> favorites_list = favoritesService.getAlluser(id);
         List<User> user_list = new ArrayList<>();
         for (Favorites f:favorites_list){
             user_list.add(userRepository.findById(f.getUserID()).orElse(null));
@@ -70,10 +70,13 @@ public class FavoritesController {
      */
 
     @PostMapping("/addRecord")
-    public void addRecord(@RequestParam("userID") Integer userID, @RequestParam("postID") Integer postID){
+    public void addRecord(@RequestParam("userID") Integer userID,
+                          @RequestParam("postID") Integer postID,
+                          @RequestParam("time") String time){
         Favorites favorites = new Favorites();
         favorites.setUserID(userID);
         favorites.setPostID(postID);
+        favorites.setTime(time);
         favoritesService.addRecord(favorites);
     }
 
@@ -84,7 +87,7 @@ public class FavoritesController {
      */
 
     @DeleteMapping("/deleteRecord/{uid,pid}")
-    public void deleteUser(@PathVariable("uid") Integer uid, @PathVariable("pid") Integer pid){
+    public void deleteRecord(@PathVariable("uid") Integer uid, @PathVariable("pid") Integer pid){
         favoritesService.deleteRecord(uid,pid);
     }
 

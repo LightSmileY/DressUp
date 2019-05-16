@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2019/5/15 星期三 下午 13:49:21                    */
+/* Created on:     2019/5/15 星期三 下午 21:32:32                    */
 /*==============================================================*/
 
 
@@ -33,7 +33,7 @@ create table admin_user
    email                varchar(32),
    last_login_time      datetime not null,
    primary key (id)
-)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+);
 
 /*==============================================================*/
 /* Table: comments                                              */
@@ -44,8 +44,8 @@ create table comments
    postID               int not null,
    message              text not null,
    time                 datetime not null,
-   primary key (userID, postID, time)
-)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+   primary key (userID, postID)
+);
 
 /*==============================================================*/
 /* Table: favorites                                             */
@@ -55,8 +55,8 @@ create table favorites
    userID               int not null,
    postID               int not null,
    time                 datetime not null,
-   primary key (userID, postID, time)
-)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+   primary key (userID, postID)
+);
 
 /*==============================================================*/
 /* Table: image                                                 */
@@ -66,7 +66,7 @@ create table image
    postID               int not null,
    imgID                varchar(255) not null,
    primary key (postID, imgID)
-)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+);
 
 /*==============================================================*/
 /* Table: likes                                                 */
@@ -76,8 +76,8 @@ create table likes
    userID               int not null,
    postID               int not null,
    time                 datetime not null,
-   primary key (userID, postID, time)
-)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+   primary key (userID, postID)
+);
 
 /*==============================================================*/
 /* Table: post                                                  */
@@ -87,8 +87,8 @@ create table post
    userID               int not null,
    postID               int not null,
    time                 datetime not null,
-   primary key (userID, postID, time)
-)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+   primary key (userID, postID)
+);
 
 /*==============================================================*/
 /* Table: postMessage                                           */
@@ -96,12 +96,12 @@ create table post
 create table postMessage
 (
    pid                  int not null auto_increment,
-   post_time             date not null,
+   postTime             date not null,
    type                 tinyint not null,
    title                varchar(50),
    messagebody          text not null,
    primary key (pid)
-)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+);
 
 /*==============================================================*/
 /* Table: relation                                              */
@@ -111,7 +111,7 @@ create table relation
    fans                 int not null,
    follows              int not null,
    primary key (fans, follows)
-)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+);
 
 /*==============================================================*/
 /* Table: user                                                  */
@@ -129,8 +129,9 @@ create table user
    description          varchar(50),
    mailbox              varchar(50),
    last_login_time      datetime,
-   primary key (uid)
-)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+   primary key (uid),
+   unique key AK_Key_2 (name)
+);
 
 alter table comments add constraint FK_Reference_7 foreign key (userID)
       references user (uid) on delete restrict on update restrict;

@@ -81,7 +81,7 @@ export default {
     // this.switches = ["最新", "热门"];
     this.newDynamics = [
       {
-        userHeadURL: "../../static/assets/images/1.jpeg",
+        userHeadURL: "../../static/assets/images/1.jpg",
         userName: "袁乾峰",
         publishTime: "今天12:20",
         content: "自由的本质不是放纵自己，不是无所不为，而是自律后的舒畅，是有所为，有所不为。",
@@ -110,7 +110,7 @@ export default {
         ]
       },
       {
-        userHeadURL: "../../static/assets/images/1.jpeg",
+        userHeadURL: "../../static/assets/images/1.jpg",
         userName: "胡健龙",
         publishTime: "今天12:20",
         content: "活在当下",
@@ -196,6 +196,7 @@ export default {
     height: 40px;
     background-color: #fff;
     z-index: 100;
+    box-shadow: 0 3px 5px #E9E9E9;
   }
   .swiper-item {
     height: 100%;

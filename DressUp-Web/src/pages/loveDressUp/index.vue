@@ -1,4 +1,4 @@
-<template>
+4jp<template>
   <div class="content">
     <div class="navbar">
       <block v-for="(item,index) in tabs" :key="index">
@@ -87,27 +87,27 @@
           name: "化妆教程",
           images: [
             {
-              url: "../../static/assets/images/2.jpg"
+              url: "../../static/assets/images/4.jpg"
             },
             {
-              url: "../../static/assets/images/2.jpg"
+              url: "../../static/assets/images/4.jpg"
             },
             {
-              url: "../../static/assets/images/2.jpg"
+              url: "../../static/assets/images/4.jpg"
             },
             {
-              url: "../../static/assets/images/2.jpg"
+              url: "../../static/assets/images/4.jpg"
             }
           ],
           elements: [
             {
               name: "你不知道的化妆技巧",
-              imageUrl: "../../static/assets/images/2.jpg",
+              imageUrl: "../../static/assets/images/3.jpg",
               path: "../teachDetail/main"
             },
             {
               name: "你不知道的化妆技巧",
-              imageUrl: "../../static/assets/images/2.jpg",
+              imageUrl: "../../static/assets/images/3.jpg",
               path: "../teachDetail/main"
             }
           ]
@@ -116,21 +116,21 @@
           name: "妆容分享",
           images: [
             {
-              url: "../../static/assets/images/2.jpg"
+              url: "../../static/assets/images/4.jpg"
             },
             {
-              url: "../../static/assets/images/2.jpg"
+              url: "../../static/assets/images/4.jpg"
             },
             {
-              url: "../../static/assets/images/2.jpg"
+              url: "../../static/assets/images/4.jpg"
             },
             {
-              url: "../../static/assets/images/2.jpg"
+              url: "../../static/assets/images/4.jpg"
             }
           ],
           elements: [
             {
-              name: "你不知道的化妆品",
+              name: "你不知道的清新妆容",
               images: [
                 "../../static/assets/images/2.jpg",
                 "../../static/assets/images/2.jpg",
@@ -144,22 +144,22 @@
           name: "妆品推荐",
           images: [
             {
-              url: "../../static/assets/images/2.jpg"
+              url: "../../static/assets/images/4.jpg"
             },
             {
-              url: "../../static/assets/images/2.jpg"
+              url: "../../static/assets/images/4.jpg"
             },
             {
-              url: "../../static/assets/images/2.jpg"
+              url: "../../static/assets/images/4.jpg"
             },
             {
-              url: "../../static/assets/images/2.jpg"
+              url: "../../static/assets/images/4.jpg"
             }
           ],
           elements: [
             {
               imageUrl: "../../static/assets/images/2.jpg",
-              name: "无酒精面膜",
+              name: "性价比最高的化妆品",
               descri: "这是一盒非常非常非常非常非常非常神奇的化妆品鸭鸭！你一定要喜欢啊啊啊啊啊啊啊啊啊啊哈哈哈哈哈哈哈哈哈哈！",
               path: "../cosmeticDetail/main"
             }

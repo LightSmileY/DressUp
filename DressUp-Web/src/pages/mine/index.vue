@@ -42,7 +42,7 @@
       this.myInfo = {
           image: "../../static/assets/images/1.jpeg",
           name: "浅笑半离兮",
-          signature: "哈哈哈哈哈哈哈哈哈哈或或或或或或或或或或或哈哈哈哈哈哈哈哈哈哈或或或或或或"
+          signature: "眼里有光，目光皆是美意。内心无花，似锦繁花与荒芜无差。"
       };
       this.entries = [
         {

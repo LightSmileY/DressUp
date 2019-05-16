@@ -1,17 +1,19 @@
 package com.ynu.makeup_you.entity;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
+import javax.persistence.Table;
 
 /**
- * Created on 2019/5/15
+ * Created on 2019/5/16
  * BY hujianlong
  */
 
 @Entity
-@Table(name="favorites")
+@Table(name="likes")
 @IdClass(CommDoubleKey.class)
-public class Favorites {
-
+public class Likes {
     private Integer userID;
     private Integer postID;
     private String time;
@@ -48,7 +50,7 @@ public class Favorites {
 
     @Override
     public String toString() {
-        return "favorites{" +
+        return "likes{" +
                 "userID=" + userID +
                 ", postID=" + postID +
                 ", time='" + time + '\'' +

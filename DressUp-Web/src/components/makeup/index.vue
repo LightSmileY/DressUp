@@ -31,7 +31,7 @@ export default {
     border: 1px solid #E2E2E2;
     border-radius: 5px;
     font-size: 14px;
-    margin: 15px 0;
+    margin: 10px 0;
   }
   p{
     line-height: 28px;

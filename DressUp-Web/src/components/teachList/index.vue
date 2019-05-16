@@ -40,6 +40,7 @@ export default {
     width: 92%;
     height: 120px;
     margin: 0 auto;
+    border: 1px solid #BBBBBB;
   }
   .underline{
     width: 100%;

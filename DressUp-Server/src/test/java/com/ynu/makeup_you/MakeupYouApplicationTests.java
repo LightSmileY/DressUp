@@ -1,7 +1,7 @@
 package com.ynu.makeup_you;
 
+import com.ynu.makeup_you.entity.CommDoubleKey;
 import com.ynu.makeup_you.entity.Favorites;
-import com.ynu.makeup_you.entity.FavoritesKey;
 import com.ynu.makeup_you.repository.FavoritesRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,7 +25,7 @@ public class MakeupYouApplicationTests {
 
     @Test
     public void saveFavoritesTest() throws Exception{
-        FavoritesKey favoritesKey = new FavoritesKey();
+        CommDoubleKey favoritesKey = new CommDoubleKey();
         favoritesKey.setUserID(123);
         favoritesKey.setPostID(456);
         Favorites favorites = entityManager.find(Favorites.class, favoritesKey);

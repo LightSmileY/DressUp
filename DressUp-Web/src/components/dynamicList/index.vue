@@ -70,6 +70,7 @@ export default {
 		height: 35px;
 		margin: 0 10px 0 0;
 		background-color: #FFBABA;
+		border: 1px solid #DADADA;
 		border-radius: 50%;
 		float: left;
 	}
