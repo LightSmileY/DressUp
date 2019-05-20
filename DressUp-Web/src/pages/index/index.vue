@@ -4,9 +4,6 @@
     <div class="main">
       <!-- <Search></Search> -->
       <!-- <SwitchBar :arrayList = "switches"></SwitchBar> -->
-      
-      <!-- 顶部tag切换 -->
-      
       <div class="content">
         <div class="navbar">
           <div v-for="(item,index) in tabs" :key="index" :id="index" :class="{'navbar_item_on':activeIndex == index}" class="navbar_item" @click="tabClick">
@@ -15,7 +12,7 @@
           <div class="navbar_slider" :class="navbarSliderClass"></div>
         </div>
         <div>
-          <!-- 每一个tag分页 -->
+          <!-- tag分页 -->
           <div :hidden="activeIndex != 0">
             <DynamicList :arrayList = "newDynamics"></DynamicList>
           </div>
@@ -30,152 +27,143 @@
 </template>
 
 <script>
-import Search from "@/components/search"
-import SwitchBar from "@/components/switch"
-import Publish from "@/components/publish"
-import DynamicList from "@/components/DynamicList"
 
-export default {
-  data () {
-    return {
-      // switches: [],
-      newDynamics:[],
-      hotDynamics: [],
-      tabs: [
-          {
-            name: "最新",
-            type: "1",
-            checked: true
-          },
-          {
-            name: "热门",
-            type: "2",
-            checked: true
-          }
-        ],
-        activeIndex: 0
+  import Search from "@/components/search"
+  import SwitchBar from "@/components/switch"
+  import Publish from "@/components/publish"
+  import DynamicList from "@/components/DynamicList"
+
+  const newDynamics_URL = 'http://10.100.200.250:8081/MakeupYou/post/findAllPostMessages';
+
+  export default {
+
+    data () {
+      return {
+        // switches: [],
+        newDynamics:[],
+        hotDynamics: [],
+        tabs: [
+            {
+              name: "最新",
+              type: "1",
+              checked: true
+            },
+            {
+              name: "热门",
+              type: "2",
+              checked: true
+            }
+          ],
+          activeIndex: 0
+      }
+    },
+    components:{
+      // Search,
+      // SwitchBar,
+      Publish,
+      DynamicList
+    },
+    computed: {
+      navbarSliderClass() {
+        if (this.activeIndex == 0) {
+          return "navbar_slider_0";
+        }
+        if (this.activeIndex == 1) {
+          return "navbar_slider_1";
+        }
+      }
+    },
+    methods: {
+      tabClick(e) {
+        this.activeIndex = e.currentTarget.id;
+      }
+    },
+    beforeMount(){
+      
+      // this.$fly.get(newDynamics_URL)
+      //   .then( (response) => {
+      //     console.log(response);
+      //     let newDynamics = response.data.subjects
+      //     console.log(newDynamics);
+      //     this.$store.dispatch('getnewDynamics', newDynamics);
+      //     this.newDynamics = newDynamics;
+      //     console.log(newDynamics);
+      //   })
+      //   .catch( (error) => {
+      //     console.log(error);
+      //   });
+    },
+    mounted(){
+
+      
+
+      this.switches = ["最新", "热门"];
+      this.newDynamics = [
+        {
+          userHeadURL: "../../static/assets/images/1.jpg",
+          userName: "袁乾峰",
+          publishTime: "今天12:20",
+          content: "自由的本质不是放纵自己，不是无所不为，而是自律后的舒畅，是有所为，有所不为。",
+          images: [
+            "../../static/assets/images/2.jpg",
+            "../../static/assets/images/2.jpg",
+            "../../static/assets/images/2.jpg"
+          ],
+          like: 20,
+          collection: 8,
+          forward: 15,
+          //评论列表
+          comments: [
+            {
+              userName: '张凤云',
+              content: '好哒好哒好哒好哒好哒好哒'
+            },
+            {
+              userName: '杨伟艺',
+              content: '麻油麻油麻油麻油麻油麻油麻油麻油麻油'
+            },
+            {
+              userName: '胡健龙',
+              content: '哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈'
+            }
+          ]
+        }
+      ];
+      this.hotDynamics = [
+        {
+          userHeadURL: "../../static/assets/images/1.jpeg",
+          userName: "胡健龙",
+          publishTime: "今天12:20",
+          content: "活在当下",
+          images: [
+            "../../static/assets/images/2.jpg",
+            "../../static/assets/images/2.jpg",
+            "../../static/assets/images/2.jpg",
+            "../../static/assets/images/2.jpg",
+            "../../static/assets/images/2.jpg"
+          ],
+          like: 66,
+          collection: 38,
+          forward: 24,
+          //评论列表
+          comments: [
+            {
+              userName: '张凤云',
+              content: '好哒好哒好哒好哒好哒好哒好哒好哒好哒好哒'
+            },
+            {
+              userName: '杨伟艺',
+              content: '麻油麻油麻油麻油麻油麻油麻油麻油麻油'
+            },
+            {
+              userName: '袁乾峰',
+              content: '哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈'
+            }
+          ]
+        }
+      ];
     }
-  },
-  components:{
-    // Search,
-    // SwitchBar,
-    Publish,
-    DynamicList
-  },
-  computed: {
-    navbarSliderClass() {
-      if (this.activeIndex == 0) {
-        return "navbar_slider_0";
-      }
-      if (this.activeIndex == 1) {
-        return "navbar_slider_1";
-      }
-    }
-  },
-  methods: {
-    tabClick(e) {
-      this.activeIndex = e.currentTarget.id;
-    }
-  },
-  mounted(){
-    // this.switches = ["最新", "热门"];
-    this.newDynamics = [
-      {
-        userHeadURL: "../../static/assets/images/1.jpg",
-        userName: "袁乾峰",
-        publishTime: "今天12:20",
-        content: "自由的本质不是放纵自己，不是无所不为，而是自律后的舒畅，是有所为，有所不为。",
-        images: [
-          "../../static/assets/images/2.jpg",
-          "../../static/assets/images/2.jpg",
-          "../../static/assets/images/2.jpg"
-        ],
-        like: 20,
-        collection: 8,
-        forward: 15,
-        //评论列表
-        comments: [
-          {
-            userName: '张凤云',
-            content: '好哒好哒好哒好哒好哒好哒'
-          },
-          {
-            userName: '杨伟艺',
-            content: '麻油麻油麻油麻油麻油麻油麻油麻油麻油'
-          },
-          {
-            userName: '胡健龙',
-            content: '哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈'
-          }
-        ]
-      },
-      {
-        userHeadURL: "../../static/assets/images/1.jpg",
-        userName: "胡健龙",
-        publishTime: "今天12:20",
-        content: "活在当下",
-        images: [
-          "../../static/assets/images/2.jpg",
-          "../../static/assets/images/2.jpg",
-          "../../static/assets/images/2.jpg",
-          "../../static/assets/images/2.jpg",
-          "../../static/assets/images/2.jpg"
-        ],
-        like: 66,
-        collection: 38,
-        forward: 24,
-        //评论列表
-        comments: [
-          {
-            userName: '张凤云',
-            content: '好哒好哒好哒好哒好哒好哒好哒'
-          },
-          {
-            userName: '杨伟艺',
-            content: '麻油麻油麻油麻油麻油麻油麻油麻油'
-          },
-          {
-            userName: '袁乾峰',
-            content: '哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈'
-          }
-        ]
-      }
-    ];
-    this.hotDynamics = [
-      {
-        userHeadURL: "../../static/assets/images/1.jpeg",
-        userName: "胡健龙",
-        publishTime: "今天12:20",
-        content: "活在当下",
-        images: [
-          "../../static/assets/images/2.jpg",
-          "../../static/assets/images/2.jpg",
-          "../../static/assets/images/2.jpg",
-          "../../static/assets/images/2.jpg",
-          "../../static/assets/images/2.jpg"
-        ],
-        like: 66,
-        collection: 38,
-        forward: 24,
-        //评论列表
-        comments: [
-          {
-            userName: '张凤云',
-            content: '好哒好哒好哒好哒好哒好哒好哒好哒好哒好哒'
-          },
-          {
-            userName: '杨伟艺',
-            content: '麻油麻油麻油麻油麻油麻油麻油麻油麻油'
-          },
-          {
-            userName: '袁乾峰',
-            content: '哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈'
-          }
-        ]
-      }
-    ];
-  }
-};
+  };
 </script>
 
 <style scoped>

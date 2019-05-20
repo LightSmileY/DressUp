@@ -23,8 +23,10 @@
     "build": "node build/build.js wx"
   },
   "dependencies": {
+    "flyio": "^0.6.14",
     "mint-ui": "^2.2.13",
     "mpvue": "^2.0.0",
+    "store": "^2.0.12",
     "vuex": "^3.0.1"
   },
   "devDependencies": {
