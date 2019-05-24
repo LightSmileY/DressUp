@@ -83,10 +83,7 @@
       // this.$fly.get(newDynamics_URL)
       //   .then( (response) => {
       //     console.log(response);
-      //     let newDynamics = response.data.subjects
-      //     console.log(newDynamics);
-      //     this.$store.dispatch('getnewDynamics', newDynamics);
-      //     this.newDynamics = newDynamics;
+      //     newDynamics = response.data.subjects
       //     console.log(newDynamics);
       //   })
       //   .catch( (error) => {
@@ -109,9 +106,9 @@
             "../../static/assets/images/2.jpg",
             "../../static/assets/images/2.jpg"
           ],
-          like: 20,
-          collection: 8,
-          forward: 15,
+          like: 200,
+          collection: 800,
+          forward: 150,
           //评论列表
           comments: [
             {

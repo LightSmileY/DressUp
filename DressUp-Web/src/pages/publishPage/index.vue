@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="content">
-      <textarea type="text" placeholder="分享化妆技巧..."></textarea>
+      <textarea type="text" placeholder="分享化妆技巧..." rows="5" maxlength="999"></textarea>
     </div>
     <div class="j-pic-upload">
       <img @click="previewImg(index)" v-for="(src,index) in urls" :key="src" :src="src" :style="{'width':width || '150rpx','height':height || '150rpx'}" class="img" >

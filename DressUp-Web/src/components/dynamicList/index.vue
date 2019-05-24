@@ -16,9 +16,18 @@
 					</div>
 				</div>
 				<div class="icons">
-					<div class="like"><i-icon type="share" size="25" color="#FF8383" /><span>{{dymamic.forward}}</span></div>
-					<div class="cllection"><i-icon type="collection" size="25" color="#FF8383" /><span>{{dymamic.collection}}</span></div>
-					<div class="forward"><i-icon type="like" size="25" color="#FF8383" /><span>{{dymamic.like}}</span></div>
+					<div class="forward">
+						<img class="forward-image" src="../../../static/icon/forward.png">
+						<span>{{dymamic.forward}}</span>
+					</div>
+					<div class="cllection">
+						<img src="../../../static/icon/collection.png">
+						<span>{{dymamic.collection}}</span>
+					</div>
+					<div class="like">
+						<img src="../../../static/icon/like.png">
+						<span>{{dymamic.like}}</span>
+					</div>
 				</div>
 				<div class="comment">
 					<ul class="comment-ul">
@@ -115,13 +124,30 @@ export default {
 		text-align: center;
 	}
 	.icons div{
-		height: 25px;
+		height: 20px;
 		float: right;
 		margin-right: 15px;
 	}
+	.icons div img{
+		width: 22px;
+		height: 22px;
+	}
+	.icons .forward .forward-image{
+		width: 18px;
+		height: 18px;
+		margin-top: 3px;
+	}
 	.icons div span{
+		width: 30px;
+		height: 22px;
 		font-size: 13px;
-		line-height: 25px;
+		line-height: 22px;
+		position: relative;
+		top: -5px;
+	}
+	.icons .forward span{
+		position: relative;
+		top: -3px;
 	}
 	.comment{
 		font-size: 13px;
