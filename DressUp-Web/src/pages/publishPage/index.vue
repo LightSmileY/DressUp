@@ -9,7 +9,7 @@
         <span class="j-upload-add">+</span>
       </div>
     </div>
-    <button @click="toURL">发表</button>
+    <button @click="publish">发表</button>
   </div>
 </template>
  
@@ -55,11 +55,16 @@
               }
             },
           });
-        },
-        methods: {
-          toURL() {
-            wx.navigateTo({url: "../index/main"})
-          }
+        },  
+        publish() {
+          setTimeout(function(){
+            wx.showToast({
+              title:'发表成功！',
+              icon:'success',
+              duration: 2000
+            })
+            wx.navigateTo({url: "../index"})
+          },1000);
         }
       }
     };

@@ -14,10 +14,90 @@
         <div>
           <!-- tag分页 -->
           <div :hidden="activeIndex != 0">
-            <DynamicList :arrayList = "newDynamics"></DynamicList>
+            <!-- *******************************************最新消息*************************************** -->
+            <div class="dymamicList">
+              <ul>
+                <li v-for="(dymamic,index) in newDynamics" :key="index" wx:for-index="hello" class="dymamicList-li" >
+                  <div class="user">
+                    <img :src="dymamic.userHeadURL" class="user-header"/>
+                    <div class="name-time">
+                      <div class="name">{{dymamic.userName}}</div>
+                      <div class="time">{{dymamic.publishTime}}</div>
+                    </div>
+                  </div>
+                  <p class="content">{{dymamic.content}}</p>
+                  <div class="images">
+                    <img v-for="(image,index1) in dymamic.images" :key="index1" class="image" @click="previewImg(index,index1)" :src="image"/>
+                  </div>
+                  <div class="icons">
+                    <div class="forward">
+                      <img class="forward-image" :src="dymamic.icon_forward"  @click="toForward(index)">
+                      <span>{{dymamic.forward}}</span>
+                    </div>
+                    <div class="cllection" @click="toCollection1(index)">
+                      <img :src="dymamic.icon_collection">
+                      <span>{{dymamic.collection}}</span>
+                    </div>
+                    <div class="like" @click="toLike1(index)">
+                      <img :src="dymamic.icon_like">
+                      <span>{{dymamic.like}}</span>
+                    </div>
+                  </div>
+                  <div class="comment">
+                    <ul class="comment-ul">
+                      <li class="comment-li" v-for="(comment, index2) in dymamic.comments" :key="index2">
+                        <span class="username">{{comment.userName}}</span>：
+                        <span class="content">{{comment.content}}</span>
+                      </li>
+                    </ul>
+                    <button class="toComent">我也要评论</button>
+                  </div>
+                </li>
+              </ul>
+            </div>
           </div>
           <div :hidden="activeIndex != 1">
-            <DynamicList :arrayList = "hotDynamics"></DynamicList>
+            <!-- *******************************************热门消息*************************************** -->
+            <div class="dymamicList">
+              <ul>
+                <li v-for="(dymamic,index) in hotDynamics" :key="index" class="dymamicList-li" >
+                  <div class="user">
+                    <img :src="dymamic.userHeadURL" class="user-header"/>
+                    <div class="name-time">
+                      <div class="name">{{dymamic.userName}}</div>
+                      <div class="time">{{dymamic.publishTime}}</div>
+                    </div>
+                  </div>
+                  <p class="content">{{dymamic.content}}</p>
+                  <div class="images">
+                    <img v-for="(image,index1) in dymamic.images" :key="index1" class="image" @click="previewImg(index,index1)" :src="image"/>
+                  </div>
+                  <div class="icons">
+                    <div class="forward">
+                      <img class="forward-image" :src="dymamic.icon_forward" @click="toForward(index)">
+                      <span>{{dymamic.forward}}</span>
+                    </div>
+                    <div class="cllection" @click="toCollection2(index)">
+                      <img :src="dymamic.icon_collection">
+                      <span>{{dymamic.collection}}</span>
+                    </div>
+                    <div class="like" @click="toLike2(index)">
+                      <img :src="dymamic.icon_like">
+                      <span>{{dymamic.like}}</span>
+                    </div>
+                  </div>
+                  <div class="comment">
+                    <ul class="comment-ul">
+                      <li class="comment-li" v-for="(comment, index2) in dymamic.comments" :key="index2">
+                        <span class="username">{{comment.userName}}</span>：
+                        <span class="content">{{comment.content}}</span>
+                      </li>
+                    </ul>
+                    <button class="toComent">我也要评论</button>
+                  </div>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
@@ -31,7 +111,6 @@
   import Search from "@/components/search"
   import SwitchBar from "@/components/switch"
   import Publish from "@/components/publish"
-  import DynamicList from "@/components/DynamicList"
 
   const newDynamics_URL = 'http://10.100.200.250:8081/MakeupYou/post/findAllPostMessages';
 
@@ -54,14 +133,20 @@
               checked: true
             }
           ],
-          activeIndex: 0
+          activeIndex: 0,
+          icon_like: "",
+          icon_collection: "",
+          icon_forward: "",
+          like1: false,
+          collection1: false,
+          like2: false,
+          collection2: false,
       }
     },
     components:{
       // Search,
       // SwitchBar,
-      Publish,
-      DynamicList
+      Publish
     },
     computed: {
       navbarSliderClass() {
@@ -76,7 +161,81 @@
     methods: {
       tabClick(e) {
         this.activeIndex = e.currentTarget.id;
-      }
+      },
+      toLike1(i){
+        if(this.like1 == false){
+          this.like1 = true;
+          this.newDynamics[i].icon_like = "../../static/icon/like-active.png";
+          this.newDynamics[i].like += 1;
+        }
+        else{
+          this.like1 = false;
+          this.newDynamics[i].icon_like = "../../static/icon/like.png";
+          this.newDynamics[i].like -= 1;
+        }
+      },
+      toCollection1(i){
+        if(this.collection1 == false){
+          this.collection1 = true;
+          this.newDynamics[i].icon_collection = "../../static/icon/collection-active.png";
+          this.newDynamics[i].collection += 1;
+        }
+        else{
+          this.collection1 = false;
+          this.newDynamics[i].icon_collection = "../../static/icon/collection.png";
+          this.newDynamics[i].collection -= 1;
+        }
+      },
+      toLike2(i){
+        if(this.like2 == false){
+          this.like2 = true;
+          this.hotDynamics[i].icon_like = "../../static/icon/like-active.png";
+          this.hotDynamics[i].like += 1;
+        }
+        else{
+          this.like2 = false;
+          this.hotDynamics[i].icon_like = "../../static/icon/like.png";
+          this.hotDynamics[i].like -= 1;
+        }
+      },
+      toCollection2(i){
+        if(this.collection2 == false){
+          this.collection2 = true;
+          this.hotDynamics[i].icon_collection = "../../static/icon/collection-active.png";
+          this.hotDynamics[i].collection += 1;
+        }
+        else{
+          this.collection2 = false;
+          this.hotDynamics[i].icon_collection = "../../static/icon/collection.png";
+          this.hotDynamics[i].collection -= 1;
+        }
+      },
+      toForward(){
+        wx.showModal({
+          title: '提示',
+          content: '确认要转发帖子吗？',
+          success: function (sm) {
+            if (sm.confirm) {
+              console.log('转发成功')
+              setTimeout(function(){
+                wx.showToast({
+                  title:'转发成功！',
+                  icon:'success',
+                  duration: 2000
+                })
+              },1000)
+            } else if (sm.cancel) {
+              console.log('用户取消转发')
+            }
+          }
+        })
+      },
+      previewImg(i,j){
+        wx.previewImage({
+          current: this.newDynamics[i].images[j],
+          urls: this.newDynamics[i].images
+        });
+      },  
     },
     beforeMount(){
       
@@ -91,9 +250,6 @@
       //   });
     },
     mounted(){
-
-      
-
       this.switches = ["最新", "热门"];
       this.newDynamics = [
         {
@@ -106,9 +262,12 @@
             "../../static/assets/images/2.jpg",
             "../../static/assets/images/2.jpg"
           ],
-          like: 200,
-          collection: 800,
-          forward: 150,
+          icon_like: "../../static/icon/like.png",
+          icon_collection: "../../static/icon/collection.png",
+          icon_forward: "../../static/icon/forward.png",
+          like: 42,
+          collection: 15,
+          forward: 12,
           //评论列表
           comments: [
             {
@@ -121,6 +280,74 @@
             },
             {
               userName: '胡健龙',
+              content: '哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈'
+            }
+          ]
+        },
+        {
+          userHeadURL: "../../static/assets/images/1.jpeg",
+          userName: "胡健龙",
+          publishTime: "今天12:20",
+          content: "活在当下",
+          images: [
+            "../../static/assets/images/2.jpg",
+            "../../static/assets/images/2.jpg",
+            "../../static/assets/images/2.jpg",
+            "../../static/assets/images/2.jpg",
+            "../../static/assets/images/2.jpg"
+          ],
+          icon_like: "../../static/icon/like.png",
+          icon_collection: "../../static/icon/collection.png",
+          icon_forward: "../../static/icon/forward.png",
+          like: 66,
+          collection: 38,
+          forward: 24,
+          //评论列表
+          comments: [
+            {
+              userName: '张凤云',
+              content: '好哒好哒好哒好哒好哒好哒好哒好哒好哒好哒'
+            },
+            {
+              userName: '杨伟艺',
+              content: '麻油麻油麻油麻油麻油麻油麻油麻油麻油'
+            },
+            {
+              userName: '袁乾峰',
+              content: '哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈'
+            }
+          ]
+        },
+        {
+          userHeadURL: "../../static/assets/images/1.jpeg",
+          userName: "胡健龙",
+          publishTime: "今天12:20",
+          content: "活在当下",
+          images: [
+            "../../static/assets/images/2.jpg",
+            "../../static/assets/images/2.jpg",
+            "../../static/assets/images/2.jpg",
+            "../../static/assets/images/2.jpg",
+            "../../static/assets/images/2.jpg"
+          ],
+          icon_like: "../../static/icon/like.png",
+          icon_collection: "../../static/icon/collection.png",
+          icon_forward: "../../static/icon/forward.png",
+          like: 66,
+          collection: 38,
+          forward: 24,
+          //评论列表
+          comments: [
+            {
+              userName: '张凤云',
+              content: '好哒好哒好哒好哒好哒好哒好哒好哒好哒好哒'
+            },
+            {
+              userName: '杨伟艺',
+              content: '麻油麻油麻油麻油麻油麻油麻油麻油麻油'
+            },
+            {
+              userName: '袁乾峰',
               content: '哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈'
             }
           ]
@@ -139,6 +366,9 @@
             "../../static/assets/images/2.jpg",
             "../../static/assets/images/2.jpg"
           ],
+          icon_like: "../../static/icon/like.png",
+          icon_collection: "../../static/icon/collection.png",
+          icon_forward: "../../static/icon/forward.png",
           like: 66,
           collection: 38,
           forward: 24,
@@ -164,6 +394,10 @@
 </script>
 
 <style scoped>
+  /*----------------------整个页面-----------------------  */
+  .container{
+    background-color: #fff;
+  }
   .main{
     position: relative;
     width: 90%;
@@ -174,6 +408,7 @@
     margin-top: 41px;
     -webkit-overflow-scrolling: touch;
   }
+  /*----------------------顶部栏-----------------------  */
   .mask{
     position: fixed;
     top: 0;
@@ -246,5 +481,118 @@
   .navbar_slider_1 {
     left: 5%;
     transform: translateX(125%);
+  }
+
+  .dymamicList-li{
+    position: relative;
+    top: 40px;
+    padding: 15px 0;
+    border-bottom: 1px solid #D3D3D3;
+  }
+  .dymamicList-li:last-child{
+    border: none;
+  }
+  .user{
+    width: 100%;
+    height: 35px;
+  }
+  .user-header{
+    width: 35px;
+    height: 35px;
+    margin: 0 10px 0 0;
+    background-color: #FFBABA;
+    border: 1px solid #DADADA;
+    border-radius: 50%;
+    float: left;
+  }
+  .name-time{
+    height: 35px;
+    float: left;
+  }
+  .name-time .name{
+    height: 20px;
+    font-size: 14px;
+    line-height: 20px;
+  }
+  .name-time .time{
+    height: 15px;
+    font-size: 10px;
+  }
+  .content{
+    font-size: 14px;
+    margin: 5px 0;
+  }
+  .images{
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .images .image{
+    width: 31.333%;
+    height: 28vw;
+    margin: 1%;
+    overflow: hidden;
+    float: left;
+  }
+  .icons{
+    height: 30px;
+    margin-top: 5px;
+    font-size: 14px;
+    line-height: 25px;
+    text-align: center;
+  }
+  .icons div{
+    height: 20px;
+    float: right;
+    margin-right: 15px;
+  }
+  .icons div img{
+    width: 22px;
+    height: 22px;
+  }
+  .icons .forward .forward-image{
+    width: 18px;
+    height: 18px;
+    margin-top: 3px;
+  }
+  .icons div span{
+    width: 35px;
+    height: 22px;
+    font-size: 13px;
+    line-height: 22px;
+    position: relative;
+    top: -5px;
+    margin-left: 2px;
+    overflow: hidden;
+  }
+  .icons .forward span{
+    position: relative;
+    top: -2px;
+  }
+  .comment{
+    font-size: 13px;
+  }
+  .comment-li{
+    line-height: 16px;
+    margin: 5px;
+  }
+  .comment li .username{
+    color: #12AADE;
+  }
+  .comment li .content{
+    font-size: 13px
+  }
+  .comment .toComent{
+    height: 30px;
+    margin-bottom: 5px;
+    margin-top: 10px;
+    border: 1px solid #FFC1BB;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 14px;
+    line-height: 30px;
+    background-color: #fff;
+  }
+  .comment .toComent:active{
+    background-color: #FFEDEB;
   }
 </style>

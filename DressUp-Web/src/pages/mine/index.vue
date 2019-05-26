@@ -15,7 +15,7 @@
         </div>
       </div>
     </div>
-    <Navi v-if="!isCeng" :arrayList="navis"></Navi>   <!-- 我的资料，我的收藏 -->
+    <Navi v-if="!isCeng" :arrayList="navis"></Navi>
     <div class="ceng" v-if="isCeng" @touchmove.stop.prevent="touchmovehandle">    
       <button @getuserinfo="getVxUserInfo" open-type="getUserInfo" v-if="!userName" class="btn">登录</button>
     </div>
@@ -37,7 +37,8 @@
         entries: [],
         isCeng: true,
         userId: "",
-        userinfo:{}
+        userinfo:{},
+        openId: ""
       }
     },
     components:{
@@ -59,35 +60,34 @@
       },    
       isLogin(){    
         var _this=this;
-            wx.getSetting({
-              success(res) {                   
-                if (!res.authSetting['scope.userInfo']) {//未授权getUserInfo             
-                  wx.authorize({
-                    scope: 'scope.getUserInfo',
-                    success(res) {                  
-                      // 用户已经同意小程序使用用户信息，后续调用 wx.userInfo 接口不会弹窗询问       
-                      console.log(res)
-                      _this.isCeng=false;
-                      _this.userName=res.target.userInfo.nickName;
-                      
-                    },
-                    fail(err){
-                     console.log(err)
-                    }
-                  })
-                }else{//已授权
-                  wx.getUserInfo({
-                    success(res) {  
-                      _this.loginOk(res)
-                    },
-                    fail(err) {
-                      console.log(err)
-                    }
-                  })
+        wx.getSetting({
+          success(res) {                   
+            if (!res.authSetting['scope.userInfo']) {//未授权getUserInfo             
+              wx.authorize({
+                scope: 'scope.getUserInfo',
+                success(res) {                  
+                  // 用户已经同意小程序使用用户信息，后续调用 wx.userInfo 接口不会弹窗询问       
+                  console.log(res)
+                  _this.isCeng=false;
+                  _this.userName=res.target.userInfo.nickName; 
+                },
+                fail(err){
+                 console.log(err)
                 }
-              }
-            })
-        },
+              })
+            }else{//已授权
+              wx.getUserInfo({
+                success(res) {  
+                  _this.loginOk(res)
+                },
+                fail(err) {
+                  console.log(err)
+                }
+              })
+            }
+          }
+        })
+      },
       touchmovehandle(){ //解决vue蒙层滑动穿透问题
         
       },    
@@ -101,6 +101,7 @@
         _this.getOpenId();
         _this.myInfo.name=res.userInfo.nickName;
         _this.myInfo.image=res.userInfo.avatarUrl;
+        _this.userinfo.openid=res.data.openid;
         _this.isCeng=false;
         console.log(_this.userinfo);
       },
@@ -122,8 +123,6 @@
                   _this.userinfo.openid=res.data.openid;
                   _this.userinfo.session_key=res.data.session_key;  
                   console.log(_this.userinfo.openid);
-                  console.log(_this.userinfo.openid);
-                  console.log(_this.userinfo.openid);
                 }
               })
             } else {
@@ -134,7 +133,28 @@
       }
     },
     mounted(){
-      this.isLogin();
+      this.$fly.post('http://10.100.200.250:8081/MakeupYou/user/addUser', 
+        this.$qs.stringify({
+          uid: "qxblx",
+          username: "浅笑半离兮",
+          password: "111111",
+          birthday: "19991111",
+          sex: 1,
+          age: 20,
+          register_date: "20191111",
+          avatarID: "111",
+          description: "111",
+          mailbox: "111",
+          last_login_time: "20190101"     
+        })
+      )
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
       this.myInfo = {
           signature: "眼里有光，目光皆是美意。内心无花，似锦繁花与荒芜无差。"
       };
@@ -163,7 +183,7 @@
           front: "../../static/icon/front.png"
         },
         {
-          icon: "../../static/icon/cllection.png",
+          icon: "../../static/icon/collection.png",
           theme: "我的收藏",
           path: "../myCollection/main",
           front: "../../static/icon/front.png"

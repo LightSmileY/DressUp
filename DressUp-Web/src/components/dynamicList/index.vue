@@ -17,15 +17,15 @@
 				</div>
 				<div class="icons">
 					<div class="forward">
-						<img class="forward-image" src="../../../static/icon/forward.png">
+						<!-- <img class="forward-image" :src="icon_forward"> -->
 						<span>{{dymamic.forward}}</span>
 					</div>
 					<div class="cllection">
-						<img src="../../../static/icon/collection.png">
+						<!-- <img :src="icon_collection"> -->
 						<span>{{dymamic.collection}}</span>
 					</div>
 					<div class="like">
-						<img src="../../../static/icon/like.png">
+						<!-- <img :src="icon_like"> -->
 						<span>{{dymamic.like}}</span>
 					</div>
 				</div>
@@ -47,7 +47,9 @@
 export default {
   data () {
     return {
-    	
+    	icon_like: "",
+    	icon_collection: "",
+    	icon_forward: ""
     }
   },
   props: {
@@ -55,7 +57,9 @@ export default {
   },
   mounted(){
   	//说说列表
-  	
+  	this.icon_like = "../../../static/icon/like.png";
+  	this.icon_collection = "../../../static/icon/collection.png";
+  	this.icon_forward = "../../../static/icon/forward.png";
   }
   
 };
@@ -144,10 +148,11 @@ export default {
 		line-height: 22px;
 		position: relative;
 		top: -5px;
+		margin-left: 2px;
 	}
 	.icons .forward span{
 		position: relative;
-		top: -3px;
+		top: -2px;
 	}
 	.comment{
 		font-size: 13px;

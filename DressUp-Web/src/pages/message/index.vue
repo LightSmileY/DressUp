@@ -28,7 +28,7 @@
           front: "../../static/icon/front.png"
         },
         {
-          icon: "../../static/icon/cllection.png",
+          icon: "../../static/icon/collection.png",
           theme: "收藏我的",
           path: "../collectMe/main",
           front: "../../static/icon/front.png"
