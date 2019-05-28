@@ -15,7 +15,7 @@
         </div>
       </div>
     </div>
-    <Navi v-if="!isCeng" :arrayList="navis"></Navi>
+    <Navi :arrayList="navis"></Navi>
     <div class="ceng" v-if="isCeng" @touchmove.stop.prevent="touchmovehandle">    
       <button @getuserinfo="getVxUserInfo" open-type="getUserInfo" v-if="!userName" class="btn">登录</button>
     </div>

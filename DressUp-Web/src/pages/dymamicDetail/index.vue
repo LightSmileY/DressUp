@@ -1,5 +1,6 @@
 <template>
   <div class="dymamicDetail">
+    <div class="masker" v-if="coment"></div>
     <div class="main">
       <div class="dymamicList">
         <ul>
@@ -36,11 +37,16 @@
                   <span class="content">{{comment.content}}</span>
                 </li>
               </ul>
-              <button class="toComent">我也要评论</button>
+              <button class="toComent" @click="toComent">我也要评论</button>
             </div>
           </li>
         </ul>
       </div>
+    </div>
+    <!-- 评论框 -->
+    <div class="coment" v-if="coment">
+      <textarea autofocus="autofocus" rows="6"></textarea>
+      <button @click="toPublish">发表</button>
     </div>
   </div>
 </template>
@@ -56,14 +62,78 @@
         icon_collection: "",
         icon_forward: "",
         like: false,
-        collection: false
+        collection: false,
+        coment: false
       }
     },
     components:{
       
     },
     methods: {
-
+      toComent(){
+        this.coment = !this.coment;
+      },
+      // 发表评论
+      toPublish(){
+        setTimeout(function(){
+          wx.showToast({
+            title:'已评论！',
+            icon:'success',
+            duration: 1000
+          })
+        },500)
+        this.coment = !this.coment;
+      },
+      toLike(){
+        if(this.like == false){
+          this.like = true;
+          this.dymamic.icon_like = "../../static/icon/like-active.png";
+          this.dymamic.like += 1;
+        }
+        else{
+          this.like = false;
+          this.dymamic.icon_like = "../../static/icon/like.png";
+          this.dymamic.like -= 1;
+        }
+      },
+      toCollection(){
+        if(this.collection == false){
+          this.collection = true;
+          this.dymamic.icon_collection = "../../static/icon/collection-active.png";
+          this.dymamic.collection += 1;
+        }
+        else{
+          this.collection = false;
+          this.dymamic.icon_collection = "../../static/icon/collection.png";
+          this.dymamic.collection -= 1;
+        }
+      },
+      toForward(){
+        wx.showModal({
+          title: '提示',
+          content: '确认要转发帖子吗？',
+          success: function (sm) {
+            if (sm.confirm) {
+              console.log('转发成功')
+              setTimeout(function(){
+                wx.showToast({
+                  title:'转发成功！',
+                  icon:'success',
+                  duration: 2000
+                })
+              },1000)
+            } else if (sm.cancel) {
+              console.log('用户取消转发')
+            }
+          }
+        })
+      },
+      previewImg(i,j){
+        wx.previewImage({
+          current: this.newDynamics[i].images[j],
+          urls: this.newDynamics[i].images
+        });
+      }
     },
     mounted(){
       this.dymamic = {
@@ -79,6 +149,9 @@
         like: 20,
         collection: 8,
         forward: 15,
+        icon_like: "../../static/icon/like.png",
+        icon_collection: "../../static/icon/collection.png",
+        icon_forward: "../../static/icon/forward.png",
         //评论列表
         comments: [
           {
@@ -211,5 +284,47 @@
   }
   .comment .toComent:active{
     background-color: #FFEDEB;
+  }
+  .coment {
+    position: fixed;
+    top: 20vh;
+    left: 50%;
+    margin-left: -40vw;
+    width: 80%;
+    height: 180px;
+    border: 1px solid #B2B2B2;
+    border-radius: 10px;
+    background-color: #fff;
+    z-index: 9999999;
+  }
+  .coment textarea {
+    position: relative;
+    width: 68vw;
+    height: 110px;
+    margin: 15px 4vw 0;
+    padding: 5px 2vw;
+    border: 1px solid #E4E4E4;
+    font-size: 15px;
+    z-index: 99999999;
+  }
+  .coment button {
+    width: 72vw;
+    height: 28px;
+    margin-top: 7px;
+    font-size: 14px;
+    line-height: 28px;
+    background-color: #FFD4D4;
+  }
+  .coment button:active {
+    background-color: #FFB5B5;
+  }
+  .masker{
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.2);
+    z-index: 999999;
+    margin: 0;
+    padding: 0;
   }
 </style>

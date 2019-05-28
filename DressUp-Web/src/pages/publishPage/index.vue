@@ -28,7 +28,7 @@
         uploadImg(){
           let that = this;
           wx.chooseImage({
-            count: that.max || 3,
+            count: that.max || 9,
             sizeType: ['original', 'compressed'],
             sourceType: ['album', 'camera'],
             success: function (res) {
@@ -57,14 +57,23 @@
           });
         },  
         publish() {
-          setTimeout(function(){
-            wx.showToast({
-              title:'发表成功！',
-              icon:'success',
-              duration: 2000
-            })
-            wx.navigateTo({url: "../index"})
-          },1000);
+          wx.chooseImage({
+            success(res) {
+              const tempFilePaths = res.tempFilePaths
+              wx.uploadFile({
+                url: 'https://example.weixin.qq.com/upload', // 仅为示例，非真实的接口地址
+                filePath: tempFilePaths[0],
+                name: 'file',
+                formData: {
+                  user: 'test'
+                },
+                success(res) {
+                  const data = res.data
+                  // do something
+                }
+              })
+            }
+          })
         }
       }
     };

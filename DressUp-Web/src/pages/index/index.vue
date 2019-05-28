@@ -1,6 +1,7 @@
 <template>
   <div class="container">
-    <div class="mask"></div>
+    <div class="masker" v-if="coment"></div>
+    <div class="mask-item"></div>
     <div class="main">
       <!-- <Search></Search> -->
       <!-- <SwitchBar :arrayList = "switches"></SwitchBar> -->
@@ -50,7 +51,7 @@
                         <span class="content">{{comment.content}}</span>
                       </li>
                     </ul>
-                    <button class="toComent">我也要评论</button>
+                    <button class="toComent" @click="toComent">我也要评论</button>
                   </div>
                 </li>
               </ul>
@@ -93,7 +94,7 @@
                         <span class="content">{{comment.content}}</span>
                       </li>
                     </ul>
-                    <button class="toComent">我也要评论</button>
+                    <button class="toComent" @click="toComent">我也要评论</button>
                   </div>
                 </li>
               </ul>
@@ -102,6 +103,11 @@
         </div>
       </div>
       <Publish></Publish>
+    </div>
+    <!-- 评论框 -->
+    <div class="coment" v-if="coment">
+      <textarea autofocus="autofocus" rows="6"></textarea>
+      <button @click="toPublish">发表</button>
     </div>
   </div>
 </template>
@@ -122,25 +128,26 @@
         newDynamics:[],
         hotDynamics: [],
         tabs: [
-            {
-              name: "最新",
-              type: "1",
-              checked: true
-            },
-            {
-              name: "热门",
-              type: "2",
-              checked: true
-            }
-          ],
-          activeIndex: 0,
-          icon_like: "",
-          icon_collection: "",
-          icon_forward: "",
-          like1: false,
-          collection1: false,
-          like2: false,
-          collection2: false,
+          {
+            name: "最新",
+            type: "1",
+            checked: true
+          },
+          {
+            name: "热门",
+            type: "2",
+            checked: true
+          }
+        ],
+        activeIndex: 0,
+        icon_like: "",
+        icon_collection: "",
+        icon_forward: "",
+        like1: false,
+        collection1: false,
+        like2: false,
+        collection2: false,
+        coment: false
       }
     },
     components:{
@@ -159,6 +166,21 @@
       }
     },
     methods: {
+      // 点击评论按钮
+      toComent(){
+        this.coment = !this.coment;
+      },
+      // 发表评论
+      toPublish(){
+        setTimeout(function(){
+          wx.showToast({
+            title:'已评论！',
+            icon:'success',
+            duration: 1000
+          })
+        },500)
+        this.coment = !this.coment;
+      },
       tabClick(e) {
         this.activeIndex = e.currentTarget.id;
       },
@@ -235,7 +257,7 @@
           current: this.newDynamics[i].images[j],
           urls: this.newDynamics[i].images
         });
-      },  
+      }
     },
     beforeMount(){
       
@@ -396,6 +418,8 @@
 <style scoped>
   /*----------------------整个页面-----------------------  */
   .container{
+    margin: 0;
+    padding: 0;
     background-color: #fff;
   }
   .main{
@@ -409,7 +433,7 @@
     -webkit-overflow-scrolling: touch;
   }
   /*----------------------顶部栏-----------------------  */
-  .mask{
+  .mask-item{
     position: fixed;
     top: 0;
     width: 100%;
@@ -594,5 +618,53 @@
   }
   .comment .toComent:active{
     background-color: #FFEDEB;
+  }
+  /* .mask {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.3)
+  } */
+  .coment {
+    position: fixed;
+    top: 20vh;
+    left: 50%;
+    margin-left: -40vw;
+    width: 80%;
+    height: 180px;
+    border: 1px solid #B2B2B2;
+    border-radius: 10px;
+    background-color: #fff;
+    z-index: 9999999;
+  }
+  .coment textarea {
+    position: relative;
+    width: 68vw;
+    height: 110px;
+    margin: 15px 4vw 0;
+    padding: 5px 2vw;
+    border: 1px solid #E4E4E4;
+    font-size: 15px;
+    z-index: 99999999;
+  }
+  .coment button {
+    width: 72vw;
+    height: 28px;
+    margin-top: 7px;
+    font-size: 14px;
+    line-height: 28px;
+    background-color: #FFD4D4;
+  }
+  .coment button:active {
+    background-color: #FFB5B5;
+  }
+  .masker{
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.2);
+    z-index: 999999;
+    margin: 0;
+    padding: 0;
   }
 </style>
