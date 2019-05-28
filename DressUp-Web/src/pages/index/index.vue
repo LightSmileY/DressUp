@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="masker" v-if="coment"></div>
+    <div class="masker" v-if="coment" @click="remove"></div>
     <div class="mask-item"></div>
     <div class="main">
       <!-- <Search></Search> -->
@@ -168,6 +168,10 @@
     methods: {
       // 点击评论按钮
       toComent(){
+        this.coment = !this.coment;
+      },
+      //点击遮罩层
+      remove(){
         this.coment = !this.coment;
       },
       // 发表评论

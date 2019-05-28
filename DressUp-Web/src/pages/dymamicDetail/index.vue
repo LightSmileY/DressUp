@@ -1,6 +1,6 @@
 <template>
   <div class="dymamicDetail">
-    <div class="masker" v-if="coment"></div>
+    <div class="masker" v-if="coment" @click="remove"></div>
     <div class="main">
       <div class="dymamicList">
         <ul>
@@ -18,15 +18,15 @@
             </div>
             <div class="icons">
               <div class="forward">
-                <img class="forward-image" :src="icon_forward"  @click="toForward">
+                <img class="forward-image" :src="dymamic.icon_forward"  @click="toForward">
                 <span>{{dymamic.forward}}</span>
               </div>
               <div class="cllection" @click="toCollection">
-                <img :src="icon_collection">
+                <img :src="dymamic.icon_collection">
                 <span>{{dymamic.collection}}</span>
               </div>
               <div class="like" @click="toLike">
-                <img :src="icon_like">
+                <img :src="dymamic.icon_like">
                 <span>{{dymamic.like}}</span>
               </div>
             </div>
@@ -63,6 +63,8 @@
         icon_forward: "",
         like: false,
         collection: false,
+        icon_like: "",
+        icon_collection: "",
         coment: false
       }
     },
@@ -70,7 +72,12 @@
       
     },
     methods: {
+      //点击评论
       toComent(){
+        this.coment = !this.coment;
+      },
+      //点击遮罩层
+      remove(){
         this.coment = !this.coment;
       },
       // 发表评论
@@ -160,9 +167,6 @@
           }
         ]
       };
-      this.icon_like = "../../static/icon/like.png";
-      this.icon_collection = "../../static/icon/collection.png";
-      this.icon_forward = "../../static/icon/forward.png";
     }   
   };
 </script>
