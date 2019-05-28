@@ -74,8 +74,8 @@
                     <img v-for="(image,index1) in dymamic.images" :key="index1" class="image" @click="previewImg(index,index1)" :src="image"/>
                   </div>
                   <div class="icons">
-                    <div class="forward">
-                      <img class="forward-image" :src="dymamic.icon_forward" @click="toForward(index)">
+                    <div class="forward" @click="toForward(index)">
+                      <img class="forward-image" :src="dymamic.icon_forward">
                       <span>{{dymamic.forward}}</span>
                     </div>
                     <div class="cllection" @click="toCollection2(index)">
