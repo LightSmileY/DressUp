@@ -22,14 +22,42 @@
     mounted(){
       this.likes = [
         {
-          userName: "张凤云",
-          userHeadURL: "../../static/assets/images/1.jpeg",
-          publishTime: "今天22:03",
-          content: "哈哈哈哈哈哈哈哈哈哈或或或或或或或或或或或或或或或或",
-          imageUrl: "../../static/assets/images/2.jpg",
-          descri: "这是一盒非常非常非常非常非常非常神奇的化妆品鸭鸭！你一定要喜欢啊啊啊啊啊啊啊啊啊啊哈哈哈哈哈哈哈哈哈哈！",
+          userName: "。。",
+          userHeadURL: "https://i.loli.net/2019/05/29/5cee76ea7d01d81579.jpg",
+          publishTime: "今天10:23",
+          content: "学到啦",
+          imageUrl: "https://i.loli.net/2019/05/29/5cee7731a3cc637454.png",
+          descri: "#好物推荐#这盘眼影盘太美了！大家一定要种草！配色炒鸡少女！适合夏天用❤",
           path: "../dymamicDetail/main"
-        }
+        },
+          {
+          userName: "haphap",
+          userHeadURL: "https://i.loli.net/2019/05/29/5cee76ea7043315018.png",
+          publishTime: "今天21:01",
+          content: "果然好用",
+          imageUrl: "https://i.loli.net/2019/05/29/5cee7731a3cc637454.png",
+          descri: "#好物推荐#这盘眼影盘太美了！大家一定要种草！配色炒鸡少女！适合夏天用❤",
+          path: "../dymamicDetail/main"
+        },
+          {
+          userName: "往日夕",
+          userHeadURL: "https://i.loli.net/2019/05/29/5cee76e9eef3759817.jpg",
+          publishTime: "今天21:03",
+          content: "啦啦啦👩‍❤️‍👩",
+          imageUrl: "https://i.loli.net/2019/05/29/5cee7731a3cc637454.png",
+          descri: "#好物推荐#这盘眼影盘太美了！大家一定要种草！配色炒鸡少女！适合夏天用❤",
+          path: "../dymamicDetail/main"
+        },
+          {
+          userName: "百事可可",
+          userHeadURL: "https://i.loli.net/2019/05/29/5cee76a17897f93356.jpg",
+          publishTime: "今天22:03",
+          content: "看到你的效果啦",
+          imageUrl: "https://i.loli.net/2019/05/29/5cee7731a3cc637454.png",
+          descri: "#好物推荐#这盘眼影盘太美了！大家一定要种草！配色炒鸡少女！适合夏天用❤",
+          path: "../dymamicDetail/main"
+        },
+        
       ]
     }   
   };

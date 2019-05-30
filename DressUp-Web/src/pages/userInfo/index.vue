@@ -22,7 +22,7 @@
       this.arrayList=[
         {
           theme:"昵称",
-          content:"云云"
+          content:"云云张"
         },
         {
           theme:"性别",
@@ -38,11 +38,11 @@
         },
         {
           theme:"邮箱",
-          content:"666666666@qq.com"
+          content:"1132434343@qq.com"
         },
         {
           theme:"个性签名",
-          content:"好哒好哒好哒好哒好哒好哒！"
+          content:"没有伞的孩子要学会奔跑！"
         }
       ]
     }

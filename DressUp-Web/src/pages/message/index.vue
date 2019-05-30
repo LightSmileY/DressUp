@@ -1,5 +1,6 @@
 <template>
   <div class="message">
+    <!-- 各种消息列表 -->
     <Navi :arrayList="navis"></Navi>
   </div>
 </template>
@@ -17,7 +18,6 @@
       Navi
     },
     methods: {
-
     },
     mounted(){
       this.navis = [

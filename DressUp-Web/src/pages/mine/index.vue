@@ -1,6 +1,7 @@
 <template>
   <div class="mine">
     <div class="myInfo">
+      <!-- 用户信息 -->
       <div class="user">
         <div class="image">
           <img v-if="!isCeng" :src="myInfo.image">
@@ -8,6 +9,7 @@
         <div v-if="!isCeng" class="userName">{{myInfo.name}}</div>
         <div v-if="!isCeng" class="signature">{{myInfo.signature}}</div>
       </div>
+      <!-- 我的帖子、关注、粉丝 -->
       <div class="entry">
         <div v-for="(item,index) in entries" :key="index" @click="itemClick(item)">
           <div v-if="!isCeng" class="count">{{item.count}}</div>
@@ -15,9 +17,11 @@
         </div>
       </div>
     </div>
-    <Navi :arrayList="navis"></Navi>
+    <!-- 我的资料、收藏 -->
+    <Navi v-if="!isCeng" :arrayList="navis"></Navi>
+    <!-- 用户授权按钮 -->
     <div class="ceng" v-if="isCeng" @touchmove.stop.prevent="touchmovehandle">    
-      <button @getuserinfo="getVxUserInfo" open-type="getUserInfo" v-if="!userName" class="btn">登录</button>
+      <button @getuserinfo="getVxUserInfo" open-type="getUserInfo" v-if="isCeng" class="btn">登录</button>
     </div>
   </div>
 </template>
@@ -33,11 +37,17 @@
     data () {
       return {
         navis: [],
-        myInfo: {},
+        myInfo: {
+          image: "",
+          name: "",
+          signature: "没有伞的孩子要学会奔跑！"
+        },
         entries: [],
         isCeng: true,
         userId: "",
-        userinfo:{},
+        userinfo:{
+
+        },
         openId: ""
       }
     },
@@ -101,9 +111,8 @@
         _this.getOpenId();
         _this.myInfo.name=res.userInfo.nickName;
         _this.myInfo.image=res.userInfo.avatarUrl;
-        _this.userinfo.openid=res.data.openid;
+        _this.openid=res.data.openid;
         _this.isCeng=false;
-        console.log(_this.userinfo);
       },
       getOpenId(){  //获取用户的openid
         let _this=this;
@@ -133,31 +142,29 @@
       }
     },
     mounted(){
-      this.$fly.post('http://10.100.200.250:8081/MakeupYou/user/addUser', 
-        this.$qs.stringify({
-          uid: "qxblx",
-          username: "浅笑半离兮",
-          password: "111111",
-          birthday: "19991111",
-          sex: 1,
-          age: 20,
-          register_date: "20191111",
-          avatarID: "111",
-          description: "111",
-          mailbox: "111",
-          last_login_time: "20190101"     
-        })
-      )
-      .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+      // this.$fly.post('http://10.100.200.250:8081/MakeupYou/user/addUser', 
+      //   this.$qs.stringify({
+      //     uid: "qxblx",
+      //     username: "浅笑半离兮",
+      //     password: "111111",
+      //     birthday: "19991111",
+      //     sex: 1,
+      //     age: 20,
+      //     register_date: "20191111",
+      //     avatarID: "111",
+      //     description: "111",
+      //     mailbox: "111",
+      //     last_login_time: "20190101"     
+      //   })
+      // )
+      // .then(function (response) {
+      //   console.log(response);
+      // })
+      // .catch(function (error) {
+      //   console.log(error);
+      // });
 
-      this.myInfo = {
-          signature: "眼里有光，目光皆是美意。内心无花，似锦繁花与荒芜无差。"
-      };
+      
       this.entries = [
         {
           count: 24,
@@ -192,7 +199,6 @@
       
     },
     created(){
-      
     }
   };
 </script>

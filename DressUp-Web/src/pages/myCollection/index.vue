@@ -23,11 +23,29 @@
     mounted(){
       this.collections = [
         {
-          name: "你不知道的清新妆容",
+          name: "新手妆容",
           images: [
-            "../../static/assets/images/2.jpg",
-            "../../static/assets/images/2.jpg",
-            "../../static/assets/images/2.jpg"
+            "https://i.loli.net/2019/05/29/5cee4b315f83933845.png",
+            "https://i.loli.net/2019/05/29/5cee4b31619ec62819.png",
+            "https://i.loli.net/2019/05/29/5cee4b3163d8066017.png"
+          ],
+          path: "../dressupDetail/main"
+        },
+        {
+          name: "好品与好妆容",
+          images: [
+            "https://i.loli.net/2019/05/29/5cee4c0b2794675305.png",
+            "https://i.loli.net/2019/05/29/5cee4c0b313af79794.png",
+            "https://i.loli.net/2019/05/29/5cee4c0b3acf735000.png"
+          ],
+          path: "../dressupDetail/main"
+        },
+        {
+          name: "常规化妆品化妆效果",
+          images: [
+            "https://i.loli.net/2019/05/29/5cee4c3bdb23e78229.png",
+            "https://i.loli.net/2019/05/29/5cee4c3c3a9cf12221.png",
+            "https://i.loli.net/2019/05/29/5cee4c3c3cd5c20275.png"
           ],
           path: "../dressupDetail/main"
         }

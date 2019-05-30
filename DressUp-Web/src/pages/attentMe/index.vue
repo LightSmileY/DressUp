@@ -28,20 +28,65 @@
     mounted(){
       this.attentions = [
         {
-          userName: "杨伟艺",
-          userHeadURL: "../../static/assets/images/1.jpeg",
-          publishTime: "今天22:03"
+          userName: "变强er",
+          userHeadURL: "https://i.loli.net/2019/05/29/5cee76a0ae99773032.jpg",
+          publishTime: "今天12:03"
         },
         {
-          userName: "胡健龙",
-          userHeadURL: "../../static/assets/images/1.jpeg",
-          publishTime: "今天22:03"
+          userName: "fukami",
+          userHeadURL: "https://i.loli.net/2019/05/29/5cee76a0dd0d687179.jpg",
+          publishTime: "今天17:12"
         },
         {
-          userName: "张凤云",
-          userHeadURL: "../../static/assets/images/1.jpeg",
-          publishTime: "今天22:03"
-        }
+          userName: "淡然",
+          userHeadURL: "https://i.loli.net/2019/05/29/5cee76a14048519661.jpg",
+          publishTime: "今天16:43"
+        },
+        {
+          userName: "follow",
+          userHeadURL: "https://i.loli.net/2019/05/29/5cee7486033c023192.png",
+          publishTime: "今天15:33"
+        },
+        {
+          userName: "达萨达",
+          userHeadURL: "https://i.loli.net/2019/05/29/5cee7485269f927974.jpg",
+          publishTime: "今天12:03"
+        },
+        {
+          userName: "fggg",
+          userHeadURL: "https://i.loli.net/2019/05/29/5cee74853f4ee44021.jpg",
+          publishTime: "今天14:12"
+        },
+        {
+          userName: "sf奋斗",
+          userHeadURL: "https://i.loli.net/2019/05/29/5cee7486003dc40409.png",
+          publishTime: "今天13:43"
+        },
+        {
+          userName: "fo的多",
+          userHeadURL: "https://i.loli.net/2019/05/29/5cee74854b9c265027.jpg",
+          publishTime: "今天10:33"
+        },
+        {
+          userName: "奋斗奋斗",
+          userHeadURL: "https://i.loli.net/2019/05/29/5cee7485a4b3230937.jpg",
+          publishTime: "今天11:03"
+        },
+        {
+          userName: "ninni",
+          userHeadURL: "https://i.loli.net/2019/05/29/5cee748565c2753329.jpg",
+          publishTime: "今天10:12"
+        },
+        {
+          userName: "fakeee",
+          userHeadURL: "https://i.loli.net/2019/05/29/5cee74859a41b10310.jpg",
+          publishTime: "今天12:43"
+        },
+        {
+          userName: "cdcd",
+          userHeadURL: "https://i.loli.net/2019/05/29/5cee74856a3c396539.jpg",
+          publishTime: "今天11:33"
+        },
       ]
     }   
   };
@@ -90,7 +135,7 @@
     height: 50px;
     line-height: 50px;
     font-size: 17px;
-    float: left;
-    margin-left: 40px;
+    float: right;
+    margin-right: 50px;
   }
 </style>

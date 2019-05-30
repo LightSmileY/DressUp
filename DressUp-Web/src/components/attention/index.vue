@@ -9,8 +9,8 @@
 			<div class="name">
 				<h1>{{item.name}}</h1>
 			</div>
-			<div class="attention" v-if="show" @click="attention">
-				{{atten}}
+			<div class="attention" v-if="show" @click="toAttent(index)">
+				{{item.atten}}
 			</div>
 		</div>
 	</div>
@@ -20,7 +20,7 @@
 	export default {
 	  data () {
 	    return {
-	      atten: "关注"
+	      
 	    }
 	  },
 	  props: {
@@ -29,12 +29,12 @@
 		  
 	  },
 	  methods: {
-	  	attention(){
-	  		if(this.atten == "关注"){
-	  			this.atten = "已关注";
+	  	toAttent(i){
+	  		if(this.arrayList[i].atten == "关注"){
+	  			this.arrayList[i].atten = "已关注";
 	  		}
 	  		else{
-	  			this.atten = "关注"
+	  			this.arrayList[i].atten = "关注"
 	  		}
 	  	}
 	  }

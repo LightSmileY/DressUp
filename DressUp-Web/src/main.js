@@ -4,6 +4,7 @@ import App from './App'
 import qs from 'qs';
 
 Vue.prototype.$qs = qs;
+// Vue.prototype.$store = store;
 var Fly = require("flyio/dist/npm/wx") 
 
 

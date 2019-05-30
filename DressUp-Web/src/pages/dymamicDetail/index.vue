@@ -1,7 +1,9 @@
 <template>
   <div class="dymamicDetail">
+    <!-- 评论遮罩层 -->
     <div class="masker" v-if="coment" @click="remove"></div>
     <div class="main">
+      <!-- 帖子详情 -->
       <div class="dymamicList">
         <ul>
           <li class="dymamicList-li" >
@@ -43,7 +45,7 @@
         </ul>
       </div>
     </div>
-    <!-- 评论框 -->
+    <!-- 帖子评论框 -->
     <div class="coment" v-if="coment">
       <textarea autofocus="autofocus" rows="6"></textarea>
       <button @click="toPublish">发表</button>
