@@ -1,0 +1,30 @@
+//color
+$icon-color-default: #fff;
+$icon-color: #ccc;
+$link-active-color: #de181b;
+$border-color: #e5e5e5;
+
+//bgc
+$bgc-theme: #f5f5f5;
+$header-bgc: rgb(222, 24, 27);
+$header-bgc-translucent: rgba(222, 24, 27, 0.9);
+$modal-bgc: rgba(0, 0, 0, 0.4);
+
+//font size
+$font-size-base: 12px;
+$font-size-l: $font-size-base + 2;
+$icon-font-size-sm: 18px;
+$icon-font-size: 24px;
+
+//z-index
+$navbar-z-index: 1000;
+$tabbar-z-index: 1000;
+$backtop-z-index: 1100;
+$search-z-index: 1200;
+$product-z-index: 1200;
+$search-popup-z-index: $search-z-index + 10;
+$category-popup-z-index: $search-z-index - 10;
+
+//size
+$navbar-height: 50px;
+$tabbar-height: 50px;

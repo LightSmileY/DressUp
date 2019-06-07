@@ -1,27 +1,19 @@
+import 'babel-polyfill'
 import Vue from 'vue'
 import App from './App'
-// import Store from './store/store'
-import qs from 'qs';
+import router from './router'
+import fastclick from 'fastclick'
 
-Vue.prototype.$qs = qs;
-// Vue.prototype.$store = store;
-var Fly = require("flyio/dist/npm/wx") 
+import './assets/scss/index.scss'
 
-
-var fly=new Fly
+fastclick.attach(document.body)
 
 Vue.config.productionTip = false
-App.mpType = 'app'
 
-// Vue.prototype.$store = store
-
-Vue.prototype.$fly = fly
-
-const app = new Vue(App)
-app.$mount()
-
-export default {
-  config: {
-    
-  }
-}
+/* eslint-disable no-new */
+new Vue({
+  el: '#app',
+  router,
+  components: { App },
+  template: '<App/>'
+})
