@@ -1,0 +1,156 @@
+@import "../../assets/scss/mixins";
+@import "../../assets/scss/variables";
+
+.loveDressUp{
+
+  // 幻灯片
+  .banner{
+    img{
+      width: 100%;
+      height: 100%;
+    }
+  }
+  // 主体
+  .main{
+    padding-top: 25px;
+    background-color: #F2F2F2;
+    // 导航栏
+    .nav{
+      background-color: #fff;
+
+      .elements{
+        width: 70%;
+        height: 120px;
+        display: flex;
+        margin: 0 auto;
+
+        dl{
+          flex: 1;
+          @include flex-center(column);
+          cursor: pointer;
+
+          dt{
+            width: 80px;
+            height: 80px;
+            img{
+              width: 100%;
+              height: 100%;
+              border-radius: 50%;
+            }
+          }
+
+          dd{
+            margin-top: 5px;
+            font-size: 15px;
+          }
+        }
+
+        dl:hover{
+          color: #FF4C4C;
+        }
+      }
+      
+    }
+
+    // 化妆教程
+    .teach{
+      margin: 25px 0;
+      background-color: #fff;
+
+      .elements{
+        height: 400px;
+        width: 1100px;
+        margin: 0 auto;
+        display: flex;
+
+        .item{
+          flex: 1;
+          @include flex-center(column);
+          dl{
+            width: 200px;
+            height: 300px;
+            border-radius: 2px;
+            overflow: hidden;
+            background-color: #fff;
+            box-shadow: 0 0 10px #BBBBBB;
+            
+            
+            dt{
+              width: 100%;
+              height: 250px;
+              img{
+                width: 100%;
+                height: 100%;
+              }
+            }
+
+            dd{
+              @include flex-center(column);
+              height: 50px;
+            }
+          }
+        }
+      }
+      
+    }
+
+    // 妆容分享 & 妆品推荐
+    .dressUp,
+    .cosmetics{
+      margin: 25px 0;
+      background-color: #fff;
+
+      .elements{
+        width: 1100px;
+        margin: 0 auto;
+        display: flex;
+        flex-wrap: wrap;
+
+        .item{
+          flex: 1;
+          @include flex-center(column);
+          margin: 20px auto;
+
+          dl{
+            width: 300px;
+            height: 220px;
+            border-radius: 2px;
+            overflow: hidden;
+            background-color: #fff;
+            box-shadow: 0 0 10px #BBBBBB;
+            
+            dt{
+              width: 100%;
+              height: 170px;
+              img{
+                width: 100%;
+                height: 100%;
+              }
+            }
+
+            dd{
+              @include flex-center(column);
+              height: 50px;
+            }
+          }
+        }
+      }
+    }
+    .title{
+      height: 50px;
+      @include flex-center(column);
+      font-size: 25px;
+      text-shadow: 3px 3px 1px #B1B1B1;
+    }
+    .more{
+      height: 60px;
+      @include flex-center();
+      font-size: 18px;
+      font-family: "微软雅黑";
+    }
+    .more:hover{
+      cursor: pointer;
+      color: red;
+    }
+  }
+}

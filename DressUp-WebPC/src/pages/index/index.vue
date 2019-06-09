@@ -1,7 +1,6 @@
 <template>
-  <div class="hello">
-    Hello World!
-    <router-view/>
+  <div class="community">
+    首页（社区）
   </div>
 </template>
 

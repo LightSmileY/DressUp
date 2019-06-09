@@ -1,12 +1,13 @@
 <template>
-  <div class="hello">
-    mine
+  <div class="community">
+    个人中心
+    <router-view/>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'mine',
+  name: 'HelloWorld',
   data () {
     return {
       

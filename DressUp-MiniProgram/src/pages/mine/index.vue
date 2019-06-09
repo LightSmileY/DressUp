@@ -7,7 +7,7 @@
           <img :src="myInfo.avatarUrl">
         </div>
         <div class="userName">{{myInfo.nickName}}</div>
-        <div class="signature">{{myInfo.signature}}</div>
+        <div class="signature">{{myInfo.description}}</div>
       </div>
       <!-- 我的帖子、关注、粉丝 -->
       <div class="entry">
@@ -46,9 +46,12 @@
         wx.navigateTo({url: e.path})
       },
     },
-    mounted(){
-      this.myInfo = this.$store.state.myWxInfo;
-      this.myInfo.signature = ""
+    beforeMount(){
+      this.myInfo.avatarUrl = this.$store.state.myWxInfo.avatarUrl;
+      this.myInfo.nickName = this.$store.state.myWxInfo.nickName;
+      this.myInfo.description = this.$store.state.myCosInfo.description;
+      
+
       this.entries = [
         {
           count: 24,

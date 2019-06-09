@@ -3,23 +3,23 @@
     <ul>
       <li class="info-li">
         <div class="theme">昵称</div>
-        <input class="content" type="text" v-model="infos.username">
+        <input class="content" type="text" v-model="myInfo.name">
       </li>
       <li class="info-li">
         <div class="theme">性别</div>
-        <input class="content" type="text" v-model="infos.sex">
+        <input class="content" type="text" v-model="myInfo.sex">
       </li>
       <li class="info-li">
         <div class="theme">生日</div>
-        <input class="content" type="text" v-model="infos.birthday">
+        <input class="content" type="text" v-model="myInfo.birthday">
       </li>
       <li class="info-li">
         <div class="theme">邮箱</div>
-        <input class="content" type="text" v-model="infos.email">
+        <input class="content" type="text" v-model="myInfo.mailbox">
       </li>
       <li class="info-li">
         <div class="theme">个性签名</div>
-        <input class="content" type="text" v-model="infos.signature">
+        <input class="content" type="text" v-model="myInfo.description">
       </li>
     </ul>
     <button @click="toSubmit">提交</button>
@@ -30,7 +30,7 @@
   export default {
     data () {
       return {
-        infos: {}
+        myInfo: {}
       }
     },
 		methods: {
@@ -40,48 +40,61 @@
         _this.$fly.put('http://106.14.46.10:8081/MakeupYou/user/updateUser',
           _this.$qs.stringify({
             uid: _this.$store.state.openId,
-            username: _this.infos.username,
+            username: _this.myInfo.name,
             password: "123456",
-            birthday: _this.infos.birthday,
-            sex: _this.infos.sex,
+            birthday: _this.myInfo.birthday,
+            sex: _this.myInfo.sex,
             age: 20,
             register_date: "20190603",
             avatarID: "0000000001",
-            description: _this.infos.signature,
-            mailbox: _this.infos.email,
+            description: _this.myInfo.description,
+            mailbox: _this.myInfo.mailbox,
             last_login_time: "20190604"     
           })
         )
         .then(function (response) {
           console.log(response);
+          _this.$store.dispatch('getMyCosInfo', _this.myInfo);
+          console.log("更改后的资料成功赋值给我的自定义资料");
+          setTimeout(function(){
+            wx.showToast({
+              title:'修改成功！',
+              icon:'success',
+              duration: 1000
+            });
+            wx.navigateTo({url: "../index/main"});
+          },500);
         })
         .catch(function (error) {
           console.log(error);
-        });
-
-				setTimeout(function(){
-				  wx.showToast({
-				    title:'修改成功！',
-				    icon:'success',
-				    duration: 1000
-				  });
-				  wx.navigateTo({url: "../index/main"});
-				},500);
+          setTimeout(function(){
+            wx.showToast({
+              title: '修改失败！',
+              icon: 'fail',
+              duration: 1000
+            });
+            wx.navigateTo({url: "../index/main"});
+          },500);
+        })
 			}
 		},
+
     beforeMount() {
-      console.log(this.$store.state.openId);
+      let _this = this;
       this.$fly.get('http://106.14.46.10:8081/MakeupYou/user/findOne/'+this.$store.state.openId)
       .then(function (response) {
-        this.infos = response.data;
-        
+        console.log(response.data);
+        console.log("获取用户资料成功");
+
+        _this.myInfo = response.data;
+        console.log(_this.myInfo);
+        console.log("将返回的资料赋值给myInfos成功！");     
       })
       .catch(function (error) {
         console.log(error);
       });
 
-      this.$store.dispatch('getMyCosInfo', this.infos);
-      console.log(this.$store.state.myCosInfo);
+      
 
       // let infos = this.$store.state.myCosInfo;
       // console.log(infos)

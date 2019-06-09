@@ -27,10 +27,10 @@
                     <img :src="dymamic.userHeadURL" class="user-header"/>
                     <div class="name-time">
                       <div class="name">{{dymamic.userName}}</div>
-                      <div class="time">{{dymamic.publishTime}}</div>
+                      <div class="time">{{dymamic.postTime}}</div>
                     </div>
                   </div>
-                  <p class="content">{{dymamic.content}}</p>
+                  <p class="content">#<span>{{dymamic.title}}</span>#{{dymamic.messagebody}}</p>
                   <div class="images">
                     <img v-for="(image,index1) in dymamic.images" :key="index1" class="image" @click="previewImg_new(index,index1)" :src="image"/>
                   </div>
@@ -190,6 +190,7 @@
       }
     },
     methods: {
+      //用户授权
       getVxUserInfo(e){       
         if(e.target.userInfo){
           this.userName=e.target.userInfo.nickName;
@@ -199,7 +200,8 @@
           this.userName="";
           this.isCeng=true;
         } 
-      },    
+      },
+      //判断是否已授权，授权则登录    
       isLogin(){    
         var _this=this;
           wx.getSetting({
@@ -233,8 +235,9 @@
       },
       touchmovehandle(){ //解决vue蒙层滑动穿透问题
         
-      },    
-      loginOk(res){  //登录成功后的信息处理
+      },
+      //登录成功后的信息处理    
+      loginOk(res){  
         let _this=this;
         _this.userinfo.encryptedData=res.encryptedData;
             _this.userinfo.iv=res.iv;
@@ -247,7 +250,8 @@
             _this.$store.dispatch('getMyWxInfo', _this.userinfo.infos);
             console.log(_this.$store.state.myWxInfo);
       },
-      getOpenId(){  //获取用户的openid
+      //获取用户的openid
+      getOpenId(){  
         let _this=this;
         wx.login({
           success(res) {
@@ -277,7 +281,7 @@
                       age: 20,
                       register_date: "20190603",
                       avatarID: "111",
-                      description: "哈哈哈",
+                      description: "不纠结，不抱怨，不后悔~",
                       mailbox: "2434740987@qq.com",
                       last_login_time: "20190604"     
                     })
@@ -288,6 +292,21 @@
                   .catch(function (error) {
                     console.log(error);
                   });
+
+
+                  _this.$fly.get('http://106.14.46.10:8081/MakeupYou/user/findOne/' + _this.$store.state.openId)
+                  .then(function (response) {
+                    console.log(response.data);
+                    console.log("获取用户资料成功");
+                    
+                    _this.$store.state.myCosInfo = response.data;
+                    console.log(_this.$store.state.myCosInfo);
+                    console.log("将返回的资料赋值给_this.$store.state.myCosInfo成功！");     
+                  })
+                  .catch(function (error) {
+                    console.log(error);
+                  });
+
                 }
               })
             } else {
@@ -320,9 +339,11 @@
 						content: '哇！好美！'
 					}
       },
+      //tab换页
       tabClick(e) {
         this.activeIndex = e.currentTarget.id;
       },
+      //点赞
       toLike1(i){
         if(this.like1 == false){
           this.like1 = true;
@@ -335,6 +356,7 @@
           this.newDynamics[i].like -= 1;
         }
       },
+      //收藏
       toCollection1(i){
         if(this.collection1 == false){
           this.collection1 = true;
@@ -347,6 +369,7 @@
           this.newDynamics[i].collection -= 1;
         }
       },
+      //点赞
       toLike2(i){
         if(this.like2 == false){
           this.like2 = true;
@@ -359,6 +382,7 @@
           this.hotDynamics[i].like -= 1;
         }
       },
+      //收藏
       toCollection2(i){
         if(this.collection2 == false){
           this.collection2 = true;
@@ -371,6 +395,7 @@
           this.hotDynamics[i].collection -= 1;
         }
       },
+      //转发
       toForward(){
         wx.showModal({
           title: '提示',
@@ -391,6 +416,7 @@
           }
         })
       },
+      //预览图片
       previewImg_new(i,j){
         wx.previewImage({
           current: this.newDynamics[i].images[j],
@@ -406,310 +432,34 @@
     },
     beforeMount(){
       this.isLogin();
+
+      let _this = this;
+      _this.$fly.get('http://106.14.46.10:8081/MakeupYou/post/findAllPostMessages')
+      .then(function (response) {
+        console.log(response);
+        _this.newDynamics = response.data;
+        console.log(_this.newDynamics);
+        console.log("成功获取数据赋值给newDynamics");
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
+      // _this.newDynamics.forEach( function(element, index) {
+        _this.$fly.get('http://106.14.46.10:8081/MakeupYou/post/findPostByID/1099841361')
+        .then(function (response) {
+          console.log(response);
+          // element = response.data;
+          // console.log(_this.newDynamics);
+          console.log("gggggggggggggggg");
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+      // });
     },
     mounted(){
       this.switches = ["最新", "热门"];
-      this.newDynamics = [
-				{
-				  userHeadURL: "https://i.loli.net/2019/05/29/5cee80022b26996770.png",
-				  userName: "초 심",
-				  publishTime: "今天23:22",
-				  content: "#好物推荐# ZOEVA #南瓜盘 198r!也是我用了一个冬天的眼影盘，红遍大江南北，使用次数最多，平时不知道用什么就会用它，每一个颜色都很实用，很好晕开，不怎么飞粉，南瓜色大地色日落妆容都妥妥的，现在好像还有六色mini的盘，超可爱的。",
-				  images: [
-				    "https://i.loli.net/2019/05/30/5cefc4b3cea5d28092.png",
-				   "https://i.loli.net/2019/05/30/5cefc536cd56730823.jpg",
-					 "https://i.loli.net/2019/05/30/5cefc536e815d22574.jpg",
-					 "https://i.loli.net/2019/05/30/5cefc536ed10480910.jpg",
-					 "https://i.loli.net/2019/05/30/5cefc537eb67259036.png"
-				  ],
-				  icon_like: "../../static/icon/like.png",
-				  icon_collection: "../../static/icon/collection.png",
-				  icon_forward: "../../static/icon/forward.png",
-				  like: 49,
-				  collection: 26,
-				  forward: 18,
-				  //评论列表
-				  comments: [
-				    {
-				      userName: '安妮',
-				      content: '配色真的很适合冬天！'
-				    },
-				    {
-				      userName: '817汉子',
-				      content: '这盘我已经快用光了！'
-				    },
-				    {
-				      userName: '付卡密',
-				      content: '大师球'
-				    }
-				  ]
-				},
-        {
-          userHeadURL: "https://i.loli.net/2019/05/29/5cee7e1a5ed2b65491.jpg",
-          userName: "Safe",
-          publishTime: "今天19:10",
-          content: "#妆容分享#今天主要是和大家分享一下我日常高光修容都用啥，没有高光修容的妆容可是没有灵魂的哈哈哈。修容：我一般用中间颜色修鼻子，右边颜色修饰脸部，这盘很方便，鼻子和面部都可以搞定～面部修容打在颧骨两侧和下颚角，少量多次，防止晕染的不自然。高光：鼻子不要直接连接一整条，在山根和鼻头处提亮就可以，颧骨不是很高的人化在颧骨处，颧骨高的人化在颧骨内侧，唇峰眉骨下巴处点一下高光，布灵布灵的。",
-          images: [
-            "https://i.loli.net/2019/05/29/5cee7e5f3f3d451764.png",
-            "https://i.loli.net/2019/05/29/5cee7e5f4150a66715.png",
-            "https://i.loli.net/2019/05/29/5cee7e5f5f8f558985.png",
-            "https://i.loli.net/2019/05/29/5cee7e5f6197d54870.png"
-         
-          ],
-          icon_like: "../../static/icon/like.png",
-          icon_collection: "../../static/icon/collection.png",
-          icon_forward: "../../static/icon/forward.png",
-          like: 34,
-          collection: 18,
-          forward: 12,
-          //评论列表
-          comments: [
-            {
-              userName: 'fukami',
-              content: '学到了！'
-            },
-            {
-              userName: '十一',
-              content: '这盘修容我也有！'
-            },
-            {
-              userName: '竹早静弥',
-              content: '怎么可以这么好看！'
-            }
-          ]
-        },
-        {
-          userHeadURL: "https://i.loli.net/2019/05/29/5cee7f416db7856715.png",
-          userName: "Shem",
-          publishTime: "今天18:45",
-          content: "#妆品推荐#NAKED #reloaded 💰 348。德云社女孩因为张云雷买的一盘！这盘老实说日常使用价值不高，喜欢画欧美妆的就很实用，日常妆就不怎么行，里面的能用的几个色又好像能够被替代，可是无奈它颜值高，买回来供着也开心",
-          images: [
-            "https://i.loli.net/2019/05/29/5cee7f705e2cc69933.png",
-           
-          ],
-          icon_like: "../../static/icon/like.png",
-          icon_collection: "../../static/icon/collection.png",
-          icon_forward: "../../static/icon/forward.png",
-          like: 45,
-          collection: 23,
-          forward: 10,
-          //评论列表
-          comments: [
-            {
-              userName: '卡密子',
-              content: '有点贵！'
-            },
-            {
-              userName: '夜空',
-              content: '颜色还是比较经典的哈'
-            },
-            {
-              userName: 'Chris',
-              content: '好看'
-            },
-            {
-              userName: '日尧cool',
-              content: '入了大理石盘，可是新手不知道该怎么搭配颜色，谢谢分享～'
-            }
-          ]
-        },
-        
-				{
-				  userHeadURL: "https://i.loli.net/2019/05/29/5cee7d6a45c0737392.png",
-				  userName: "Healer.",
-				  publishTime: "今天19:20",
-				  content: "#妆容分享#🍊橘子汽水妆容，夏天的妆真的很难画得让人觉得清爽的感觉，图中的妆容我都没有上粉底 只用了妆前+局部遮瑕 这样的妆感更轻薄。照片是我带妆半天回家拍的 都没有掉哈哈哈",
-				  images: [
-				    "https://i.loli.net/2019/05/29/5cee7d6a4064548026.png",
-				    "https://i.loli.net/2019/05/29/5cee7d6a4229970078.png",
-				    "https://i.loli.net/2019/05/29/5cee7d6a43f8d73963.png"
-				  ],
-				  icon_like: "../../static/icon/like.png",
-				  icon_collection: "../../static/icon/collection.png",
-				  icon_forward: "../../static/icon/forward.png",
-				  like: 42,
-				  collection: 15,
-				  forward: 12,
-				  //评论列表
-				  comments: [
-				    {
-				      userName: '坡皮',
-				      content: '这个眉毛这个眼睛这个鼻子这个嘴巴这张脸简直完美！'
-				    },
-				    {
-				      userName: 'Pikámo',
-				      content: '我真是太喜欢你这张脸了仙女'
-				    },
-				    {
-				      userName: '鲜甜御萝',
-				      content: '好看！'
-				    }
-				  ]
-				},
-        {
-          userHeadURL: "https://i.loli.net/2019/05/29/5cee8958b1d2d58452.jpg",
-          userName: "清风烈酒",
-          publishTime: "今天14:56",
-          content: "话不多说！上图！colourpop这盘sweet talk没啥可说的 直接买就对了粉粉嫩嫩的珊瑚盘 我今天画的时候可激动了！因为和我刚染的的粉毛太配了！反正这盘我觉得是我手里边所有cp里最好看的，审美也是最符合大众的，太适合夏天画了",
-          images: [
-            "https://i.loli.net/2019/05/29/5cee895a4426565212.png"
-          ],
-          icon_like: "../../static/icon/like.png",
-          icon_collection: "../../static/icon/collection.png",
-          icon_forward: "../../static/icon/forward.png",
-          like: 45,
-          collection: 34,
-          forward: 23,
-          //评论列表
-          comments: [
-            {
-              userName: 'Sain',
-              content: '美瞳也好美！'
-            },
-            {
-              userName: 'Rainstorm',
-              content: '第二格的土豆泥干了要怎么办'
-            },
-            {
-              userName: '付卡密',
-              content: '大师球'
-            },
-             {
-              userName: '回复 Rainstorm',
-              content: '一般是不会干的！到时候可以用酒精润一下。'
-            }
-          ]
-        }
-      ];
-      
-      this.hotDynamics = [
-        {
-          userHeadURL: "https://i.loli.net/2019/05/29/5cee8de72c73357510.png",
-          userName: "淡然",
-          publishTime: "今天14:49",
-          content: "#好物推荐#给大家种草这个眉笔！其实并不是很夸张的惊艳法，只不过用下来非常顺滑适合自己！它是眉笔➕眉粉➕眉刷，3头为一体。",
-          images: [
-            "https://i.loli.net/2019/05/29/5cee8e992031933482.png",
-          ],
-          icon_like: "../../static/icon/like.png",
-          icon_collection: "../../static/icon/collection.png",
-          icon_forward: "../../static/icon/forward.png",
-          like: 67,
-          collection: 27,
-          forward: 12,
-          //评论列表
-          comments: [
-            {
-              userName: '空口吃奶油',
-              content: '这个我也买了！'
-            },
-            {
-              userName: '鲜甜御萝',
-              content: '多少钱呐'
-            },
-            {
-              userName: '回复 鲜甜御萝',
-              content: '68r'
-            },
-            {
-              userName: '玩物丧志',
-              content: '已种草'
-            }
-          ]
-        },
-        {
-          userHeadURL: "https://i.loli.net/2019/05/29/5cee8de716f5c62782.png",
-          userName: "fukami",
-          publishTime: "今天12:20",
-          content: "#妆容分享#今天的眼妆，嘻嘻",
-          images: [
-            "https://i.loli.net/2019/05/29/5cee8eaeb3a8a75607.png",
-          ],
-          icon_like: "../../static/icon/like.png",
-          icon_collection: "../../static/icon/collection.png",
-          icon_forward: "../../static/icon/forward.png",
-          like: 70,
-          collection: 39,
-          forward: 30,
-          //评论列表
-          comments: [
-            {
-              yozora: '点赞',
-              content: '好哒好哒好哒好哒好哒好哒好哒好哒好哒好哒'
-            },
-            {
-              userName: '淡然',
-              content: '滤镜美'
-            },
-            {
-              userName: '鲜甜御萝',
-              content: '请教我画眼线！'
-            }
-          ]
-        },
-        {
-          userHeadURL: "https://i.loli.net/2019/05/29/5cee8de727be190265.png",
-          userName: "一只变强的hacker",
-          publishTime: "今天12:03",
-          content: "有没有什么好用的防晒推荐呐？适合男生夏天用的！昆明的太阳太毒了！",
-          images: [
-            "https://i.loli.net/2019/05/29/5cee8ec4b8a2259560.png",
-          ],
-          icon_like: "../../static/icon/like.png",
-          icon_collection: "../../static/icon/collection.png",
-          icon_forward: "../../static/icon/forward.png",
-          like: 45,
-          collection: 23,
-          forward: 16,
-          //评论列表
-          comments: [
-            {
-              userName: '一尺江山',
-              content: '没事，你已经够黑了：）'
-            },
-            {
-              userName: '往生山',
-              content: '安耐晒防晒喷雾'
-            },
-            {
-              userName: '唧唧唧唧',
-              content: '小金瓶很适合你'
-            }
-          ]
-        },
-        {
-          userHeadURL: "https://i.loli.net/2019/05/29/5cee8de72a22b75961.png",
-          userName: "zhang",
-          publishTime: "今天11:49",
-          content: "#好物推荐#这盘眼影盘太美了！大家一定要种草！配色炒鸡少女！适合夏天用❤",
-          images: [
-            "https://i.loli.net/2019/05/29/5cee8ed9ad4ac76362.png",
-            "https://i.loli.net/2019/05/29/5cee8ed9b611847144.png",
-            "https://i.loli.net/2019/05/29/5cee8ed9bb74b43894.png"
-          ],
-          icon_like: "../../static/icon/like.png",
-          icon_collection: "../../static/icon/collection.png",
-          icon_forward: "../../static/icon/forward.png",
-          like: 45,
-          collection: 23,
-          forward: 13,
-          //评论列表
-          comments: [
-            {
-              userName: '空口吃奶油',
-              content: '种草了！！'
-            },
-            {
-              userName: '鲜甜御萝',
-              content: '：这个颜色好美！'
-            },
-            {
-              userName: '往生山',
-              content: '已加入购物车。'
-            }
-          ]
-        }
-      ];
     }
   };
 </script>
