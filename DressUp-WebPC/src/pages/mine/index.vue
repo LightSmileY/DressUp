@@ -5,7 +5,7 @@
         <img src="@/assets/img/header.jpg">
       </div>
       <div class="myUserName">浅笑半离兮</div>
-      <div class="mySignature">不纠结，不抱怨，不后悔，不···<img title="编辑资料" src="@/assets/icon/edit.png"></div>
+      <div class="mySignature">不纠结，不抱怨，不后悔，不···<img title="编辑资料" src="@/assets/icon/edit.png" @click="editInfo"></div>
     </div>
     <div class="nav">
       <router-link class="item" to="/mine/">
@@ -37,15 +37,28 @@
     <div class="detail">
       <router-view/>
     </div>
+    <div class="editInfo" v-if="isEditInfo">
+      <c-info></c-info>
+    </div>
   </div>
 </template>
 
 <script>
+import CInfo from "@/components/info"
+
 export default {
   name: 'Mine',
   data () {
     return {
-      
+      isEditInfo: 0
+    }
+  },
+  components: {
+    CInfo
+  },
+  methods: {
+    editInfo(){
+      this.isEditInfo = !this.isEditInfo;
     }
   }
 };

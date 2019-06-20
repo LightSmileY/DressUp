@@ -4,12 +4,14 @@
 .index{
   min-height: 92vh;
 
+
   .container{
     position: relative;
+    top: 0;
+    left: 50%;
     width: 1070px;
-    margin: 0 auto;
+    margin-left: -535px;
     overflow: hidden;
-    // background-color: #FFD9D9;
 
     .main{
       position: relative;
@@ -17,7 +19,6 @@
       width: 800px;
       float: left;
       overflow: hidden;
-      // background-color: #FCC6C6;
       .tabbar{
         display: flex;
         width: 200px;
@@ -92,10 +93,10 @@
     }
 
     nav{
+      // left: 1030px;
       padding: 10px;
       width: 240px;
       height: 500px;
-      // background-color: #9BFAFD;
       float: right;
       border-radius: 3px;
       margin-top: 88px;
@@ -218,11 +219,25 @@
       }
     }
   }
-}
-.mask{
+  .loginMask{
     position: fixed;
+    top: 0;
+    left: 0;
     width: 100vw;
     height: 100vh;
     background-color: rgba(0,0,0,0.2);
     z-index: 10000;
+
+    .login{
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      margin-top: -200px;
+      margin-left: -200px;
+      width: 400px;
+      height: 400px;
+      box-shadow: 0 0 5px #696969;
+      background-color: #fff;
+    }
   }
+}

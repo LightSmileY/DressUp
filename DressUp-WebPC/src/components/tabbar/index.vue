@@ -42,11 +42,27 @@
       <!-- 登录/注册 -->
       <el-col :span="3">
         <div class="login-regist">
-          <span>登录</span>&nbsp;/&nbsp;
-          <span>注册</span>
+          <span @click="showLoginPage">登录</span>&nbsp;/&nbsp;
+          <span @click="showRegisterPage">注册</span>
         </div>
       </el-col>
     </el-row>
+
+    <div class="loginMask" v-if="isLogin">
+      <div class="login">
+        <input type="text" placeholder="用户名" v-model="uid">
+        <input type="text" placeholder="密码"  v-model="password">
+        <button @click="login">登录</button>
+      </div>
+    </div>
+
+    <div class="registerMask" v-if="isRegister">
+      <div class="register">
+        <input type="text" placeholder="用户名" v-model="uid">
+        <input type="text" placeholder="密码"  v-model="password">
+        <button @click="register">注册</button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -56,13 +72,93 @@
     name: 'App',
     data(){
       return{
-        search: ""
+        search: "",
+        isLogin: 0,
+        isRegister: 0
       }
     },
     methods: {
       onSubmit(){
         alert("hhhh");
+      },
+      showLoginPage(){
+        this.isLogin = !this.isLogin;
+      },
+      showRegisterPage(){
+        this.isRegister = !this.isRegister;
+      },
+      register(){
+        let _this = this;
+        _this.$axios.post('http://106.14.46.10:8081/MakeupYou/user/register',
+          _this.$qs.stringify({
+            uid: _this.userinfo.openid,
+            name: _this.userName,
+            password: "123456",
+            birthday: "",
+            sex: 0,
+            age: 0,
+            register_date: _this.$store.state.getTime(),
+            avatarID: _this.$store.state.myWxInfo.avatarUrl,
+            description: "",
+            mailbox: "",
+            last_login_time: _this.$store.state.getTime()     
+          })
+        )
+        .then(response => {
+          console.log(response);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+      },
+      login(){
+        let _this = this;
+        _this.$axios.post('http://106.14.46.10:8081/MakeupYou/user/login',
+          _this.$qs.stringify({
+            uid: _this.userinfo.openid,
+            name: _this.userName,
+            password: "123456",
+            birthday: "",
+            sex: 0,
+            age: 0,
+            register_date: _this.$store.state.getTime(),
+            avatarID: _this.$store.state.myWxInfo.avatarUrl,
+            description: "",
+            mailbox: "",
+            last_login_time: _this.$store.state.getTime()     
+          })
+        )
+        .then(response => {
+          console.log(response);
+          console.log("登录成功");
+          // 从服务器获取用户资料
+          _this.$axios.get('http://106.14.46.10:8081/MakeupYou/user/findUserByID/',_this.$qs.stringify({
+              userID: _this.userinfo.openid
+            })
+          )
+          .then(function (response) {
+            console.log(response.data);
+            console.log("从服务器获取用户资料成功");
+            
+            _this.$store.state.myCosInfo = response.data;
+            console.log(_this.$store.state.myCosInfo);
+            console.log("将服务器返回的资料赋值给_this.$store.state.myCosInfo成功！");
+
+            _this.getPosts();
+
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+        })
+        .catch(error => {
+          console.log(error);
+          console.log("登录失败");
+        });
       }
+    },
+    components: {
+
     }
   };
 </script>

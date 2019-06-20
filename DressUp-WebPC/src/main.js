@@ -7,11 +7,17 @@ import router from './router'
 import fastclick from 'fastclick'
 import axios from 'axios'
 import fancyBox from 'vue-fancybox'
+import qs from 'qs'
+import store from './store/store'
 
 
 fastclick.attach(document.body)
 
 Vue.config.productionTip = false
+
+Vue.prototype.$axios = axios;
+Vue.prototype.$qs = qs;
+Vue.prototype.$store = store;
 
 Vue.use(ElementUI, { size: 'small', zIndex: 3000 });
 

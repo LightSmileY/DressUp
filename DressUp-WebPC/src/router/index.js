@@ -34,12 +34,12 @@ export default new Router({
           component: Posts
         },
         {
-          path: '/mine/attent',
+          path: '/mine/collections',
           name: 'Collections',
           component: Collections
         },
         {
-          path: '/mine/collections',
+          path: '/mine/attent',
           name: 'Attent',
           component: Attent
         },

@@ -2,7 +2,7 @@
   <div class="dymamic">
     <div v-for="item in 3" class="dymamicList">
       <!-- 用户信息及关注按钮 -->
-      <div class="user">
+      <div class="user-info">
         <img src="@/assets/img/header.jpg" alt="头像" class="header">
         <div class="name-time">
           <div class="userName">浅笑半离兮</div>

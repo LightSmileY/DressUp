@@ -1,5 +1,5 @@
 <template>
-  <div class="mine">
+  <div class="post">
     <c-dymamic></c-dymamic>
   </div>
 </template>
@@ -8,7 +8,7 @@
 import CDymamic from '@/components/dymamic';
 
 export default {
-  name: 'Mine',
+  name: 'post',
   data () {
     return {
       
@@ -22,7 +22,8 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
-  .mine{
+  .post{
     width: 85%;
+    margin: 20px auto;
   }
 </style>

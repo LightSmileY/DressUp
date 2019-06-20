@@ -55,4 +55,32 @@
       color: #f00;
     }
   }
+  .loginMask,
+  .registerMask{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0,0,0,0.2);
+    z-index: 10000;
+
+    .login,
+    .register{
+      @include flex-center(column);
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      margin-top: -200px;
+      margin-left: -200px;
+      width: 400px;
+      height: 400px;
+      box-shadow: 0 0 5px #696969;
+      background-color: #fff;
+
+      input{
+        display: block;
+      }
+    }
+  }
 }

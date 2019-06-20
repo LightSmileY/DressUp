@@ -22,7 +22,7 @@
           <button class="new">最新</button>
           <button class="hot">热门</button>
         </div>
-        <div class="write" title="发表帖子">
+        <div class="write" title="发表帖子" @click="publish">
           <img src="@/assets/icon/edit.png">
         </div>
         <div class="new-dymamics">
@@ -99,14 +99,19 @@
           
         </div>
       </nav>
+      <div class="publishMask" v-if="isPublish">
+        <div class="publish">
+          <c-publish></c-publish>
+        </div>
+      </div>
     </div>
-    
   </div>
 </template>
 
 <script>
   import CDymamic from '@/components/dymamic';
   import CMessage from '@/components/message';
+  import CPublish from '@/components/publishPage';
 
   export default {
     name: 'Index',
@@ -117,6 +122,7 @@
         // file: '',
         // multiple:true,
         // formDate:""
+        isPublish: 0,
         isShowLike: 0,
         isShowCollection: 0,
         isShowComment: 0,
@@ -126,9 +132,13 @@
     },
     components: {
       CDymamic,
-      CMessage
+      CMessage,
+      CPublish
     },
     methods: {
+      publish(){
+        this.isPublish = !this.isPublish;
+      }
       // uploadFile(file){
       //   this.formDate.append('file', file.file);
       //   console.log(this.file);
