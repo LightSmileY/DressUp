@@ -29,7 +29,7 @@
                   <li class="nav">社区</li>
                 </router-link>
                 <router-link class="g-tabbar-item item2" to="/loveDressUp">
-                  <li class="nav">爱妆瓣</li>
+                  <li class="nav">妆瓣</li>
                 </router-link>
                 <router-link class="g-tabbar-item" to="/mine">
                   <li class="nav">个人中心</li>

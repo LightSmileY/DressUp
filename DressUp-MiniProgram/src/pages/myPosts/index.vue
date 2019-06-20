@@ -1,76 +1,138 @@
 <template>
-  <div class="myPosts">
-    <div class="masker" v-if="coment" @click="remove"></div>
+  <div class="container">
+    <div class="masker2" v-if="coment" @click="remove"></div>
     <div class="main">
-      <div class="dymamicList">
-        <ul>
-          <li v-for="(dymamic,index) in myDynamics" :key="index" wx:for-index="hello" class="dymamicList-li" >
-            <div class="user">
-              <img :src="dymamic.userHeadURL" class="user-header"/>
-              <div class="name-time">
-                <div class="name">{{dymamic.userName}}</div>
-                <div class="time">{{dymamic.publishTime}}</div>
-              </div>
-            </div>
-            <p class="content">{{dymamic.content}}</p>
-            <div class="images">
-              <img v-for="(image,index1) in dymamic.images" :key="index1" class="image" @click="previewImg(index,index1)" :src="image"/>
-            </div>
-            <div class="icons">
-              <div class="forward" @click="toForward">
-                <img class="forward-image" :src="dymamic.icon_forward">
-                <span>{{dymamic.forward}}</span>
-              </div>
-              <div class="cllection" @click="toCollection(index)">
-                <img :src="dymamic.icon_collection">
-                <span>{{dymamic.collection}}</span>
-              </div>
-              <div class="like" @click="toLike(index)">
-                <img :src="dymamic.icon_like">
-                <span>{{dymamic.like}}</span>
-              </div>
-            </div>
-            <div class="comment">
-              <ul class="comment-ul">
-                <li class="comment-li" v-for="(comment, index2) in dymamic.comments" :key="index2">
-                  <span class="username">{{comment.userName}}</span>：
-                  <span class="content">{{comment.content}}</span>
+      <div class="content">
+        <div>
+          <!-- tag分页 -->
+          <!-- *******************************************最新消息*************************************** -->
+          <div>
+            <div class="dymamicList">
+              <ul>
+                <li v-for="(dymamic,index) in newDynamics" :key="index" wx:for-index="hello" class="dymamicList-li" >
+                  <div class="user">
+                    <img :src="dymamic.userHeadURL" class="user-header"/>
+                    <div class="name-time">
+                      <div class="name">{{dymamic.userName}}</div>
+                      <div class="time">{{dymamic.publishTime}}</div>
+                    </div>
+                  </div>
+                  <div class="attent" @click="toAttent(index)">{{dymamic.isAttent}}</div>
+                  <p class="content">#{{dymamic.title}}#</p>
+                  <p class="content">{{dymamic.content}}</p>
+                  <div class="images">
+                    <img v-for="(image,index1) in dymamic.images" :key="index1" class="image" @click="previewImg_new(index,index1)" :src="image"/>
+                  </div>
+                  <div class="icons">
+                    <div class="forward">
+                      <img class="forward-image" :src="dymamic.icon_forward"  @click="toForward(index)">
+                      <span>{{dymamic.forward}}</span>
+                    </div>
+                    <div class="cllection" @click="toCollection(index)">
+                      <img :src="dymamic.isCollection">
+                      <span>{{dymamic.favorites}}</span>
+                    </div>
+                    <div class="like" @click="toLike(index)">
+                      <img :src="dymamic.isLike">
+                      <span>{{dymamic.likes}}</span>
+                    </div>
+                  </div>
+                  <div class="comment">
+                    <ul class="comment-ul">
+                      <li class="comment-li" v-for="(comment, index2) in dymamic.comments" :key="index2">
+                        <span class="username">{{comment.userName}}</span>：
+                        <span class="content">{{comment.message}}</span>
+                      </li>
+                    </ul>
+                    <button class="toComent" @click="toComent(index)">我也要评论</button>
+                    <!-- 评论框 -->
+                    <div class="coment" v-if="coment">
+                      <textarea autofocus="autofocus" rows="6" v-model="comment_content"></textarea>
+                      <button @click="toPublish()">发表</button>
+                    </div>
+                  </div>
                 </li>
               </ul>
-              <button class="toComent" @click="toComent">我也要评论</button>
             </div>
-          </li>
-        </ul>
+          </div>
+        </div>
       </div>
-    </div>
-    <!-- 评论框 -->
-    <div class="coment" v-if="coment">
-      <textarea autofocus="autofocus" rows="6"></textarea>
-      <button @click="toPublish">发表</button>
     </div>
   </div>
 </template>
 
 <script>
 
-  export default{
+  import Search from "@/components/search"
+  import SwitchBar from "@/components/switch"
+
+  export default {
+
     data () {
       return {
-        myDynamics: [],
+        // switches: [],
+        logoUrl: "../../static/icon/logo.png",
+        newDynamics:[],
+        hotDynamics: [],
+        comment_content: "",
+        // dymamicList1: [],
+        // dymamicList2: [],
+        tabs: [
+          {
+            name: "最新",
+            type: "1",
+            checked: true
+          },
+          {
+            name: "热门",
+            type: "2",
+            checked: true
+          }
+        ],
         activeIndex: 0,
-        icon_like: "",
-        icon_collection: "",
-        like: false,
-        collection: false,
-        coment: false
+        icon_like: "../../static/icon/like.png",
+        icon_collection: "../../static/icon/collection.png",
+        icon_forward: "",
+        like1: false,
+        collection1: false,
+        like2: false,
+        collection2: false,
+        coment: false,
+        login: true,
+        isCeng: true,
+        isShow1: true,
+        isShow2: false,
+        userId: "",
+        userinfo:{
+
+        },
+        openId: "",
+        index: 0
       }
     },
     components:{
-      
+
+    },
+    computed: {
+      navbarSliderClass() {
+        let that = this;
+        if (this.activeIndex == 0) {
+          this.isShow1 = true;
+          this.isShow2 = false;
+          return "navbar_slider_0";
+        }
+        if (this.activeIndex == 1) {
+          this.isShow1 = false;
+          this.isShow2 = true;
+          return "navbar_slider_1";
+        }
+        that.onload();
+      }
     },
     methods: {
       // 点击评论按钮
-      toComent(){
+      toComent(i){
+        this.index = i;
         this.coment = !this.coment;
       },
       //点击遮罩层
@@ -79,39 +141,158 @@
       },
       // 发表评论
       toPublish(){
-        setTimeout(function(){
-          wx.showToast({
-            title:'已评论！',
-            icon:'success',
-            duration: 1000
+        let _this = this;
+        _this.$fly.post('http://106.14.46.10:8081/MakeupYou/comments/addRecord',_this.$qs.stringify({
+            userID: _this.$store.state.openId,
+            postID: _this.newDynamics[_this.index].pid,
+            time: _this.$store.state.getTime(),
+            message: _this.comment_content
           })
-        },500)
+        )
+        .then(function (response) {
+          console.log(response);
+          console.log("评论成功！");
+          console.log(_this.index);
+          console.log(_this.newDynamics[_this.index].pid);
+          console.log(_this.comment_content);
+          setTimeout(function(){
+            wx.showToast({
+              title:'已评论！',
+              icon:'success',
+              duration: 1000
+            })
+          },500)
+          _this.comment_content = "";
+          _this.getPosts();
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
         this.coment = !this.coment;
       },
+      //tab换页
+      tabClick(e) {
+        this.activeIndex = e.currentTarget.id;
+        this.getPosts();
+      },
+      // 关注
+      toAttent(i){
+        let _this = this;
+        if(this.newDynamics[i].isAttent == "关注TA"){
+          //调用接口
+          _this.$fly.post('http://106.14.46.10:8081/MakeupYou/relation/addRelation',_this.$qs.stringify({
+              fansID: _this.userinfo.openid,
+              followsID: _this.newDynamics[i].uid
+            })
+          )
+          .then(function (response) {
+            console.log(response);
+            console.log("关注成功！");
+            _this.getPosts();
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+          this.newDynamics[i].isAttent = "已关注";
+        }
+        else{
+          _this.$fly.delete('http://106.14.46.10:8081/MakeupYou/relation/deleteRelation',_this.$qs.stringify({
+              fansID: _this.userinfo.openid,
+              followsID: _this.newDynamics[i].uid
+            })
+          )
+          .then(function (response) {
+            console.log(response);
+            console.log("取消关注！");
+            _this.getPosts();
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+          this.newDynamics[i].isAttent = "关注TA";
+        }
+      },
+      //点赞
       toLike(i){
-        if(this.like == false){
-          this.like = true;
-          this.myDynamics[i].icon_like = "../../static/icon/like-active.png";
-          this.myDynamics[i].like += 1;
+        let _this = this;
+        if(this.newDynamics[i].isLike == "../../static/icon/like.png"){
+          // 点赞
+          _this.$fly.post('http://106.14.46.10:8081/MakeupYou/likes/addRecord',_this.$qs.stringify({
+              userID: _this.userinfo.openid,
+              postID: _this.newDynamics[i].pid,
+              time: _this.$store.state.getTime()
+            })
+          )
+          .then(function (response) {
+            console.log(response);
+            console.log("点赞成功！");
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+          this.newDynamics[i].isLike = "../../static/icon/like-active.png";
+          this.newDynamics[i].likes += 1;
         }
         else{
-          this.like = false;
-          this.myDynamics[i].icon_like = "../../static/icon/like.png";
-          this.myDynamics[i].like -= 1;
+          // 取消点赞
+          _this.$fly.delete('http://106.14.46.10:8081/MakeupYou/likes/deleteRecord',_this.$qs.stringify({
+              userID: _this.userinfo.openid,
+              postID: _this.newDynamics[i].pid,
+              time: _this.$store.state.getTime()
+            })
+          )
+          .then(function (response) {
+            console.log(response);
+            console.log("取消点赞！");
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+          this.newDynamics[i].isLike = "../../static/icon/like.png";
+          this.newDynamics[i].likes -= 1;
         }
       },
+      //收藏
       toCollection(i){
-        if(this.collection == false){
-          this.collection = true;
-          this.myDynamics[i].icon_collection = "../../static/icon/collection-active.png";
-          this.myDynamics[i].collection += 1;
+        let _this = this;
+        if(this.newDynamics[i].isCollection == "../../static/icon/collection.png"){
+          // 收藏
+          _this.$fly.post('http://106.14.46.10:8081/MakeupYou/favorites/addRecord',_this.$qs.stringify({
+              userID: _this.userinfo.openid,
+              postID: _this.newDynamics[i].pid,
+              time: _this.$store.state.getTime()
+            })
+          )
+          .then(function (response) {
+            console.log(response);
+            console.log("收藏成功!");
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+          this.newDynamics[i].isCollection = "../../static/icon/collection-active.png";
+          this.newDynamics[i].favorites += 1;
         }
         else{
-          this.collection = false;
-          this.myDynamics[i].icon_collection = "../../static/icon/collection.png";
-          this.myDynamics[i].collection -= 1;
+          // 取消收藏
+          _this.$fly.delete('http://106.14.46.10:8081/MakeupYou/favorites/deleteRecord', _this.$qs.stringify({
+              userID: _this.userinfo.openid,
+              postID: _this.newDynamics[i].pid,
+              time: _this.$store.state.getTime()
+            })
+          )
+          .then(function (response) {
+            console.log(response);
+            console.log("取消收藏！");
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+          this.newDynamics[i].isCollection = "../../static/icon/collection.png";
+          this.newDynamics[i].favorites -= 1;
         }
       },
+      //转发
       toForward(){
         wx.showModal({
           title: '提示',
@@ -132,150 +313,85 @@
           }
         })
       },
-      previewImg(i,j){
+      //预览图片
+      previewImg_new(i,j){
         wx.previewImage({
-          current: this.myDynamics[i].images[j],
-          urls: this.myDynamics[i].images
+          current: this.newDynamics[i].images[j],
+          urls: this.newDynamics[i].images
+        });
+      },
+      previewImg_hot(i,j){
+        wx.previewImage({
+          current: this.hotDynamics[i].images[j],
+          urls: this.hotDynamics[i].images
+        });
+      },
+      getMyPosts(){
+        let _this = this;
+        _this.$fly.get('http://106.14.46.10:8081/MakeupYou/appService/getMainPage', _this.$qs.stringify({
+            userID: _this.$store.state.openId
+          })
+        )
+        .then(function (response) {
+          console.log(response);
+          _this.hotDynamics = response.data.sort(_this.$store.state.createComparison(response.data[0].likes)).reverse();
+          
+          for(let index in _this.newDynamics){
+
+            if (_this.newDynamics[index].isLike === false) {
+              _this.newDynamics[index].isLike = "../../static/icon/like.png";
+            }else {
+              _this.newDynamics[index].isLike = "../../static/icon/like-active.png";
+            }
+
+            if (_this.newDynamics[index].isCollection === false) {
+              _this.newDynamics[index].isCollection = "../../static/icon/collection.png";
+            }else {
+              _this.newDynamics[index].isCollection = "../../static/icon/collection-active.png";
+            }
+
+            if (_this.newDynamics[index].isAttent === false) {
+              _this.newDynamics[index].isAttent = "关注TA";
+            }else {
+              _this.newDynamics[index].isAttent = "已关注";
+            }
+          }
+          console.log(_this.newDynamics);
+          console.log("成功获取数据赋值给newDynamics");
+        })
+        .catch(function (error) {
+          console.log(error);
         });
       }
     },
+    onShow(){
+      this.getMyPosts();
+    },
+    beforeMount(){
+      console.log(this.$store.state.getTime());
+      this.getMyPosts();
+    },
     mounted(){
 
-      this.$fly.get('http://106.14.46.10:8081/MakeupYou/post/findPostsByUID/'+this.$store.state.openId)
-      .then(function (response) {
-        console.log(response);
-        // this.$store.dispatch('getMyCosInfo', response.data.subjects)
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-
-      this.myDynamics = [
-        {
-          userHeadURL: "https://i.loli.net/2019/05/30/5cefc15b3faed55121.png",
-          userName: ",",
-          publishTime: "今天8:01",
-          content: "#好物推荐#这盘眼影盘太美了！大家一定要种草！配色炒鸡少女！适合夏天用❤",
-					images: [
-            "https://i.loli.net/2019/05/30/5cefc1b15ec8112906.png",
-            "https://i.loli.net/2019/05/30/5cefc1b1759c316112.png",
-            "https://i.loli.net/2019/05/30/5cefc1b17bf8588000.png"
-          ],
-          like: 20,
-          collection: 8,
-          forward: 15,
-          icon_like: "../../static/icon/like.png",
-          icon_collection: "../../static/icon/collection.png",
-          icon_forward: "../../static/icon/forward.png",
-          //评论列表
-          comments: [
-            {
-              userName: '空口吃奶油',
-              content: '种草了！！'
-            },
-            {
-               userName: '鲜甜御萝',
-              content: '这个颜色好美！！'
-            },
-            {
-              userName: '往山',
-              content: '已加入购物车。'
-            },
-						{
-						  userName: '袁乾峰',
-						  content: '看你平常画的也超级美！'
-						},
-						{
-							userName: "。。",
-							content: "学到啦",
-						},
-						{
-							userName: "haphap",
-							 content: "果然好用",
-						},
-						{
-							userName: "往日夕",
-							content: "啦啦啦👩‍❤️‍👩",
-						},
-						{
-							userName: "百事可可",
-							content: "看到你的效果啦",
-						}
-          ]
-        },
-				{
-				  userHeadURL: "https://i.loli.net/2019/05/30/5cefc15b3faed55121.png",
-				  userName: ",",
-				  publishTime: "昨天18:11",
-				  content: "！我新入手的口红，可是没有买到阿马尼405！！^ _ ^",
-					images: [
-  				  "https://i.loli.net/2019/05/30/5cefcd844928713490.jpg",
-  				  "https://i.loli.net/2019/05/30/5cefcd84514c133155.jpg",
-  				  "https://i.loli.net/2019/05/30/5cefcd847beb572500.jpg",
-  					"https://i.loli.net/2019/05/30/5cefcd84841aa72127.jpg",
-  					"https://i.loli.net/2019/05/30/5cefcd849234e97408.jpg",
-  					"https://i.loli.net/2019/05/30/5cefcd849a83580128.jpg",
-  					"https://i.loli.net/2019/05/30/5cefcd849efa025421.jpg",
-  					"https://i.loli.net/2019/05/30/5cefcd84a265377935.jpg",
-  					"https://i.loli.net/2019/05/30/5cefcd8524ad350868.png"
-  				],
-				  like: 20,
-				  collection: 8,
-				  forward: 15,
-				  icon_like: "../../static/icon/like.png",
-				  icon_collection: "../../static/icon/collection.png",
-				  icon_forward: "../../static/icon/forward.png",
-				  //评论列表
-				  comments: [
-				    {
-				      userName: '小杨子',
-				      content: '羡慕羡慕呀，居然买到了这么多色号'
-				    },
-				    {
-				       userName: '仙女罗',
-				      content: '快带走！'
-				    },
-				    {
-				      userName: '倪妮',
-				      content: '下次继续抢购'
-				    },
-						{
-						  userName: '倪 i hi',
-						  content: '他们家的口红就是很润'
-						},
-						{
-							userName: "^ - ^",
-							content: "下次肯定能入手",
-						},
-						{
-							userName: "h嘻嘻",
-							 content: "阿玛尼忠实粉丝呀",
-						},
-						{
-							userName: "😁",
-							content: "超喜欢👩‍❤️‍👩",
-						},
-						{
-							userName: "村上春树",
-							content: "405真的太火咯，排队好多次都没有买到",
-						}
-				  ]
-				}
-				
-      ];
-    }   
+    }
   };
 </script>
 
 <style scoped>
+  /*----------------------整个页面-----------------------  */
+  .container{
+    margin: 0;
+    padding: 0;
+    background-color: #fff;
+  }
   .main{
     position: relative;
     width: 90%;
     margin: 0 auto;
   }
+
   .dymamicList-li{
     position: relative;
-    top: 0;
     padding: 15px 0;
     border-bottom: 1px solid #D3D3D3;
   }
@@ -305,6 +421,7 @@
     line-height: 20px;
   }
   .name-time .time{
+    margin-top: 3px;
     height: 15px;
     font-size: 10px;
   }
@@ -385,6 +502,12 @@
   .comment .toComent:active{
     background-color: #FFEDEB;
   }
+  /* .mask {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.3)
+  } */
   .coment {
     position: fixed;
     top: 20vh;
@@ -418,13 +541,59 @@
   .coment button:active {
     background-color: #FFB5B5;
   }
-  .masker{
+  .masker2{
     position: fixed;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: rgba(0, 0, 0, .2);
     z-index: 999999;
     margin: 0;
     padding: 0;
+  }
+  .masker1{
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    background-color: #fff;
+    z-index: 999999;
+    margin: 0;
+    padding: 0;
+    z-index: 999999999;
+  }
+  .masker1 img{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -50px;
+    margin-top: -170px;
+    width: 100px;
+    height: 100px;
+  }
+  .login button{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 90%;
+    height: 40px;
+    line-height: 40px;
+    margin-left: -45vw;
+    margin-top: 20px;
+    background-color: #FFC6C6;
+  }
+  .login:active{
+    background-color: #FFB7B7;
+  }
+  .attent{
+    position: absolute;
+    top: 15px;
+    right: 10px;
+    width: 45px;
+    height: 18px;
+    font-size: 12px;
+    line-height: 18px;
+    text-align: center;
+    border: 1px solid #FF8A8A;
+    border-radius: 5px;
+    background-color: #FFE9E9;
   }
 </style>

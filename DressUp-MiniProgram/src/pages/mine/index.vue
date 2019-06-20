@@ -26,9 +26,6 @@
   import Navi from "@/components/nav"
 
 
-  const appId="wx3f1f623fc2ee0247"   //开发者appid
-  const secret="ba99bfbbd14208328d7939dedadfcf96"  //开发者AppSecret(小程序密钥)
-
   export default{
     data () {
       return {
@@ -45,26 +42,74 @@
       itemClick(e) {
         wx.navigateTo({url: e.path})
       },
+      getMyPosts(){
+        let _this = this;
+        _this.$fly.get('http://106.14.46.10:8081/MakeupYou/post/findPostByUid',_this.$qs.stringify({
+            userID: _this.$store.state.openId
+          })
+        )
+        .then(function (response) {
+          console.log(response);
+          _this.newDynamics = response.data.reverse();
+          _this.entries[0].count = _this.newDynamics.length;
+          console.log("成功获取帖子列表长度" + _this.entries[0].count);
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+      },
+      getMyFocus(){
+        let _this = this;
+        // 获取我的所有关注
+        _this.$fly.get('http://106.14.46.10:8081/MakeupYou/relation/findFollows',_this.$qs.stringify({
+            userID: _this.$store.state.openId
+          })
+        )
+        .then(function (response) {
+          console.log(response);
+          _this.attentions = response.data;
+          _this.entries[1].count = _this.attentions.length;
+          console.log("获取我的粉丝列表长度为" + _this.entries[1].count);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+      },
+      getMyFans(){
+        let _this = this;
+        // 获取我的所有关注
+        _this.$fly.get('http://106.14.46.10:8081/MakeupYou/relation/findFans',_this.$qs.stringify({
+            userID: _this.$store.state.openId
+          })
+        )
+        .then(function (response) {
+          console.log(response);
+          _this.fans = response.data;
+          _this.entries[2].count = _this.attentions.length;
+          console.log("获取我的粉丝列表长度为" + _this.entries[2].count);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+      }
     },
-    beforeMount(){
+    onShow(){
       this.myInfo.avatarUrl = this.$store.state.myWxInfo.avatarUrl;
-      this.myInfo.nickName = this.$store.state.myWxInfo.nickName;
+      this.myInfo.nickName = this.$store.state.myCosInfo.name;
       this.myInfo.description = this.$store.state.myCosInfo.description;
-      
-
       this.entries = [
         {
-          count: 24,
+          count: 0,
           path: "../myPosts/main",
           theme: "帖子"
         },
         {
-          count: 9,
+          count: 0,
           path: "../myFocus/main",
           theme: "关注"
         },
         {
-          count: 32,
+          count: 0,
           path: "../myFans/main",
           theme: "粉丝"
         }
@@ -77,12 +122,24 @@
           front: "../../static/icon/front.png"
         },
         {
+          icon: "../../static/icon/like.png",
+          theme: "我的点赞",
+          path: "../myLike/main",
+          front: "../../static/icon/front.png"
+        },
+        {
           icon: "../../static/icon/collection.png",
           theme: "我的收藏",
           path: "../myCollection/main",
           front: "../../static/icon/front.png"
         }
       ]; 
+      this.getMyPosts();
+      this.getMyFocus();
+      this.getMyFans();
+    },
+    beforeMount(){
+      
     }
   };
 </script>

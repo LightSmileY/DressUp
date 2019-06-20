@@ -34,22 +34,28 @@
       }
     },
 		methods: {
-      //点击提交修改资料
+      //修改资料
 			toSubmit(){
         let _this = this;
-        _this.$fly.put('http://106.14.46.10:8081/MakeupYou/user/updateUser',
+        if(_this.myInfo.sex == "男"){
+          _this.myInfo.sex1 = 1;
+        }else{
+          _this.myInfo.sex1 = 2;
+        }
+        //修改资料
+        _this.$fly.put('http://106.14.46.10:8081/MakeupYou/user/update',
           _this.$qs.stringify({
             uid: _this.$store.state.openId,
-            username: _this.myInfo.name,
+            name: _this.myInfo.name,
             password: "123456",
             birthday: _this.myInfo.birthday,
-            sex: _this.myInfo.sex,
+            sex: _this.myInfo.sex1,
             age: 20,
             register_date: "20190603",
-            avatarID: "0000000001",
+            avatarID: _this.$store.state.myWxInfo.avatarUrl,
             description: _this.myInfo.description,
             mailbox: _this.myInfo.mailbox,
-            last_login_time: "20190604"     
+            last_login_time: _this.$store.state.getTime()
           })
         )
         .then(function (response) {
@@ -57,6 +63,9 @@
           _this.$store.dispatch('getMyCosInfo', _this.myInfo);
           console.log("更改后的资料成功赋值给我的自定义资料");
           setTimeout(function(){
+            wx.navigateBack({
+              delta: 1
+            })
             wx.showToast({
               title:'修改成功！',
               icon:'success',
@@ -81,12 +90,20 @@
 
     beforeMount() {
       let _this = this;
-      this.$fly.get('http://106.14.46.10:8081/MakeupYou/user/findOne/'+this.$store.state.openId)
+      //获取我的资料
+      this.$fly.get('http://106.14.46.10:8081/MakeupYou/user/findUserByID/',_this.$qs.stringify({
+          userID: _this.$store.state.openId
+        })
+      )
       .then(function (response) {
         console.log(response.data);
         console.log("获取用户资料成功");
-
         _this.myInfo = response.data;
+        if(_this.myInfo.sex == 1){
+          _this.myInfo.sex = "男";
+        }else{
+          _this.myInfo.sex = "女";
+        }
         console.log(_this.myInfo);
         console.log("将返回的资料赋值给myInfos成功！");     
       })
@@ -143,7 +160,7 @@
     height: 40px;
     font-size: 15px;
     line-height: 40px;
-    background-color: #FFACAC;
+    background-color: #FFB8B8;
     color: #fff;
     margin: 0 auto;
     border: none;

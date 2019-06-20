@@ -1,56 +1,97 @@
 <template>
-  <div class="message main">
-    <div class="theme">妆容</div>
-    <Makeup :arrayList = "collections"></Makeup>
+  <div class="main">
+    <ul class="like-ul">
+      <navigator :url="item.path" v-for="(item,index) in colections" class="like-li" :key="index">
+        <div class="user">
+          <img :src="item.userHeadURL" class="user-header"/>
+          <div class="name-time">
+            <div class="name">{{item.userName}}</div>
+            <div class="time">{{item.time}}</div>
+          </div>
+          <p>详情</p>
+        </div>
+        <div class="image">
+          <img src="https://i.loli.net/2019/05/29/5cee7731a3cc637454.png">
+        </div>
+        <div class="info">
+            <p>{{item.post.content}}</p>
+        </div>
+      </navigator>
+    </ul>
   </div>
 </template>
 
 <script>
-  import Makeup from "@/components/makeup"
 
   export default{
     data () {
       return {
-        collections: []
+        colections: []
       }
-    },
-    components:{
-      Makeup
     },
     methods: {
 
     },
+    beforeMount(){
+      let _this = this;
+      // 获取我的所有关注
+      _this.$fly.get('http://106.14.46.10:8081/MakeupYou/appService/getMyFavorites',_this.$qs.stringify({
+          userID: _this.$store.state.openId
+        })
+      )
+      .then(function (response) {
+        console.log(response);
+        _this.colections = response.data;
+        console.log("获取我的所有收藏成功！");
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    },
     mounted(){
-      this.collections = [
-				{
-				  name: "好品与好妆容",
-				  images: [
-				    "https://t1.picb.cc/uploads/2019/05/30/giNnFw.png",
-				    "https://t1.picb.cc/uploads/2019/05/30/giNiAW.png",
-				    "https://t1.picb.cc/uploads/2019/05/30/giNIwL.png"
-				  ],
-				  path: "../dressupDetail/main"
-				},
-        {
-          name: "新手妆容",
-          images: [
-            "https://i.loli.net/2019/05/29/5cee4b315f83933845.png",
-            "https://i.loli.net/2019/05/29/5cee4b31619ec62819.png",
-            "https://i.loli.net/2019/05/29/5cee4b3163d8066017.png"
-          ],
-          path: "../dressupDetail/main"
-        },
+      // this.colections = [
+      //   {
+      //     userName: "fllll",
+      //     userHeadURL: "https://i.loli.net/2019/05/29/5cee439e4d56441446.jpg",
+      //     publishTime: "今天22:13",
+      //     imageUrl: "https://i.loli.net/2019/05/29/5cee7731a3cc637454.png",
+      //     descri: "#好物推荐#这盘眼影盘太美了！大家一定要种草！配色炒鸡少女！适合夏天用❤",
+      //     path: "../dymamicDetail/main"
+      //   },
+      //   {
+      //     userName: "wok张",
+      //     userHeadURL: "https://i.loli.net/2019/05/29/5cee439ebbd9398911.jpg",
+      //     publishTime: "今天22:10",
+      //     imageUrl: "https://i.loli.net/2019/05/29/5cee7731a3cc637454.png",
+      //     descri: "#好物推荐#这盘眼影盘太美了！大家一定要种草！配色炒鸡少女！适合夏天用❤",
+      //     path: "../dymamicDetail/main"
+      //   },
+      //   {
+      //     userName: "齐金",
+      //     userHeadURL: "https://i.loli.net/2019/05/29/5cee439ebeea957653.png",
+      //     publishTime: "今天21:13",
+      //     imageUrl: "https://i.loli.net/2019/05/29/5cee7731a3cc637454.png",
+      //     descri: "#好物推荐#这盘眼影盘太美了！大家一定要种草！配色炒鸡少女！适合夏天用❤",
+      //     path: "../dymamicDetail/main"
+      //   },
+      //   {
+      //     userName: "MEta",
+      //     userHeadURL: "https://i.loli.net/2019/05/29/5cee439ed738a23447.png",
+      //     publishTime: "今天21:10",
+      //     imageUrl: "https://i.loli.net/2019/05/29/5cee7731a3cc637454.png",
+      //     descri: "#好物推荐#这盘眼影盘太美了！大家一定要种草！配色炒鸡少女！适合夏天用❤",
+      //     path: "../dymamicDetail/main"
+      //   },
+      //   {
+      //     userName: "休斯敦",
+      //     userHeadURL: "https://i.loli.net/2019/05/29/5cee439ed9ef885403.png",
+      //     publishTime: "今天20:43",
+      //     imageUrl: "https://i.loli.net/2019/05/29/5cee7731a3cc637454.png",
+      //     descri: "#好物推荐#这盘眼影盘太美了！大家一定要种草！配色炒鸡少女！适合夏天用❤",
+      //     path: "../dymamicDetail/main"
+      //   }
         
-        {
-          name: "常规化妆品化妆效果",
-          images: [
-            "https://i.loli.net/2019/05/29/5cee4c3bdb23e78229.png",
-            "https://i.loli.net/2019/05/29/5cee4c3c3a9cf12221.png",
-            "https://i.loli.net/2019/05/29/5cee4c3c3cd5c20275.png"
-          ],
-          path: "../dressupDetail/main"
-        }
-      ]
+      // ]
     }   
   };
 </script>
@@ -61,9 +102,79 @@
     width: 90%;
     margin: 0 auto;
   }
-  .theme{
-    font-size: 18px;
-    margin-top: 10px;
-    padding: 3px;
+  .like-li{
+    width: 100%;
+    border: 1px solid #CBCBCB;
+    border-radius: 8px;
+    margin: 15px 0;
+    overflow: hidden;
+  }
+  .user{
+    width: 100%;
+    margin: 8px 0;
+    overflow: hidden;
+  }
+  .user img{
+    width: 35px;
+    height: 35px;
+    margin: 0 10px 0 8px;
+    background-color: #FFBABA;
+    border-radius: 50%;
+    float: left;
+  }
+  .name-time{
+    height: 35px;
+    float: left;
+  }
+  .name-time .name{
+    height: 20px;
+    font-size: 14px;
+    line-height: 20px;
+  }
+  .name-time .time{
+    height: 15px;
+    font-size: 10px;
+  }
+  .user p{
+    color: #1B5EA0;
+    font-size: 13px;
+    float: right;
+    margin-right: 10px;
+  }
+  .content{
+    width: 94%;
+    margin: 0 auto;
+    font-size: 13px;
+  }
+  span:first-child{
+    margin-right: 3px;
+  }
+  .image{
+    width: 23vw;
+    height: 23vw;
+    float: left;
+  }
+  img{
+    width: 80%;
+    height: 80%;
+    margin: 10%;
+  }
+  .info{
+    width: 63vw;
+    height: 17vw;
+    float: right;
+    margin: 10px 10px 10px 0;
+    font-size: 12px;
+  }
+  .price{
+    width: 95%;
+    height: 9vw;
+    margin: 0 auto;
+  }
+  .price span{
+    font-size: 22px;
+    line-height: 9vw;
+    color: #f00;
+    float: left;
   }
 </style>

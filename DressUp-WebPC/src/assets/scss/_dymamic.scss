@@ -1,0 +1,177 @@
+@import "../../assets/scss/mixins";
+@import "../../assets/scss/variables";
+
+.dymamic{
+
+  .dymamicList{
+    background-color: #fff;
+    border-radius: 3px;
+    margin-bottom: 30px;
+    padding: 0 15px;
+    box-shadow: 0 0 4px #9C9C9C;
+    overflow: hidden;
+
+    .user{
+      float: left;
+      width: 100%;
+      height: 70px;
+      overflow: hidden;
+
+      .header{
+        width: 59px;
+        height: 59px;
+        margin: 10px;
+        border-radius: 50%;
+        border: 1px solid #D3D3D3;
+        float: left;
+        cursor: pointer;
+      }
+      .name-time{
+        width: 300px;
+        height: 60px;
+        margin: 10px;
+        float: left;
+        cursor: pointer;
+
+        .userName{
+          height: 35px;
+          font-size: 18px;
+          line-height: 35px;
+        }
+
+        .publishTime{
+          height: 25px;
+          font-size: 12px;
+          line-height: 25px;
+        }
+      }
+
+      .attent{
+        padding: 0;
+        border: 0;
+        background-color: #FF8E8E;
+        border-radius: 3px;
+        outline: none;
+        width: 70px;
+        height: 26px;
+        font-size: 13px;
+        margin: 27px;
+        float: right;
+        cursor: pointer;
+      }
+    }
+    
+    .mainDymamic{
+      float: left;
+      width: 100%;
+      margin: 8px 0 0 0;
+
+      .title{
+        font-size: 18px;
+        line-height: 35px;
+        margin: 0 10px;
+      }
+
+      .message{
+        font-size: 17px;
+        line-height: 28px;
+        margin-bottom: 8px;
+        margin: 0 10px;
+      }
+
+      .images{
+        width: 100%;
+        overflow: hidden;
+        cursor: pointer;
+
+        img{
+          width: 210px;
+          height: 210px;
+          margin: 10px;
+          float: left;
+        }
+      }
+    }
+
+    .operate{
+      float: right;
+      width: 300px;
+      height: 30px;
+      overflow: hidden;
+      padding: 5px;
+      line-height: 30px;
+
+      div{
+        margin-left: 25px;
+        float: left;
+        overflow: hidden;
+        @include flex-center();
+        cursor: pointer;
+
+        img{
+          width: 30px;
+          height: 30px;
+        }
+        span{
+          margin-left: 4px;
+          width: 40px;
+          height: 30px;
+          font-size: 18px;
+          line-height: 30px;
+        }
+      }
+    }
+
+    .comments{
+      float: left;
+      width: 100%;
+      margin: 0 auto;
+      overflow: hidden;
+
+      .comment{
+        font-size: 16px;
+        line-height: 25px;
+        margin: 0 10px;
+
+        .userName{
+          color: #19528F;
+          cursor: pointer;
+        }
+      }
+
+      #coInput{
+        display: block;
+        width: 95%;
+        font-size: 14px;
+        line-height: 20px;
+        border-radius: 3px;
+        margin: 5px auto;
+        padding: 4px 8px;
+      }
+
+      .toComment{
+        padding: 0;
+        border: 0;
+        outline: none;
+        background-color: #FFCACA;
+        height: 28px;
+        width: 70px;
+        margin: 5px 600px 10px;
+        line-height: 30px;
+        cursor: pointer;
+      }
+      
+      .toComment:hover{
+        background-color: #FFAFAF;
+      }
+
+      .toComment:active{
+        background-color: #FF8686;
+      }
+    }
+  }
+
+  .dymamicList:last-child{
+    margin-bottom: 0;
+  }
+}

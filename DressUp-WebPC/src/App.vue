@@ -28,11 +28,15 @@
 .g-header-container{
   position: fixed;
   width: 100%;
-  height: 60px;
-  z-index: 99999;
+  height: 8vh;
+  z-index: 999999999999;
 }
 .g-view-container{
   position: relative;
-  top: 80px;
+  top: 8vh;
+  background-image: url("~@/assets/img/bg.jpg");
+  background-size: 100% 92vh;
+  background-position: 0 8vh;
+  background-attachment: fixed;
 }
 </style>

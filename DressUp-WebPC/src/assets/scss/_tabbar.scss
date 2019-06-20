@@ -2,23 +2,23 @@
 @import "../../assets/scss/variables";
 
 .g-tabbar{
-  height: 60px;
+  height: 8vh;
   background-color: #fff;
   box-shadow: 5px 0 10px #C7C7C7;
   background-color: #fff;
   z-index: 1000000;
   color: #000;
   .logo{
-    height: 60px;
+    height: 8vh;
     @include flex-center(column);
     img{
       height: 95%;
     }
   }
   .search-nav{
-    height: 60px;
+    height: 8vh;
     .search{
-      height: 60px;
+      height: 8vh;
       @include flex-center(column);
       .el-input{
         width: 95%;
@@ -27,7 +27,7 @@
     .nav-bar{
       ul{
         display: flex;
-        height: 60px;
+        height: 8vh;
         width: 80%;
         margin: 0 auto;
         .g-tabbar-item{
@@ -46,7 +46,7 @@
     }
   }
   .login-regist{
-    height: 60px;
+    height: 8vh;
     @include flex-center();
     span{
       cursor: pointer;

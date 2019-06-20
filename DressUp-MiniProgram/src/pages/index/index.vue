@@ -27,10 +27,12 @@
                     <img :src="dymamic.userHeadURL" class="user-header"/>
                     <div class="name-time">
                       <div class="name">{{dymamic.userName}}</div>
-                      <div class="time">{{dymamic.postTime}}</div>
+                      <div class="time">{{dymamic.publishTime}}</div>
                     </div>
                   </div>
-                  <p class="content">#<span>{{dymamic.title}}</span>#{{dymamic.messagebody}}</p>
+                  <div class="attent" @click="toAttent1(index)">{{dymamic.isAttent}}</div>
+                  <p class="content">#{{dymamic.title}}#</p>
+                  <p class="content">{{dymamic.content}}</p>
                   <div class="images">
                     <img v-for="(image,index1) in dymamic.images" :key="index1" class="image" @click="previewImg_new(index,index1)" :src="image"/>
                   </div>
@@ -40,22 +42,27 @@
                       <span>{{dymamic.forward}}</span>
                     </div>
                     <div class="cllection" @click="toCollection1(index)">
-                      <img :src="dymamic.icon_collection">
-                      <span>{{dymamic.collection}}</span>
+                      <img :src="dymamic.isCollection">
+                      <span>{{dymamic.favorites}}</span>
                     </div>
                     <div class="like" @click="toLike1(index)">
-                      <img :src="dymamic.icon_like">
-                      <span>{{dymamic.like}}</span>
+                      <img :src="dymamic.isLike">
+                      <span>{{dymamic.likes}}</span>
                     </div>
                   </div>
                   <div class="comment">
                     <ul class="comment-ul">
                       <li class="comment-li" v-for="(comment, index2) in dymamic.comments" :key="index2">
                         <span class="username">{{comment.userName}}</span>：
-                        <span class="content">{{comment.content}}</span>
+                        <span class="content">{{comment.message}}</span>
                       </li>
                     </ul>
-                    <button class="toComent" @click="toComent">我也要评论</button>
+                    <button class="toComent" @click="toComent1(index)">我也要评论</button>
+                    <!-- 评论框 -->
+                    <div class="coment" v-if="coment">
+                      <textarea autofocus="autofocus" rows="6" v-model="comment_content"></textarea>
+                      <button @click="toPublish()">发表</button>
+                    </div>
                   </div>
                 </li>
               </ul>
@@ -65,7 +72,7 @@
           <div :hidden="activeIndex != 1" v-if="isShow2">
             <div class="dymamicList">
               <ul>
-                <li v-for="(dymamic,index) in hotDynamics" :key="index" class="dymamicList-li" >
+                <li v-for="(dymamic,index) in hotDynamics" :key="index" wx:for-index="hello" class="dymamicList-li" >
                   <div class="user">
                     <img :src="dymamic.userHeadURL" class="user-header"/>
                     <div class="name-time">
@@ -73,32 +80,39 @@
                       <div class="time">{{dymamic.publishTime}}</div>
                     </div>
                   </div>
+                  <div class="attent" @click="toAttent1(index)">{{dymamic.isAttent}}</div>
+                  <p class="content">#{{dymamic.title}}#</p>
                   <p class="content">{{dymamic.content}}</p>
                   <div class="images">
-                    <img v-for="(image,index1) in dymamic.images" :key="index1" class="image" @click="previewImg_hot(index,index1)" :src="image"/>
+                    <img v-for="(image,index1) in dymamic.images" :key="index1" class="image" @click="previewImg_new(index,index1)" :src="image"/>
                   </div>
                   <div class="icons">
-                    <div class="forward" @click="toForward(index)">
-                      <img class="forward-image" :src="dymamic.icon_forward">
+                    <div class="forward">
+                      <img class="forward-image" :src="dymamic.icon_forward"  @click="toForward(index)">
                       <span>{{dymamic.forward}}</span>
                     </div>
-                    <div class="cllection" @click="toCollection2(index)">
-                      <img :src="dymamic.icon_collection">
-                      <span>{{dymamic.collection}}</span>
+                    <div class="cllection" @click="toCollection1(index)">
+                      <img :src="dymamic.isCollection">
+                      <span>{{dymamic.favorites}}</span>
                     </div>
-                    <div class="like" @click="toLike2(index)">
-                      <img :src="dymamic.icon_like">
-                      <span>{{dymamic.like}}</span>
+                    <div class="like" @click="toLike1(index)">
+                      <img :src="dymamic.isLike">
+                      <span>{{dymamic.likes}}</span>
                     </div>
                   </div>
                   <div class="comment">
                     <ul class="comment-ul">
                       <li class="comment-li" v-for="(comment, index2) in dymamic.comments" :key="index2">
                         <span class="username">{{comment.userName}}</span>：
-                        <span class="content">{{comment.content}}</span>
+                        <span class="content">{{comment.message}}</span>
                       </li>
                     </ul>
-                    <button class="toComent" @click="toComent">我也要评论</button>
+                    <button class="toComent" @click="toComent1(index)">我也要评论</button>
+                    <!-- 评论框 -->
+                    <div class="coment" v-if="coment">
+                      <textarea autofocus="autofocus" rows="6" v-model="comment_content"></textarea>
+                      <button @click="toPublish()">发表</button>
+                    </div>
                   </div>
                 </li>
               </ul>
@@ -109,11 +123,7 @@
       <!-- 发表按钮 -->
       <Publish></Publish>
     </div>
-    <!-- 评论框 -->
-    <div class="coment" v-if="coment">
-      <textarea autofocus="autofocus" rows="6"></textarea>
-      <button @click="toPublish">发表</button>
-    </div>
+    
   </div>
 </template>
 
@@ -134,8 +144,9 @@
         logoUrl: "../../static/icon/logo.png",
         newDynamics:[],
         hotDynamics: [],
-        dymamicList1: [],
-        dymamicList2: [],
+        comment_content: "",
+        // dymamicList1: [],
+        // dymamicList2: [],
         tabs: [
           {
             name: "最新",
@@ -149,8 +160,8 @@
           }
         ],
         activeIndex: 0,
-        icon_like: "",
-        icon_collection: "",
+        icon_like: "../../static/icon/like.png",
+        icon_collection: "../../static/icon/collection.png",
         icon_forward: "",
         like1: false,
         collection1: false,
@@ -165,7 +176,8 @@
         userinfo:{
 
         },
-        openId: ""
+        openId: "",
+        index: 0
       }
     },
     components:{
@@ -244,9 +256,9 @@
             _this.userinfo.rawData=res.rawData;
             _this.userinfo.signature=res.signature;
             _this.userinfo.infos=res.userInfo;
+            _this.userName=res.userInfo.nickName;
             _this.getOpenId()
             _this.isCeng=false;
-            _this.userName=res.userInfo.nickName;
             _this.$store.dispatch('getMyWxInfo', _this.userinfo.infos);
             console.log(_this.$store.state.myWxInfo);
       },
@@ -265,48 +277,80 @@
                     grant_type:"authorization_code",  //默认authorization_code
                     js_code: res.code    //wx.login登录获取的code值
                 },
-                success(res) {
-                  _this.userinfo.openid=res.data.openid;
+                success(res) { 
                   _this.userinfo.session_key=res.data.session_key;
+                  _this.userinfo.openid=res.data.openid;
 
                   _this.$store.dispatch('getOpenId', _this.userinfo.openid);
                   console.log(_this.$store.state.openId);
 
-                  _this.$fly.post('http://106.14.46.10:8081/MakeupYou/user/addUser',_this.$qs.stringify({
+                  console.log(_this.userName);
+
+                  //注册
+                  _this.$fly.post('http://106.14.46.10:8081/MakeupYou/user/register',_this.$qs.stringify({
                       uid: _this.userinfo.openid,
-                      username: _this.userName,
+                      name: _this.userName,
                       password: "123456",
-                      birthday: "19980822",
-                      sex: 1,
-                      age: 20,
-                      register_date: "20190603",
-                      avatarID: "111",
-                      description: "不纠结，不抱怨，不后悔~",
-                      mailbox: "2434740987@qq.com",
-                      last_login_time: "20190604"     
+                      birthday: "",
+                      sex: null,
+                      age: 0,
+                      register_date: _this.$store.state.getTime(),
+                      avatarID: _this.$store.state.myWxInfo.avatarUrl,
+                      description: "",
+                      mailbox: "",
+                      last_login_time: _this.$store.state.getTime()     
                     })
                   )
                   .then(function (response) {
                     console.log(response);
+
+                    // 登录
+                    _this.$fly.post('http://106.14.46.10:8081/MakeupYou/user/login',_this.$qs.stringify({
+                        uid: _this.userinfo.openid,
+                        name: _this.userName,
+                        password: "123456",
+                        birthday: "",
+                        sex: 0,
+                        age: 0,
+                        register_date: _this.$store.state.getTime(),
+                        avatarID: _this.$store.state.myWxInfo.avatarUrl,
+                        description: "",
+                        mailbox: "",
+                        last_login_time: _this.$store.state.getTime()     
+                      })
+                    )
+                    .then(function (response) {
+                      console.log(response);
+                      console.log("登录成功");
+
+                      // 从服务器获取用户资料
+                      _this.$fly.get('http://106.14.46.10:8081/MakeupYou/user/findUserByID/',_this.$qs.stringify({
+                          userID: _this.userinfo.openid
+                        })
+                      )
+                      .then(function (response) {
+                        console.log(response.data);
+                        console.log("从服务器获取用户资料成功");
+                        
+                        _this.$store.state.myCosInfo = response.data;
+                        console.log(_this.$store.state.myCosInfo);
+                        console.log("将服务器返回的资料赋值给_this.$store.state.myCosInfo成功！");
+
+                        _this.getPosts();
+
+                      })
+                      .catch(function (error) {
+                        console.log(error);
+                      });
+                    })
+                    .catch(function (error) {
+                      console.log(error);
+                      
+                    });
                   })
                   .catch(function (error) {
                     console.log(error);
                   });
-
-
-                  _this.$fly.get('http://106.14.46.10:8081/MakeupYou/user/findOne/' + _this.$store.state.openId)
-                  .then(function (response) {
-                    console.log(response.data);
-                    console.log("获取用户资料成功");
-                    
-                    _this.$store.state.myCosInfo = response.data;
-                    console.log(_this.$store.state.myCosInfo);
-                    console.log("将返回的资料赋值给_this.$store.state.myCosInfo成功！");     
-                  })
-                  .catch(function (error) {
-                    console.log(error);
-                  });
-
                 }
               })
             } else {
@@ -316,7 +360,8 @@
         })
       },
       // 点击评论按钮
-      toComent(){
+      toComent11(i){
+        this.index = i;
         this.coment = !this.coment;
       },
       //点击遮罩层
@@ -324,75 +369,313 @@
         this.coment = !this.coment;
       },
       // 发表评论
-      toPublish(){
-        setTimeout(function(){
-          wx.showToast({
-            title:'已评论！',
-            icon:'success',
-            duration: 1000
+      toPublish1(){
+        let _this = this;
+        _this.$fly.post('http://106.14.46.10:8081/MakeupYou/comments/addRecord',_this.$qs.stringify({
+            userID: _this.$store.state.openId,
+            postID: _this.newDynamics[_this.index].pid,
+            time: _this.$store.state.getTime(),
+            message: _this.comment_content
           })
-        },500)
+        )
+        .then(function (response) {
+          console.log(response);
+          console.log("评论成功！");
+          console.log(_this.index);
+          console.log(_this.newDynamics[_this.index].pid);
+          console.log(_this.comment_content);
+          setTimeout(function(){
+            wx.showToast({
+              title:'已评论！',
+              icon:'success',
+              duration: 1000
+            })
+          },500)
+          _this.comment_content = "";
+          _this.getPosts();
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
         this.coment = !this.coment;
-				this.newDynamics[0].comments[3] =
-					{
-						userName: '蓝颜浅语～',
-						content: '哇！好美！'
-					}
       },
       //tab换页
       tabClick(e) {
         this.activeIndex = e.currentTarget.id;
+        this.getPosts();
+      },
+      // 关注
+      toAttent1(i){
+        let _this = this;
+        if(this.newDynamics[i].isAttent == "关注TA"){
+          //调用接口
+          _this.$fly.post('http://106.14.46.10:8081/MakeupYou/relation/addRelation',_this.$qs.stringify({
+              fansID: _this.userinfo.openid,
+              followsID: _this.newDynamics[i].uid
+            })
+          )
+          .then(function (response) {
+            console.log(response);
+            console.log("关注成功！");
+            _this.getPosts();
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+          this.newDynamics[i].isAttent = "已关注";
+        }
+        else{
+          _this.$fly.delete('http://106.14.46.10:8081/MakeupYou/relation/deleteRelation',_this.$qs.stringify({
+              fansID: _this.userinfo.openid,
+              followsID: _this.newDynamics[i].uid
+            })
+          )
+          .then(function (response) {
+            console.log(response);
+            console.log("取消关注！");
+            _this.getPosts();
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+          this.newDynamics[i].isAttent = "关注TA";
+        }
       },
       //点赞
       toLike1(i){
-        if(this.like1 == false){
-          this.like1 = true;
-          this.newDynamics[i].icon_like = "../../static/icon/like-active.png";
-          this.newDynamics[i].like += 1;
+        let _this = this;
+        if(this.newDynamics[i].isLike == "../../static/icon/like.png"){
+          // 点赞
+          _this.$fly.post('http://106.14.46.10:8081/MakeupYou/likes/addRecord',_this.$qs.stringify({
+              userID: _this.userinfo.openid,
+              postID: _this.newDynamics[i].pid,
+              time: _this.$store.state.getTime()
+            })
+          )
+          .then(function (response) {
+            console.log(response);
+            console.log("点赞成功！");
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+          this.newDynamics[i].isLike = "../../static/icon/like-active.png";
+          this.newDynamics[i].likes += 1;
         }
         else{
-          this.like1 = false;
-          this.newDynamics[i].icon_like = "../../static/icon/like.png";
-          this.newDynamics[i].like -= 1;
+          // 取消点赞
+          _this.$fly.delete('http://106.14.46.10:8081/MakeupYou/likes/deleteRecord',_this.$qs.stringify({
+              userID: _this.userinfo.openid,
+              postID: _this.newDynamics[i].pid,
+              time: _this.$store.state.getTime()
+            })
+          )
+          .then(function (response) {
+            console.log(response);
+            console.log("取消点赞！");
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+          this.newDynamics[i].isLike = "../../static/icon/like.png";
+          this.newDynamics[i].likes -= 1;
         }
       },
       //收藏
       toCollection1(i){
-        if(this.collection1 == false){
-          this.collection1 = true;
-          this.newDynamics[i].icon_collection = "../../static/icon/collection-active.png";
-          this.newDynamics[i].collection += 1;
+        let _this = this;
+        if(this.newDynamics[i].isCollection == "../../static/icon/collection.png"){
+          // 收藏
+          _this.$fly.post('http://106.14.46.10:8081/MakeupYou/favorites/addRecord',_this.$qs.stringify({
+              userID: _this.userinfo.openid,
+              postID: _this.newDynamics[i].pid,
+              time: _this.$store.state.getTime()
+            })
+          )
+          .then(function (response) {
+            console.log(response);
+            console.log("收藏成功!");
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+          this.newDynamics[i].isCollection = "../../static/icon/collection-active.png";
+          this.newDynamics[i].favorites += 1;
         }
         else{
-          this.collection1 = false;
-          this.newDynamics[i].icon_collection = "../../static/icon/collection.png";
-          this.newDynamics[i].collection -= 1;
+          // 取消收藏
+          _this.$fly.delete('http://106.14.46.10:8081/MakeupYou/favorites/deleteRecord', _this.$qs.stringify({
+              userID: _this.userinfo.openid,
+              postID: _this.newDynamics[i].pid,
+              time: _this.$store.state.getTime()
+            })
+          )
+          .then(function (response) {
+            console.log(response);
+            console.log("取消收藏！");
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+          this.newDynamics[i].isCollection = "../../static/icon/collection.png";
+          this.newDynamics[i].favorites -= 1;
+        }
+      },
+      // 点击评论按钮
+      toComent2(i){
+        this.index = i;
+        this.coment = !this.coment;
+      },
+      //点击遮罩层
+      remove(){
+        this.coment = !this.coment;
+      },
+      // 发表评论
+      toPublish2(){
+        let _this = this;
+        _this.$fly.post('http://106.14.46.10:8081/MakeupYou/comments/addRecord',_this.$qs.stringify({
+            userID: _this.$store.state.openId,
+            postID: _this.hotDymamics[_this.index].pid,
+            time: _this.$store.state.getTime(),
+            message: _this.comment_content
+          })
+        )
+        .then(function (response) {
+          console.log(response);
+          console.log("评论成功！");
+          console.log(_this.index);
+          console.log(_this.hotDymamics[_this.index].pid);
+          console.log(_this.comment_content);
+          setTimeout(function(){
+            wx.showToast({
+              title:'已评论！',
+              icon:'success',
+              duration: 1000
+            })
+          },500)
+          _this.comment_content = "";
+          _this.getPosts();
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+        this.coment = !this.coment;
+      },
+      // 关注
+      toAttent2(i){
+        let _this = this;
+        if(this.hotDymamics[i].isAttent == "关注TA"){
+          //调用接口
+          _this.$fly.post('http://106.14.46.10:8081/MakeupYou/relation/addRelation',_this.$qs.stringify({
+              fansID: _this.userinfo.openid,
+              followsID: _this.hotDymamics[i].uid
+            })
+          )
+          .then(function (response) {
+            console.log(response);
+            console.log("关注成功！");
+            _this.getPosts();
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+          this.hotDymamics[i].isAttent = "已关注";
+        }
+        else{
+          _this.$fly.delete('http://106.14.46.10:8081/MakeupYou/relation/deleteRelation',_this.$qs.stringify({
+              fansID: _this.userinfo.openid,
+              followsID: _this.hotDymamics[i].uid
+            })
+          )
+          .then(function (response) {
+            console.log(response);
+            console.log("取消关注！");
+            _this.getPosts();
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+          this.hotDymamics[i].isAttent = "关注TA";
         }
       },
       //点赞
-      toLike2(i){
-        if(this.like2 == false){
-          this.like2 = true;
-          this.hotDynamics[i].icon_like = "../../static/icon/like-active.png";
-          this.hotDynamics[i].like += 1;
+      toLike12(i){
+        let _this = this;
+        if(this.hotDymamics[i].isLike == "../../static/icon/like.png"){
+          // 点赞
+          _this.$fly.post('http://106.14.46.10:8081/MakeupYou/likes/addRecord',_this.$qs.stringify({
+              userID: _this.userinfo.openid,
+              postID: _this.hotDymamics[i].pid,
+              time: _this.$store.state.getTime()
+            })
+          )
+          .then(function (response) {
+            console.log(response);
+            console.log("点赞成功！");
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+          this.hotDymamics[i].isLike = "../../static/icon/like-active.png";
+          this.hotDymamics[i].likes += 1;
         }
         else{
-          this.like2 = false;
-          this.hotDynamics[i].icon_like = "../../static/icon/like.png";
-          this.hotDynamics[i].like -= 1;
+          // 取消点赞
+          _this.$fly.delete('http://106.14.46.10:8081/MakeupYou/likes/deleteRecord',_this.$qs.stringify({
+              userID: _this.userinfo.openid,
+              postID: _this.hotDymamics[i].pid,
+              time: _this.$store.state.getTime()
+            })
+          )
+          .then(function (response) {
+            console.log(response);
+            console.log("取消点赞！");
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+          this.hotDymamics[i].isLike = "../../static/icon/like.png";
+          this.hotDymamics[i].likes -= 1;
         }
       },
       //收藏
-      toCollection2(i){
-        if(this.collection2 == false){
-          this.collection2 = true;
-          this.hotDynamics[i].icon_collection = "../../static/icon/collection-active.png";
-          this.hotDynamics[i].collection += 1;
+      toCollection12(i){
+        let _this = this;
+        if(this.hotDymamics[i].isCollection == "../../static/icon/collection.png"){
+          // 收藏
+          _this.$fly.post('http://106.14.46.10:8081/MakeupYou/favorites/addRecord',_this.$qs.stringify({
+              userID: _this.userinfo.openid,
+              postID: _this.hotDymamics[i].pid,
+              time: _this.$store.state.getTime()
+            })
+          )
+          .then(function (response) {
+            console.log(response);
+            console.log("收藏成功!");
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+          this.hotDymamics[i].isCollection = "../../static/icon/collection-active.png";
+          this.hotDymamics[i].favorites += 1;
         }
         else{
-          this.collection2 = false;
-          this.hotDynamics[i].icon_collection = "../../static/icon/collection.png";
-          this.hotDynamics[i].collection -= 1;
+          // 取消收藏
+          _this.$fly.delete('http://106.14.46.10:8081/MakeupYou/favorites/deleteRecord', _this.$qs.stringify({
+              userID: _this.userinfo.openid,
+              postID: _this.hotDymamics[i].pid,
+              time: _this.$store.state.getTime()
+            })
+          )
+          .then(function (response) {
+            console.log(response);
+            console.log("取消收藏！");
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+          this.hotDymamics[i].isCollection = "../../static/icon/collection.png";
+          this.hotDymamics[i].favorites -= 1;
         }
       },
       //转发
@@ -428,34 +711,65 @@
 			    current: this.hotDynamics[i].images[j],
 			    urls: this.hotDynamics[i].images
 			  });
-			}
-    },
-    beforeMount(){
-      this.isLogin();
-
-      let _this = this;
-      _this.$fly.get('http://106.14.46.10:8081/MakeupYou/post/findAllPostMessages')
-      .then(function (response) {
-        console.log(response);
-        _this.newDynamics = response.data;
-        console.log(_this.newDynamics);
-        console.log("成功获取数据赋值给newDynamics");
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-
-      // _this.newDynamics.forEach( function(element, index) {
-        _this.$fly.get('http://106.14.46.10:8081/MakeupYou/post/findPostByID/1099841361')
+			},
+      getPosts(){
+        let _this = this;
+        _this.$fly.get('http://106.14.46.10:8081/MakeupYou/appService/getMainPage', _this.$qs.stringify({
+            userID: _this.userinfo.openid   
+          })
+        )
         .then(function (response) {
           console.log(response);
-          // element = response.data;
-          // console.log(_this.newDynamics);
-          console.log("gggggggggggggggg");
+          // _this.newDynamics = response.data.sort(_this.$store.state.createComparison(response.data[0].publishTime)).reverse();
+          // _this.hotDynamics = response.data.sort(_this.$store.state.createComparison(response.data[0].likes)).reverse();
+          
+          _this.newDynamics = response.data.reverse();
+          _this.hotDynamics = response.data;
+          
+          for(let index in _this.newDynamics){
+
+            if (_this.newDynamics[index].isLike === false) {
+              _this.newDynamics[index].isLike = "../../static/icon/like.png";
+            }else {
+              _this.newDynamics[index].isLike = "../../static/icon/like-active.png";
+            }
+
+            if (_this.newDynamics[index].isCollection === false) {
+              _this.newDynamics[index].isCollection = "../../static/icon/collection.png";
+            }else {
+              _this.newDynamics[index].isCollection = "../../static/icon/collection-active.png";
+            }
+
+            if (_this.newDynamics[index].isAttent === false) {
+              _this.newDynamics[index].isAttent = "关注TA";
+            }else {
+              _this.newDynamics[index].isAttent = "已关注";
+            }
+          }
+          console.log(_this.newDynamics);
+          console.log("成功获取数据赋值给newDynamics");
         })
         .catch(function (error) {
           console.log(error);
         });
+      }
+    },
+    onShow(){
+      this.getPosts();
+    },
+    beforeMount(){
+      this.isLogin();
+      // _this.newDynamics.forEach( function(element, index) {
+        // _this.$fly.get('http://106.14.46.10:8081/MakeupYou/post/findPostByID/1099841361')
+        // .then(function (response) {
+        //   console.log(response);
+        //   // element = response.data;
+        //   // console.log(_this.newDynamics);
+        //   console.log("gggggggggggggggg");
+        // })
+        // .catch(function (error) {
+        //   console.log(error);
+        // });
       // });
     },
     mounted(){
@@ -588,6 +902,7 @@
     line-height: 20px;
   }
   .name-time .time{
+    margin-top: 3px;
     height: 15px;
     font-size: 10px;
   }
@@ -748,5 +1063,18 @@
   }
   .login:active{
     background-color: #FFB7B7;
+  }
+  .attent{
+    position: absolute;
+    top: 15px;
+    right: 10px;
+    width: 45px;
+    height: 18px;
+    font-size: 12px;
+    line-height: 18px;
+    text-align: center;
+    border: 1px solid #FF8A8A;
+    border-radius: 5px;
+    background-color: #FFE9E9;
   }
 </style>

@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import App from './App'
 import store from './store/store'
-import qs from 'qs';
+import qs from 'qs'
+import weiui from 'weiui'
 
 Vue.prototype.$qs = qs;
 Vue.prototype.$store = store;

@@ -1,0 +1,127 @@
+<template>
+  <div class="like">
+    <ul class="like-ul">
+      <div v-for="item in 5" class="like-li">
+        <div class="user">
+          <img class="user-header"/>
+          <div class="name-time">
+            <div class="name">淡然</div>
+            <div class="time">6.19</div>
+          </div>
+          <p>详情</p>
+        </div>
+        <div class="content">
+          <span>赞了我的帖子</span>
+        </div>
+        <div class="image">
+          <img/>
+        </div>
+        <div class="info">
+            <span>#妆品分享#</span>
+            <p>这是我新买的化妆品，分享给亲爱的小伙伴们！</p>
+        </div>
+      </div>
+    </ul>
+  </div>
+</template>
+
+<script>
+export default {
+  data () {
+    return {
+      
+    }
+  },
+  props: {
+    arrayList: Array
+  }
+};
+</script>
+
+<style lang="scss">
+  .like-li{
+    width: 95%;
+    border: 1px solid #A0A0A0;
+    border-radius: 3px;
+    margin: 10px auto;
+    overflow: hidden;
+    text-align: left;
+    background-color: #fff;
+
+    .user{
+      width: 100%;
+      margin: 5px 0;
+      overflow: hidden;
+
+      .user-header{
+        width: 30px;
+        height: 30px;
+        margin: 0 10px 0 8px;
+        background-color: #FFBABA;
+        border-radius: 50%;
+        float: left;
+      }
+
+      .name-time{
+        height: 30px;
+        width: 150px;
+        float: left;
+        // background-color: red;
+
+        .name{
+          height: 18px;
+          font-size: 13px;
+          line-height: 20px;
+        }
+
+        .time{
+          line-height: 12px;
+          font-size: 7px;
+        }
+      }
+
+      p{
+        color: #1B5EA0;
+        font-size: 13px;
+        line-height: 30px;
+        float: right;
+        margin-right: 10px;
+        // background-color: #BFFFFE;
+      }
+    }
+
+    .content{
+      width: 94%;
+      margin: 0 auto;
+      font-size: 12px;
+      line-height: 20px;
+      // background-color: #AAE4FF;
+
+      span:first-child{
+        margin-left: 3px;
+      }
+    }
+
+    .image{
+      width: 50px;;
+      height: 50px;;
+      float: left;
+      margin: 3px 0 5px 10px;;
+
+      img{
+        width: 100%;
+        height: 100%;
+      }
+    }
+    .info{
+      width: 200px;
+      height: 50px;
+      line-height: 15px;
+      float: right;
+      margin: 3px 10px 5px 0;
+      font-size: 12px;
+      // background-color: #B0FFF1;
+    }
+
+  }
+</style>

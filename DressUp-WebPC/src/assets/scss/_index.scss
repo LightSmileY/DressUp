@@ -1,0 +1,228 @@
+@import "../../assets/scss/mixins";
+@import "../../assets/scss/variables";
+
+.index{
+  min-height: 92vh;
+
+  .container{
+    position: relative;
+    width: 1070px;
+    margin: 0 auto;
+    overflow: hidden;
+    // background-color: #FFD9D9;
+
+    .main{
+      position: relative;
+      flex-direction: column;
+      width: 800px;
+      float: left;
+      overflow: hidden;
+      // background-color: #FCC6C6;
+      .tabbar{
+        display: flex;
+        width: 200px;
+        height: 30px;
+        margin: 40px auto 20px;
+        overflow: hidden;
+        box-shadow: 0 0 4px #9C9C9C;
+        border-radius: 4px;
+
+        button{
+          flex: 1;
+          margin: 0;
+          padding: 0;
+          border: 1px solid transparent;
+          outline: none;
+          width: 100px;
+          height: 100%;
+          float: left;
+          text-align: center;
+          line-height: 30px;
+          background-color: #fff;
+          cursor: pointer;
+        }
+
+        button:first-child{
+          border-radius: 4px 0 0 4px;
+        }
+
+        button:last-child{
+          border-radius: 0 4px 4px 0;
+        }
+
+        button:active{
+          background-color: #FF9A9A;
+        }
+      }
+
+      .write{
+        position: absolute;
+        top: 25px;
+        right: 100px;
+        width: 50px;
+        height: 50px;
+        border: 1px solid #D0D0D0;
+        border-radius: 50%;
+        background-color: #fff;
+        box-shadow: 0 0 4px #9C9C9C;
+        cursor: pointer;
+
+        img{
+          width: 60%;
+          height: 60%;
+          margin: 20%;
+        }
+      }
+
+      .write:hover{
+        background-color: #FFDEDE;
+      }
+
+      .new-dymamics,
+      .hot-dymamics{
+        width: 90%;
+        padding: 10px;
+        margin-bottom: 30px;
+      }
+
+      .hot-dymamics{
+        display: none;
+      }
+
+    }
+
+    nav{
+      padding: 10px;
+      width: 240px;
+      height: 500px;
+      // background-color: #9BFAFD;
+      float: right;
+      border-radius: 3px;
+      margin-top: 88px;
+      // background-color: #BCF5FF;
+
+      .Me{
+        @include flex-center(column);
+        width: 240px;
+        height: 180px;
+        background-color: #fff;
+        box-shadow: 0 0 4px #BABABA;
+        border-radius: 3px;
+        margin-bottom: 40px;
+
+
+        .myInfo{
+          @include flex-center(column);
+          flex: 2;
+          width: 100%;
+          background-image: url("~@/assets/img/bg.jpg");
+          background-size: 100% 100%;
+          border-bottom: 1px solid #D7D7D7;
+
+          .myHeader{
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 1px solid #929292;
+
+            img{
+              width: 100%;
+              height: 100%;
+              border-radius: 50%;
+            }
+          }
+
+          .myUserName{
+            margin: 5px;
+          }
+
+          .mySignature{
+            font-size: 12px;
+          }
+        }
+
+        .items{
+          width: 100%;
+          @include flex-center();
+          flex: 1;
+
+          dl{
+            display: 1;
+            width: 33.33%;
+            height: 100%;
+            @include flex-center(column);
+          }
+        }
+      }
+
+      .aboutMe{
+        position: absolute;
+        width: 240px;
+        height: 253px;
+        background-color: #fff;
+        list-style: none;
+        box-shadow: 0 0 4px #BABABA;
+        border-radius: 3px;
+
+        .title{
+          height: 45px;
+          line-height: 45px;
+          font-size: 18px;
+          text-align: center;
+          background-color: #FFE9E9;
+        }
+
+        .aboutMe-li{
+          height: 40px;
+          line-height: 40px;
+          border-bottom: 1px solid #EDEDED;
+          font-size: 16px;
+          text-align: center;
+          cursor: pointer;
+          transition: background-color 1s;
+          @include flex-center();
+
+          .icon{
+            width: 25px;
+            height: 25px;
+            margin: 10px;
+          }
+
+          .theme{
+            margin: 30px;
+          }
+
+          .messages{
+            position: absolute;
+            top: -220px;
+            right: 270px;
+            width: 300px;
+            height: 530px;
+            background-color: #fff;
+            box-shadow: 0 0 5px #FF9797;
+            border-radius: 5px;
+            z-index: 100000;
+            overflow: hidden;
+            background-color: #fff;
+            
+          }
+        }
+
+        .aboutMe-li:last-child{
+          border-bottom: 0;
+        }
+
+        .aboutMe-li:hover{
+          background-color: #BFFFF8;
+        }
+      }
+    }
+  }
+}
+.mask{
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0,0,0,0.2);
+    z-index: 10000;
+  }
