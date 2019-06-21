@@ -6,7 +6,7 @@ import 'element-ui/lib/theme-chalk/index.css';
 import router from './router'
 import fastclick from 'fastclick'
 import axios from 'axios'
-import fancyBox from 'vue-fancybox'
+// import fancyBox from 'vue-fancybox'
 import qs from 'qs'
 import store from './store/store'
 

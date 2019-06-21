@@ -38,21 +38,21 @@
       toSubmit(){
         let _this = this;
         if(_this.myInfo.sex == "男"){
-          _this.myInfo.sex1 = 1;
+          _this.myInfo.sex = 1;
         }else{
-          _this.myInfo.sex1 = 2;
+          _this.myInfo.sex = 2;
         }
         //修改资料
-        _this.$fly.put('http://106.14.46.10:8081/MakeupYou/user/update',
+        _this.$axios.put('http://106.14.46.10:8081/MakeupYou/user/update',
           _this.$qs.stringify({
-            uid: _this.$store.state.openId,
+            uid: _this.$store.state.myCosInfo.uid,
             name: _this.myInfo.name,
-            password: "123456",
+            password: _this.$store.state.myCosInfo.password,
             birthday: _this.myInfo.birthday,
-            sex: _this.myInfo.sex1,
+            sex: _this.myInfo.sex,
             age: 20,
-            register_date: "20190603",
-            avatarID: _this.$store.state.myWxInfo.avatarUrl,
+            register_date: _this.$store.state.getTime(),
+            avatarID: _this.$store.state.myCosInfo.avatarUrl,
             description: _this.myInfo.description,
             mailbox: _this.myInfo.mailbox,
             last_login_time: _this.$store.state.getTime()
@@ -91,9 +91,11 @@
     beforeMount() {
       let _this = this;
       //获取我的资料
-      this.$fly.get('http://106.14.46.10:8081/MakeupYou/user/findUserByID/',_this.$qs.stringify({
-          userID: _this.$store.state.openId
-        })
+      this.$axios.get('http://106.14.46.10:8081/MakeupYou/user/findUserByID/',{
+          params: {
+            userID: _this.$store.state.myCosInfo.uid,
+          }
+        }
       )
       .then(function (response) {
         console.log(response.data);
@@ -126,11 +128,13 @@
   };
 </script>
 
-<style scoped>
+<style lang="scss">
+
   .info-li{
+    margin: 0 auto;
     float: left;
-    height: 45px;
-    width: 100%;
+    height: 50px;
+    width: 90%;
     border-bottom: 1px solid #E8E8E8;
     list-style: none;
   }
@@ -153,6 +157,8 @@
     margin-right: 10px;
     font-size: 13px;
     line-height: 35px;
+    border: none;
+    outline: none;
   }
   button{
     position: relative;

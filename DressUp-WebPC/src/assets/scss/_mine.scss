@@ -55,7 +55,7 @@
     @include flex-center(column);
     margin-top: 20px;
     width: 150px;
-    height: 400px;
+    height: 300px;
     background-color: #A4F5FF;
     float: left;
     box-shadow: 0 0 4px #A8A8A8;
@@ -97,6 +97,8 @@
   }
 
   .editInfo{
+    text-align: center;
+    padding-top: 40px;
     position: fixed;
     top: 15vh;
     right: 150px;

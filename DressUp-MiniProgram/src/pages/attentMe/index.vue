@@ -34,7 +34,7 @@
       )
       .then(function (response) {
         console.log(response);
-        _this.attentions = response.data;
+        _this.attentions = response.data.reverse();
         console.log("获取我的粉丝成功！");
       })
       .catch(function (error) {

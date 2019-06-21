@@ -25,7 +25,7 @@
           <el-col :span="14">
             <div class="nav-bar">
               <ul>
-                <router-link class="g-tabbar-item" to="/">
+                <router-link class="g-tabbar-item" to="/community">
                   <li class="nav">社区</li>
                 </router-link>
                 <router-link class="g-tabbar-item item2" to="/loveDressUp">
@@ -42,27 +42,32 @@
       <!-- 登录/注册 -->
       <el-col :span="3">
         <div class="login-regist">
-          <span @click="showLoginPage">登录</span>&nbsp;/&nbsp;
-          <span @click="showRegisterPage">注册</span>
+          <router-link to="/login">
+            <span>登录</span>
+          </router-link>
+          &nbsp;/&nbsp;
+          <router-link to="/register">
+            <span>注册</span>
+          </router-link>
         </div>
       </el-col>
     </el-row>
 
-    <div class="loginMask" v-if="isLogin">
+    <!-- <div class="loginMask" v-if="isLogin">
       <div class="login">
-        <input type="text" placeholder="用户名" v-model="uid">
-        <input type="text" placeholder="密码"  v-model="password">
+        <input type="text" placeholder="用户名" v-model="uid1">
+        <input type="text" placeholder="密码"  v-model="password1">
         <button @click="login">登录</button>
       </div>
     </div>
 
     <div class="registerMask" v-if="isRegister">
       <div class="register">
-        <input type="text" placeholder="用户名" v-model="uid">
-        <input type="text" placeholder="密码"  v-model="password">
+        <input type="text" placeholder="用户名" v-model="uid2">
+        <input type="text" placeholder="密码"  v-model="password2">
         <button @click="register">注册</button>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -74,7 +79,11 @@
       return{
         search: "",
         isLogin: 0,
-        isRegister: 0
+        isRegister: 0,
+        uid1: "",
+        password1: "",
+        uid2: "",
+        password2: ""
       }
     },
     methods: {
@@ -91,14 +100,14 @@
         let _this = this;
         _this.$axios.post('http://106.14.46.10:8081/MakeupYou/user/register',
           _this.$qs.stringify({
-            uid: _this.userinfo.openid,
-            name: _this.userName,
-            password: "123456",
+            uid: _this.uid2,
+            name: "~",
+            password: _this.password2,
             birthday: "",
             sex: 0,
             age: 0,
             register_date: _this.$store.state.getTime(),
-            avatarID: _this.$store.state.myWxInfo.avatarUrl,
+            avatarID: "",
             description: "",
             mailbox: "",
             last_login_time: _this.$store.state.getTime()     
@@ -115,14 +124,14 @@
         let _this = this;
         _this.$axios.post('http://106.14.46.10:8081/MakeupYou/user/login',
           _this.$qs.stringify({
-            uid: _this.userinfo.openid,
-            name: _this.userName,
-            password: "123456",
+            uid: _this.uid1,
+            name: "~",
+            password: _this.password1,
             birthday: "",
             sex: 0,
             age: 0,
-            register_date: _this.$store.state.getTime(),
-            avatarID: _this.$store.state.myWxInfo.avatarUrl,
+            register_date: "",
+            avatarID: "",
             description: "",
             mailbox: "",
             last_login_time: _this.$store.state.getTime()     
@@ -132,9 +141,11 @@
           console.log(response);
           console.log("登录成功");
           // 从服务器获取用户资料
-          _this.$axios.get('http://106.14.46.10:8081/MakeupYou/user/findUserByID/',_this.$qs.stringify({
-              userID: _this.userinfo.openid
-            })
+          _this.$axios.get('http://106.14.46.10:8081/MakeupYou/user/findUserByID/',{
+              params: {
+                userID: _this.uid1
+              }
+            }
           )
           .then(function (response) {
             console.log(response.data);
@@ -143,9 +154,6 @@
             _this.$store.state.myCosInfo = response.data;
             console.log(_this.$store.state.myCosInfo);
             console.log("将服务器返回的资料赋值给_this.$store.state.myCosInfo成功！");
-
-            _this.getPosts();
-
           })
           .catch(function (error) {
             console.log(error);

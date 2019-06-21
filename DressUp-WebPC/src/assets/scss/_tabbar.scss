@@ -8,6 +8,7 @@
   background-color: #fff;
   z-index: 1000000;
   color: #000;
+  text-decoration: none;
   .logo{
     height: 8vh;
     @include flex-center(column);
@@ -30,6 +31,8 @@
         height: 8vh;
         width: 80%;
         margin: 0 auto;
+        color: #000;
+
         .g-tabbar-item{
           flex: 1;
           list-style: none;

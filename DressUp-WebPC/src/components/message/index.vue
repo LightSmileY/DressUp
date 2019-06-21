@@ -1,12 +1,13 @@
 <template>
   <div class="like">
     <ul class="like-ul">
-      <div v-for="item in 5" class="like-li">
+      <div class="title">{{title}}</div>
+      <div v-for="item in arrayList" class="like-li">
         <div class="user">
-          <img class="user-header"/>
+          <img :src="item.post.userHeadURL" class="user-header"/>
           <div class="name-time">
-            <div class="name">淡然</div>
-            <div class="time">6.19</div>
+            <div class="name">{{item.post.userName}}</div>
+            <div class="time">{{item.post.publishTime}}</div>
           </div>
           <p>详情</p>
         </div>
@@ -14,11 +15,11 @@
           <span>赞了我的帖子</span>
         </div>
         <div class="image">
-          <img/>
+          <img :src="item.post.images[0]"/>
         </div>
         <div class="info">
-            <span>#妆品分享#</span>
-            <p>这是我新买的化妆品，分享给亲爱的小伙伴们！</p>
+            <span>#{{item.post.title}}#</span>
+            <p>{{item.post.content}}</p>
         </div>
       </div>
     </ul>
@@ -33,6 +34,7 @@ export default {
     }
   },
   props: {
+    title: String,
     arrayList: Array
   }
 };

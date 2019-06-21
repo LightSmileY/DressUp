@@ -3,7 +3,7 @@
     <ul class="like-ul">
       <navigator :url="item.path" v-for="(item,index) in comments" class="like-li" :key="index">
         <div class="user">
-          <img :src="item.userHeadURL" class="user-header"/>
+          <img :src="item.post.userHeadURL" class="user-header"/>
           <div class="name-time">
             <div class="name">{{item.userName}}</div>
             <div class="time">{{item.time}}</div>
@@ -14,9 +14,10 @@
           <span>评论了我:&nbsp;{{item.comment}}</span>
         </div>
         <div class="image">
-          <img src="https://i.loli.net/2019/05/29/5cee7731a3cc637454.png">
+          <img :src="item.post.images[0]">
         </div>
         <div class="info">
+            <span>#{{item.post.title}}#</span>
             <p>{{item.post.content}}</p>
         </div>
       </navigator>
@@ -44,7 +45,7 @@
       )
       .then(function (response) {
         console.log(response);
-        _this.comments = response.data;
+        _this.comments = response.data.reverse();
         console.log("获取所有评论我的人成功！");
       })
       .catch(function (error) {

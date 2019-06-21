@@ -34,6 +34,7 @@ export default {
     height: 460px;
     background-color: #fff;
     box-shadow: 0 0 5px #838383;
+    z-index:9999999999;
 
     .title{
       width: 50%;

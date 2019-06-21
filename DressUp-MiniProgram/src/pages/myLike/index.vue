@@ -3,17 +3,18 @@
     <ul class="like-ul">
       <navigator :url="item.path" v-for="(item,index) in likes" class="like-li" :key="index">
         <div class="user">
-          <img :src="item.userHeadURL" class="user-header"/>
+          <img :src="item.post.userHeadURL" class="user-header"/>
           <div class="name-time">
-            <div class="name">{{item.userName}}</div>
-            <div class="time">{{item.time}}</div>
+            <div class="name">{{item.post.userName}}</div>
+            <div class="time">{{item.post.publishTime}}</div>
           </div>
           <p>详情</p>
         </div>
         <div class="image">
-          <img src="https://i.loli.net/2019/05/29/5cee7731a3cc637454.png">
+          <img :src="item.post.images[0]">
         </div>
         <div class="info">
+            <span>#{{item.post.title}}#</span>
             <p>{{item.post.content}}</p>
         </div>
       </navigator>
@@ -41,7 +42,7 @@
       )
       .then(function (response) {
         console.log(response);
-        _this.likes = response.data;
+        _this.likes = response.data.reverse();
         console.log("获取我的所有点赞成功！");
       })
       .catch(function (error) {

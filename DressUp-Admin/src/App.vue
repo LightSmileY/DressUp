@@ -1,23 +1,40 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <router-view/>
+	 
+	<router-view></router-view>
   </div>
 </template>
 
 <script>
+	import Login from './components/login'
+	// import MainHome from './pages/MainHome'
+	// import Top from './components/Top'
+	// import Asider from './components/Asider'
 export default {
-  name: 'App'
+  name: 'App',
+	components:{
+		Login,
+		// MainHome
+		// Top,
+		// Asider
+		
+	}
 }
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+	*{
+		margin: 0;
+		padding: 0;
+	}
+	.main{
+	position: fixed;
+	top:50px;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	display: flex;
+	background: #FFFFFF;
 }
+
 </style>

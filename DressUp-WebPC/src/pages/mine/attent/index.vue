@@ -1,11 +1,11 @@
 <template>
   <div class="attent">
-    <c-user></c-user>
+    <!-- <c-user></c-user> -->
   </div>
 </template>
 
 <script>
-import CUser from '@/components/user';
+// import CUser from '@/components/user';
 
 export default {
 
@@ -16,7 +16,7 @@ export default {
     }
   },
   components: {
-    CUser
+    // CUser
   }
 };
 </script>

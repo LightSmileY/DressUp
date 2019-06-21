@@ -61,7 +61,7 @@
                     <!-- 评论框 -->
                     <div class="coment" v-if="coment">
                       <textarea autofocus="autofocus" rows="6" v-model="comment_content"></textarea>
-                      <button @click="toPublish()">发表</button>
+                      <button @click="toPublish1()">发表</button>
                     </div>
                   </div>
                 </li>
@@ -107,11 +107,11 @@
                         <span class="content">{{comment.message}}</span>
                       </li>
                     </ul>
-                    <button class="toComent" @click="toComent1(index)">我也要评论</button>
+                    <button class="toComent" @click="toComent2(index)">我也要评论</button>
                     <!-- 评论框 -->
                     <div class="coment" v-if="coment">
                       <textarea autofocus="autofocus" rows="6" v-model="comment_content"></textarea>
-                      <button @click="toPublish()">发表</button>
+                      <button @click="toPublish2()">发表</button>
                     </div>
                   </div>
                 </li>
@@ -360,7 +360,7 @@
         })
       },
       // 点击评论按钮
-      toComent11(i){
+      toComent1(i){
         this.index = i;
         this.coment = !this.coment;
       },
@@ -599,7 +599,7 @@
         }
       },
       //点赞
-      toLike12(i){
+      toLike2(i){
         let _this = this;
         if(this.hotDymamics[i].isLike == "../../static/icon/like.png"){
           // 点赞
@@ -639,7 +639,7 @@
         }
       },
       //收藏
-      toCollection12(i){
+      toCollection2(i){
         let _this = this;
         if(this.hotDymamics[i].isCollection == "../../static/icon/collection.png"){
           // 收藏
@@ -720,11 +720,14 @@
         )
         .then(function (response) {
           console.log(response);
-          // _this.newDynamics = response.data.sort(_this.$store.state.createComparison(response.data[0].publishTime)).reverse();
-          // _this.hotDynamics = response.data.sort(_this.$store.state.createComparison(response.data[0].likes)).reverse();
-          
+
           _this.newDynamics = response.data.reverse();
           _this.hotDynamics = response.data;
+
+          // _this.newDynamics = response.data.sort(_this.$store.state.createComparison("publishTime"));
+          // _this.hotDynamics = response.data.sort(_this.$store.state.createComparison("favorites"));
+          
+          
           
           for(let index in _this.newDynamics){
 

@@ -4,7 +4,6 @@
     <div class="main">
       <div class="content">
         <div>
-          <!-- tag分页 -->
           <!-- *******************************************最新消息*************************************** -->
           <div>
             <div class="dymamicList">
@@ -181,14 +180,14 @@
         if(this.newDynamics[i].isAttent == "关注TA"){
           //调用接口
           _this.$fly.post('http://106.14.46.10:8081/MakeupYou/relation/addRelation',_this.$qs.stringify({
-              fansID: _this.userinfo.openid,
+              fansID: _this.$store.state.openId,
               followsID: _this.newDynamics[i].uid
             })
           )
           .then(function (response) {
             console.log(response);
             console.log("关注成功！");
-            _this.getPosts();
+            _this.getMyPosts();
           })
           .catch(function (error) {
             console.log(error);
@@ -197,7 +196,7 @@
         }
         else{
           _this.$fly.delete('http://106.14.46.10:8081/MakeupYou/relation/deleteRelation',_this.$qs.stringify({
-              fansID: _this.userinfo.openid,
+              fansID: _this.$store.state.openId,
               followsID: _this.newDynamics[i].uid
             })
           )
@@ -218,7 +217,7 @@
         if(this.newDynamics[i].isLike == "../../static/icon/like.png"){
           // 点赞
           _this.$fly.post('http://106.14.46.10:8081/MakeupYou/likes/addRecord',_this.$qs.stringify({
-              userID: _this.userinfo.openid,
+              userID: _this.$store.state.openId,
               postID: _this.newDynamics[i].pid,
               time: _this.$store.state.getTime()
             })
@@ -236,7 +235,7 @@
         else{
           // 取消点赞
           _this.$fly.delete('http://106.14.46.10:8081/MakeupYou/likes/deleteRecord',_this.$qs.stringify({
-              userID: _this.userinfo.openid,
+              userID: _this.$store.state.openId,
               postID: _this.newDynamics[i].pid,
               time: _this.$store.state.getTime()
             })
@@ -258,7 +257,7 @@
         if(this.newDynamics[i].isCollection == "../../static/icon/collection.png"){
           // 收藏
           _this.$fly.post('http://106.14.46.10:8081/MakeupYou/favorites/addRecord',_this.$qs.stringify({
-              userID: _this.userinfo.openid,
+              userID: _this.$store.state.openId,
               postID: _this.newDynamics[i].pid,
               time: _this.$store.state.getTime()
             })
@@ -276,7 +275,7 @@
         else{
           // 取消收藏
           _this.$fly.delete('http://106.14.46.10:8081/MakeupYou/favorites/deleteRecord', _this.$qs.stringify({
-              userID: _this.userinfo.openid,
+              userID: _this.$store.state.openId,
               postID: _this.newDynamics[i].pid,
               time: _this.$store.state.getTime()
             })
@@ -320,21 +319,15 @@
           urls: this.newDynamics[i].images
         });
       },
-      previewImg_hot(i,j){
-        wx.previewImage({
-          current: this.hotDynamics[i].images[j],
-          urls: this.hotDynamics[i].images
-        });
-      },
       getMyPosts(){
         let _this = this;
-        _this.$fly.get('http://106.14.46.10:8081/MakeupYou/appService/getMainPage', _this.$qs.stringify({
+        _this.$fly.get('http://106.14.46.10:8081/MakeupYou/appService/getMyPosts', _this.$qs.stringify({
             userID: _this.$store.state.openId
           })
         )
         .then(function (response) {
           console.log(response);
-          _this.hotDynamics = response.data.sort(_this.$store.state.createComparison(response.data[0].likes)).reverse();
+          _this.newDynamics = response.data.reverse();
           
           for(let index in _this.newDynamics){
 
