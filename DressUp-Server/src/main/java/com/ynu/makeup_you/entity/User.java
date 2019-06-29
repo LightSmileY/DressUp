@@ -1,8 +1,6 @@
 package com.ynu.makeup_you.entity;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Created on 2019/5/15
@@ -13,11 +11,10 @@ import java.util.Set;
 @Table(name="user")
 public class User {
     /**
-     * Id 自增
+     * Id
      */
     @Id
-    @GeneratedValue
-    private Integer uid;
+    private String uid;
 
     @Column(name="name")
     private String name;
@@ -41,14 +38,40 @@ public class User {
     private String last_login_time;
 
     /**
+     * 构造函数
+     */
+    public User(){
+
+    }
+
+    public User(String uid, String name, String password, String birthday, Integer sex, Integer age,
+                String register_date, String avatarID, String description, String mailbox, String last_login_time){
+        this.uid = uid;
+        this.name = name;
+        this.password = password;
+        if(birthday.equals(""))
+            birthday=null;
+        this.birthday = birthday;
+        this.sex = sex;
+        this.age = age;
+        this.register_date = register_date;
+        this.avatarID = avatarID;
+        this.description = description;
+        this.mailbox = mailbox;
+        if(last_login_time.equals(""))
+            last_login_time=null;
+        this.last_login_time = last_login_time;
+    }
+
+    /**
      * Getter and Setter
      */
 
-    public Integer getUid() {
+    public String getUid() {
         return uid;
     }
 
-    public void setUid(Integer uid) {
+    public void setUid(String uid) {
         this.uid = uid;
     }
 
@@ -97,7 +120,7 @@ public class User {
     }
 
     public void setBirthday(String birthday) {
-        if(birthday == "")
+        if(birthday.equals(""))
             birthday=null;
         this.birthday = birthday;
     }
@@ -131,7 +154,7 @@ public class User {
     }
 
     public void setLast_login_time(String last_login_time) {
-        if(last_login_time == "")
+        if(last_login_time.equals(""))
             last_login_time=null;
         this.last_login_time = last_login_time;
     }

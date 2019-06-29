@@ -7,6 +7,7 @@ import com.ynu.makeup_you.repository.PostMessageRepository;
 import com.ynu.makeup_you.repository.UserRepository;
 import com.ynu.makeup_you.service.FavoritesService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ import java.util.List;
  * Created on 2019/5/15 0015
  * BY hujianlong
  */
-
+@CrossOrigin
 @RestController
 @RequestMapping("/favorites")
 public class FavoritesController {
@@ -30,14 +31,9 @@ public class FavoritesController {
     @Autowired
     private UserRepository userRepository;
 
-    /**
-     * 得到某用户的所有收藏
-     * @param id
-     * @return
-     */
-
-    @GetMapping("/getFavoritesForUID/{userid}")
-    public List<PostMessage> getFavoritesForUser(@PathVariable("userid") Integer id){
+    // 得到某用户的所有收藏
+    @GetMapping("/getFavoritesByUID")
+    public List<PostMessage> getFavoritesForUser(@RequestParam("userID") String id){
         List<Favorites> favorites_list = favoritesService.getAllfavorites(id);
         List<PostMessage> post_list = new ArrayList<>();
         for (Favorites f:favorites_list){
@@ -46,14 +42,9 @@ public class FavoritesController {
         return post_list;
     }
 
-    /**
-     * 得到所有收藏此帖子的用户
-     * @param id
-     * @return
-     */
-
-    @GetMapping("/getUsersForPID/{postid}")
-    public List<User> getUsersForPostmsg(@PathVariable("postid") Integer id){
+    // 得到所有收藏此帖子的用户
+    @GetMapping("/getUsersForPID")
+    public List<User> getUsersForPostmsg(@RequestParam("postID") String id){
         List<Favorites> favorites_list = favoritesService.getAlluser(id);
         List<User> user_list = new ArrayList<>();
         for (Favorites f:favorites_list){
@@ -62,35 +53,18 @@ public class FavoritesController {
         return user_list;
     }
 
-
-    /**
-     * 增加一条收藏记录
-     * @param userID
-     * @param postID
-     */
-
+    // 增加一条收藏记录
     @PostMapping("/addRecord")
-    public void addRecord(@RequestParam("userID") Integer userID,
-                          @RequestParam("postID") Integer postID,
-                          @RequestParam("time") String time){
-        Favorites favorites = new Favorites();
-        favorites.setUserID(userID);
-        favorites.setPostID(postID);
-        favorites.setTime(time);
+    @Transactional
+    public void addRecord(Favorites favorites){
         favoritesService.addRecord(favorites);
     }
 
-    /**
-     * 删除一条收藏记录
-     * @param uid
-     * @param pid
-     */
-
-    @DeleteMapping("/deleteRecord/{uid,pid}")
-    public void deleteRecord(@PathVariable("uid") Integer uid, @PathVariable("pid") Integer pid){
+    // 删除一条收藏记录
+    @DeleteMapping("/deleteRecord")
+    @Transactional
+    public void deleteRecord(@RequestParam("userID") String uid, @RequestParam("postID") String pid){
         favoritesService.deleteRecord(uid,pid);
     }
-
-
 
 }

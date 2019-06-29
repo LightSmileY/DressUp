@@ -24,7 +24,17 @@ public class LikesServiceImpl implements LikesService {
     }
 
     @Override
-    public void deleteRecord(Integer userID, Integer postID) {
+    public void deleteByUID(String userID) {
+        likesRepository.deleteByUserID(userID);
+    }
+
+    @Override
+    public void deleteByPID(String postID) {
+        likesRepository.deleteByPostID(postID);
+    }
+
+    @Override
+    public void deleteRecord(String userID, String postID) {
         CommDoubleKey likesKey = new CommDoubleKey();
         likesKey.setUserID(userID);
         likesKey.setPostID(postID);
@@ -32,12 +42,24 @@ public class LikesServiceImpl implements LikesService {
     }
 
     @Override
-    public List<Likes> getAllLikes(Integer userID) {
+    public List<Likes> getAllLikes(String userID) {
         return likesRepository.findByUserID(userID);
     }
 
     @Override
-    public List<Likes> getAlluser(Integer postID) {
+    public List<Likes> getAlluser(String postID) {
         return likesRepository.findByPostID(postID);
+    }
+
+    @Override
+    public boolean isLikedByMe(String userID, String postID) {
+        CommDoubleKey cdk = new CommDoubleKey();
+        cdk.setUserID(userID);
+        cdk.setPostID(postID);
+       if (likesRepository.findById(cdk).orElse(null) == null){
+           return false;
+       }else{
+           return true;
+       }
     }
 }

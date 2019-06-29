@@ -11,6 +11,8 @@ import java.util.List;
  * BY hujianlong
  */
 public interface FavoritesRepository extends JpaRepository<Favorites, CommDoubleKey> {
-    public List<Favorites> findByUserID(Integer uid);
-    public List<Favorites> findByPostID(Integer postid);
+    void deleteByUserID(String userID);
+    void deleteByPostID(String postID);
+    List<Favorites> findByUserID(String userID);
+    List<Favorites> findByPostID(String postID);
 }

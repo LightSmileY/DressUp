@@ -2,10 +2,10 @@
   <div class="mine">
     <div class="myInfo">
       <div class="myHeader">
-        <img src="@/assets/img/header.jpg">
+        <img :src="myInfo.avatarID">
       </div>
-      <div class="myUserName">浅笑半离兮</div>
-      <div class="mySignature">不纠结，不抱怨，不后悔，不···<img title="编辑资料" src="@/assets/icon/edit.png" @click="editInfo"></div>
+      <div class="myUserName">{{myInfo.name}}</div>
+      <div class="mySignature">{{myInfo.description}}<img title="编辑资料" src="@/assets/icon/edit.png" @click="editInfo"></div>
     </div>
     <div class="nav">
       <router-link class="item" to="/mine/">
@@ -44,6 +44,7 @@ export default {
   name: 'Mine',
   data () {
     return {
+      myInfo: {},
       isEditInfo: 0,
       postNum: 0,
       attentNum: 0,
@@ -61,6 +62,7 @@ export default {
     setTimeout(() => {
       this.getPosts();
     },100);
+    this.myInfo = this.$store.state.myCosInfo;
   },
   methods: {
     editInfo(){

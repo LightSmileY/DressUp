@@ -13,6 +13,8 @@ import java.util.List;
  */
 
 public interface LikesRepository extends JpaRepository<Likes, CommDoubleKey> {
-    public List<Likes> findByUserID(Integer uid);
-    public List<Likes> findByPostID(Integer postid);
+    void deleteByUserID(String userID);
+    void deleteByPostID(String postID);
+    List<Likes> findByUserID(String uid);
+    List<Likes> findByPostID(String postid);
 }

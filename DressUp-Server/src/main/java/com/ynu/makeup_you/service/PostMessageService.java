@@ -10,12 +10,14 @@ import java.util.List;
  */
 public interface PostMessageService {
     /**
-     * 发帖、删除帖子、编辑帖子、根据id查询帖子，根据类型查询帖子，查询全部的帖子
+     * 发帖、删除帖子、编辑帖子、根据用户id查询帖子，根据类型查询帖子，查询全部的帖子
      */
-    public void addPost(PostMessage postMessage);
-    public void deletePost(Integer postid);
-    public void updatePost(PostMessage postMessage);
-    public PostMessage findPost(Integer postid);
-    public List<PostMessage> findTypesPost(Integer type);
-    public List<PostMessage> findAllPost();
+    void addPost(PostMessage postMessage);
+    void deletePostByUID(String userID);
+    void deletePost(String postid);
+    void updatePost(PostMessage postMessage);
+    PostMessage findPostsByID(String postID);
+    List<PostMessage> findPostsByUid(String uid);
+    List<PostMessage> findPostsByType(Integer type);
+    List<PostMessage> findAllPosts();
 }

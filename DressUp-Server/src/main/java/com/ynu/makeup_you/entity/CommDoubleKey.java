@@ -7,25 +7,25 @@ import java.io.Serializable;
  * BY hujianlong
  */
 public class CommDoubleKey implements Serializable {
-    private Integer userID;
-    private Integer postID;
+    private String userID;
+    private String postID;
 
     /**
      * Getter 和 Setter
      */
-    public Integer getUserID() {
+    public String getUserID() {
         return userID;
     }
 
-    public void setUserID(Integer userID) {
+    public void setUserID(String userID) {
         this.userID = userID;
     }
 
-    public Integer getPostID() {
+    public String getPostID() {
         return postID;
     }
 
-    public void setPostID(Integer postID) {
+    public void setPostID(String postID) {
         this.postID = postID;
     }
 

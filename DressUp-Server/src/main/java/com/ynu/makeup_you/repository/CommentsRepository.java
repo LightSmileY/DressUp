@@ -11,6 +11,8 @@ import java.util.List;
  * BY hujianlong
  */
 public interface CommentsRepository extends JpaRepository<Comments, CommDoubleKey> {
-    public List<Comments> findByUserID(Integer uid);
-    public List<Comments> findByPostID(Integer postid);
+    void deleteByUserID(String userID);
+    void deleteByPostID(String postID);
+    List<Comments> findByUserID(String uid);
+    List<Comments> findByPostID(String postid);
 }

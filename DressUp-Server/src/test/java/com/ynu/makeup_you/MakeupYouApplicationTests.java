@@ -6,6 +6,7 @@ import com.ynu.makeup_you.repository.FavoritesRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -23,13 +24,12 @@ public class MakeupYouApplicationTests {
     @Autowired
     private FavoritesRepository favoritesRepository;
 
+    @Value(value = "${data.filePath}")
+    public String filePath;
+
     @Test
-    public void saveFavoritesTest() throws Exception{
-        CommDoubleKey favoritesKey = new CommDoubleKey();
-        favoritesKey.setUserID(123);
-        favoritesKey.setPostID(456);
-        Favorites favorites = entityManager.find(Favorites.class, favoritesKey);
-        System.out.println(favorites);
+    public void configTest() throws Exception{
+        System.out.println(filePath);
     }
 
 }

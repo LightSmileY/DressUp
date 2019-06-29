@@ -82,7 +82,7 @@
         <div class="Me">
           <div class="myInfo">
             <div class="myHeader">
-              <img src="@/assets/img/header.jpg">
+              <img :src="myInfo.avatarID">
             </div>
             <div class="myUserName">{{myInfo.name}}</div>
             <div class="mySignature">{{myInfo.description}}</div>
@@ -219,7 +219,7 @@
           this.isShowAttent = 0;
           this.isShowForward = 0;
         },100);
-        this.$options.methods.getLikeMe();
+        this.$options.methods.getLikeMe(this);
       },
       collectMe(){
         setTimeout(() => {
@@ -229,7 +229,7 @@
           this.isShowAttent = 0;
           this.isShowForward = 0;
         },100);
-        this.$options.methods.getCollectMe();
+        this.$options.methods.getCollectMe(this);
       },
       comentMe(){
         setTimeout(() => {
@@ -239,7 +239,7 @@
           this.isShowAttent = 0;
           this.isShowForward = 0;
         },100);
-        this.$options.methods.getComentMe();
+        this.$options.methods.getComentMe(this);
       },
       attentMe(){
         setTimeout(() => {
@@ -249,7 +249,7 @@
           this.isShowCollection = 0;
           this.isShowForword = 0;
         },100);
-        this.$options.methods.getAttentMe();
+        this.$options.methods.getAttentMe(this);
       },  
       forwardMe(){
         setTimeout(() => {
@@ -293,7 +293,6 @@
       toAttent(i){
         let _this = this;
         if(this.newDynamics[i].isAttent == "关注TA"){
-          //调用接口
           _this.$axios.post('http://106.14.46.10:8081/MakeupYou/relation/addRelation',_this.$qs.stringify({
               fansID: _this.$store.state.myCosInfo.uid,
               followsID: _this.newDynamics[i].uid
@@ -539,8 +538,7 @@
           console.log(error);
         });
       },
-      getLikeMe(){
-        let _this = this;
+      getLikeMe(_this){
         _this.$axios.get('http://106.14.46.10:8081/MakeupYou/appService/getLikesMe',{
             params: {
               userID: _this.$store.state.myCosInfo.uid,
@@ -556,8 +554,7 @@
           console.log(error);
         });
       },
-      getCollectMe(){
-        let _this = this;
+      getCollectMe(_this){
         _this.$axios.get('http://106.14.46.10:8081/MakeupYou/appService/getFavoritesMe',{
             params: {
               userID: _this.$store.state.myCosInfo.uid,
@@ -573,8 +570,7 @@
           console.log(error);
         });
       },
-      getComentMe(){
-        let _this = this;
+      getComentMe(_this){
         _this.$axios.get('http://106.14.46.10:8081/MakeupYou/appService/getCommentsMe',{
             params: {
               userID: _this.$store.state.myCosInfo.uid,
@@ -590,8 +586,7 @@
           console.log(error);
         });
       },
-      getAttentMe(){
-        let _this = this;
+      getAttentMe(_this){
         _this.$axios.get('http://106.14.46.10:8081/MakeupYou/relation/findFans',{
             params: {
               userID: _this.$store.state.myCosInfo.uid,

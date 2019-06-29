@@ -13,26 +13,26 @@ import javax.persistence.Table;
 @Table(name="comments")
 @IdClass(CommDoubleKey.class)
 public class Comments {
-    private Integer userID;
-    private Integer postID;
+    private String userID;
+    private String postID;
     private String time;
-    private String messages;
+    private String message;
 
     @Id
-    public Integer getUserID() {
+    public String getUserID() {
         return userID;
     }
 
-    public void setUserID(Integer userID) {
+    public void setUserID(String userID) {
         this.userID = userID;
     }
 
     @Id
-    public Integer getPostID() {
+    public String getPostID() {
         return postID;
     }
 
-    public void setPostID(Integer postID) {
+    public void setPostID(String postID) {
         this.postID = postID;
     }
 
@@ -44,12 +44,12 @@ public class Comments {
         this.time = time;
     }
 
-    public String getMessages() {
-        return messages;
+    public String getMessage() {
+        return message;
     }
 
-    public void setMessages(String messages) {
-        this.messages = messages;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     /**
@@ -62,7 +62,7 @@ public class Comments {
                 "userID=" + userID +
                 ", postID=" + postID +
                 ", time='" + time + '\'' +
-                ", message='" + messages + '\'' +
+                ", message='" + message + '\'' +
                 '}';
     }
 }

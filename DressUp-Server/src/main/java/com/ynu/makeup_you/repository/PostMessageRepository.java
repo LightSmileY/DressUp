@@ -9,6 +9,7 @@ import java.util.List;
  * Created on 2019/5/15
  * BY hujianlong
  */
-public interface PostMessageRepository extends JpaRepository<PostMessage,Integer> {
-    public List<PostMessage> findByType(Integer type);
+public interface PostMessageRepository extends JpaRepository<PostMessage,String> {
+    List<PostMessage> findByUid(String uid);
+    List<PostMessage> findByType(Integer type);
 }

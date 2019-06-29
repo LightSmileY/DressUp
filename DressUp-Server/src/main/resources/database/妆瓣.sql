@@ -1,8 +1,10 @@
 /*==============================================================*/
 /* DBMS name:      MySQL 5.0                                    */
-/* Created on:     2019/5/15 星期三 下午 21:32:32                    */
+/* Created on:     2019/6/19 星期三 上午 9:37:15                     */
 /*==============================================================*/
 
+
+drop table if exists admin_role;
 
 drop table if exists admin_user;
 
@@ -14,25 +16,34 @@ drop table if exists image;
 
 drop table if exists likes;
 
-drop table if exists post;
-
 drop table if exists postMessage;
 
 drop table if exists relation;
 
+drop table if exists role;
+
 drop table if exists user;
+
+/*==============================================================*/
+/* Table: admin_role                                            */
+/*==============================================================*/
+create table admin_role
+(
+   admin_name           varchar(50) not null,
+   role_code            varchar(30) not null,
+   primary key (admin_name, role_code)
+);
 
 /*==============================================================*/
 /* Table: admin_user                                            */
 /*==============================================================*/
 create table admin_user
 (
-   id                   int not null,
-   name                 varchar(20) not null,
-   password             varchar(32) not null,
-   email                varchar(32),
-   last_login_time      datetime not null,
-   primary key (id)
+   name                 varchar(50) not null,
+   password             varchar(50) not null,
+   email                varchar(50),
+   last_login_time      datetime,
+   primary key (name)
 );
 
 /*==============================================================*/
@@ -40,8 +51,8 @@ create table admin_user
 /*==============================================================*/
 create table comments
 (
-   userID               int not null,
-   postID               int not null,
+   userID               varchar(50) not null,
+   postID               varchar(50) not null,
    message              text not null,
    time                 datetime not null,
    primary key (userID, postID)
@@ -52,8 +63,8 @@ create table comments
 /*==============================================================*/
 create table favorites
 (
-   userID               int not null,
-   postID               int not null,
+   userID               varchar(50) not null,
+   postID               varchar(50) not null,
    time                 datetime not null,
    primary key (userID, postID)
 );
@@ -63,7 +74,7 @@ create table favorites
 /*==============================================================*/
 create table image
 (
-   postID               int not null,
+   postID               varchar(50) not null,
    imgID                varchar(255) not null,
    primary key (postID, imgID)
 );
@@ -73,19 +84,8 @@ create table image
 /*==============================================================*/
 create table likes
 (
-   userID               int not null,
-   postID               int not null,
-   time                 datetime not null,
-   primary key (userID, postID)
-);
-
-/*==============================================================*/
-/* Table: post                                                  */
-/*==============================================================*/
-create table post
-(
-   userID               int not null,
-   postID               int not null,
+   userID               varchar(50) not null,
+   postID               varchar(50) not null,
    time                 datetime not null,
    primary key (userID, postID)
 );
@@ -95,8 +95,9 @@ create table post
 /*==============================================================*/
 create table postMessage
 (
-   pid                  int not null auto_increment,
-   postTime             date not null,
+   pid                  varchar(50) not null,
+   uid                  varchar(50),
+   post_time             datetime not null,
    type                 tinyint not null,
    title                varchar(50),
    messagebody          text not null,
@@ -108,9 +109,19 @@ create table postMessage
 /*==============================================================*/
 create table relation
 (
-   fans                 int not null,
-   follows              int not null,
+   fans                 varchar(50) not null,
+   follows              varchar(50) not null,
    primary key (fans, follows)
+);
+
+/*==============================================================*/
+/* Table: role                                                  */
+/*==============================================================*/
+create table role
+(
+   role_code            varchar(30) not null,
+   role_name            varchar(30) not null,
+   primary key (role_code)
 );
 
 /*==============================================================*/
@@ -118,20 +129,26 @@ create table relation
 /*==============================================================*/
 create table user
 (
-   uid                  int not null auto_increment,
+   uid                  varchar(50) not null,
    name                 varchar(50) not null,
    password             varchar(50) not null,
    birthday             date,
    sex                  smallint,
    age                  smallint,
    register_date        datetime not null,
-   avatarID             varchar(50),
+   avatarID             varchar(256),
    description          varchar(50),
    mailbox              varchar(50),
    last_login_time      datetime,
    primary key (uid),
    unique key AK_Key_2 (name)
 );
+
+alter table admin_role add constraint FK_Reference_13 foreign key (admin_name)
+      references admin_user (name) on delete restrict on update restrict;
+
+alter table admin_role add constraint FK_Reference_14 foreign key (role_code)
+      references role (role_code) on delete restrict on update restrict;
 
 alter table comments add constraint FK_Reference_7 foreign key (userID)
       references user (uid) on delete restrict on update restrict;
@@ -154,11 +171,8 @@ alter table likes add constraint FK_Reference_3 foreign key (userID)
 alter table likes add constraint FK_Reference_4 foreign key (postID)
       references postMessage (pid) on delete restrict on update restrict;
 
-alter table post add constraint FK_Reference_5 foreign key (userID)
+alter table postMessage add constraint FK_Reference_15 foreign key (uid)
       references user (uid) on delete restrict on update restrict;
-
-alter table post add constraint FK_Reference_6 foreign key (postID)
-      references postMessage (pid) on delete restrict on update restrict;
 
 alter table relation add constraint FK_Reference_11 foreign key (fans)
       references user (uid) on delete restrict on update restrict;

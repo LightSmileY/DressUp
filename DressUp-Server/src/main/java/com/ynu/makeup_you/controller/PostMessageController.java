@@ -1,119 +1,102 @@
 package com.ynu.makeup_you.controller;
 
+import com.alibaba.fastjson.JSONObject;
+import com.ynu.makeup_you.entity.Image;
 import com.ynu.makeup_you.entity.PostMessage;
-import com.ynu.makeup_you.entity.Posts;
-import com.ynu.makeup_you.repository.PostMessageRepository;
-import com.ynu.makeup_you.repository.PostsRepository;
+import com.ynu.makeup_you.service.ImageService;
 import com.ynu.makeup_you.service.PostMessageService;
-import com.ynu.makeup_you.service.PostsService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import java.util.ArrayList;
+//import java.text.SimpleDateFormat;
+//import java.util.Date;
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+//import java.util.UUID;
 
 /**
  * Created on 2019/5/16
  * BY hujianlong
+ * 对帖子进行操作的Controller，用户进行发帖，删除贴子，更新帖子
  */
-
+@CrossOrigin
 @RestController
 @RequestMapping("/post")
 public class PostMessageController {
-    /**
-     * 对用户的增删改查控制
-     */
-
     @Autowired
     private PostMessageService postMessageService;
     @Autowired
-    private PostMessageRepository postMessageRepository;
-    @Autowired
-    private PostsService postsService;
+    private ImageService imageService;
 
-    /**
-     * 发帖
-     * @param postTime
-     * @param type
-     * @param title
-     * @param messageBody
-     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(UploadController.class);
 
-    @PostMapping("/addPost")
-    public void addPost(@RequestParam("postTime") String postTime,
-                        @RequestParam("type") Integer type,
-                        @RequestParam("title") String title,
-                        @RequestParam("messageBody") String messageBody){
-        PostMessage postMessage = new PostMessage();
-        postMessage.setPost_time(postTime);
-        postMessage.setType(type);
-        postMessage.setTitle(title);
-        postMessage.setMessagebody(messageBody);
+    @Value(value = "${data.filePath}")
+    String filePath;
+
+    JSONObject jsonObject;
+
+    // 用户发表帖子
+    @PostMapping("/addRecord")
+    @Transactional
+    public Object addPost(PostMessage postMessage){
+//        //获取当前时间
+//        Date date = new Date();
+//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+//        String postTime = simpleDateFormat.format(date);
+//        // 生成一个id,UUID的变种
+//        int hashCodeV = UUID.randomUUID().toString().hashCode();
+//        if (hashCodeV < 0)
+//            hashCodeV=-hashCodeV;
+//        // 长度为10
+//        String pid = String.format("%010d",hashCodeV);
+        jsonObject = new JSONObject();
         postMessageService.addPost(postMessage);
+        jsonObject.put("postMessage",postMessage);
+        return jsonObject;
     }
 
-    /**
-     * 删除帖子
-     * @param postid
-     */
-    @DeleteMapping("/deletePost/{postid}")
-    public void deletePost(@PathVariable("postid") Integer postid){
-        postMessageService.deletePost(postid);
+    // 删除帖子
+    @DeleteMapping("/deleteRecord")
+    @Transactional
+    public void deletePost(@RequestParam("postID") String postID){
+        jsonObject = new JSONObject();
+        postMessageService.deletePost(postID);
+        jsonObject.put("message","删除成功!");
     }
 
-    /**
-     * 更新帖子
-     * @param postTime
-     * @param type
-     * @param title
-     * @param messageBody
-     */
-
-    @PutMapping("/updatePost")
-    public void updatePost(@RequestParam("postTime") String postTime,
-                        @RequestParam("type") Integer type,
-                        @RequestParam("title") String title,
-                        @RequestParam("messageBody") String messageBody){
-        PostMessage postMessage = new PostMessage();
-        postMessage.setPost_time(postTime);
-        postMessage.setType(type);
-        postMessage.setTitle(title);
-        postMessage.setMessagebody(messageBody);
+    // 用户（编辑）更新帖子
+    @PutMapping("/updateRecord")
+    @Transactional
+    public void updatePost(PostMessage postMessage){
+        jsonObject = new JSONObject();
         postMessageService.updatePost(postMessage);
+        jsonObject.put("message","更新成功!");
     }
 
-    /**
-     * 查询某用户发表的所有帖子
-     */
-    @GetMapping("/findPostsByUID/{uid}")
-    public List<PostMessage> findPostsByUid(@PathVariable("uid") Integer uid){
-        List<Posts> posts_list = postsService.getAllPosts(uid);
-        List<PostMessage> postMsg_list = new ArrayList<>();
-        for (Posts p:posts_list){
-            postMsg_list.add(postMessageRepository.findById(p.getPostID()).orElse(null));
-        }
-        return postMsg_list;
+    // 根据某一个特定的类型查询帖子
+    @GetMapping("/findAllPostsByType")
+    public List<PostMessage> findAllTypesPost(@RequestParam("type") Integer type){
+        return postMessageService.findPostsByType(type);
     }
 
-    /**
-     * 根据帖子的id查询
-     * @param id
-     * @return
-     */
-    @GetMapping("/findPostByID/{postid}")
-    public PostMessage findPostByID(@PathVariable("postid") Integer id){
-        return postMessageService.findPost(id);
+    // 根据用户的id查询其所发表的帖子
+    @GetMapping("/findPostByUid")
+    public List<PostMessage> findPostByID(@RequestParam("userID") String id){
+        return postMessageService.findPostsByUid(id);
     }
 
-    /**
-     * 根据类型查询帖子
-     * @param type
-     * @return
-     */
-
-    @GetMapping("/findAllTypesPost/{type}")
-    public List<PostMessage> findAllTypesPost(@PathVariable("type") Integer type){
-        return postMessageService.findTypesPost(type);
+    // 查询出全部的帖子
+    @GetMapping("/findAllPostMessages")
+    public List<PostMessage> findAllPostMessages(){
+        return postMessageService.findAllPosts();
     }
 
 }

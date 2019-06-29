@@ -12,3 +12,6 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+
+data:
+  filePath: "D:/pictureTest/"

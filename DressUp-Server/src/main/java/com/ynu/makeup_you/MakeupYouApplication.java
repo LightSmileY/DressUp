@@ -12,5 +12,4 @@ public class MakeupYouApplication {
     public static void main(String[] args) {
         SpringApplication.run(MakeupYouApplication.class, args);
     }
-
 }

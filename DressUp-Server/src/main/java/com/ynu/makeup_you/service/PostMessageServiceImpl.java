@@ -16,6 +16,14 @@ public class PostMessageServiceImpl implements PostMessageService{
 
     @Autowired
     private PostMessageRepository postMessageRepository;
+    @Autowired
+    private FavoritesService favoritesService;
+    @Autowired
+    private LikesService likesService;
+    @Autowired
+    private CommentsService commentsService;
+    @Autowired
+    private ImageService imageService;
 
     /**
      * 发帖
@@ -25,12 +33,24 @@ public class PostMessageServiceImpl implements PostMessageService{
         postMessageRepository.save(postMessage);
     }
 
+    @Override
+    public void deletePostByUID(String userID) {
+        List<PostMessage> postList = postMessageRepository.findByUid(userID);
+        for (PostMessage p:postList){
+            this.deletePost(p.getPid());
+        }
+    }
+
     /**
      * 删除帖
      */
     @Override
-    public void deletePost(Integer postid) {
-        postMessageRepository.deleteById(postid);
+    public void deletePost(String postID) {
+        favoritesService.deleteByPID(postID);
+        likesService.deleteByPID(postID);
+        commentsService.deleteByPID(postID);
+        imageService.deleteImgByPID(postID);
+        postMessageRepository.deleteById(postID);
     }
 
     /**
@@ -41,29 +61,28 @@ public class PostMessageServiceImpl implements PostMessageService{
         postMessageRepository.save(postMessage);
     }
 
-    /**
-     * 查询某一帖子
-     */
     @Override
-    public PostMessage findPost(Integer postid) {
-        return postMessageRepository.findById(postid).orElse(null);
+    public PostMessage findPostsByID(String postID) {
+        return postMessageRepository.findById(postID).orElse(null);
     }
 
     /**
-     * 根据类型查询帖子
+     * 根据用户id查询
+     * @param uid
+     * @return
      */
+    @Override
+    public List<PostMessage> findPostsByUid(String uid) {
+        return postMessageRepository.findByUid(uid);
+    }
 
     @Override
-    public List<PostMessage> findTypesPost(Integer type) {
+    public List<PostMessage> findPostsByType(Integer type) {
         return postMessageRepository.findByType(type);
     }
 
-    /**
-     *  查询全部的帖子
-     */
     @Override
-    public List<PostMessage> findAllPost() {
+    public List<PostMessage> findAllPosts() {
         return postMessageRepository.findAll();
     }
-
 }

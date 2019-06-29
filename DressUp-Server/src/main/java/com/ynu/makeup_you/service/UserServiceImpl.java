@@ -1,5 +1,6 @@
 package com.ynu.makeup_you.service;
 
+import com.ynu.makeup_you.entity.Favorites;
 import com.ynu.makeup_you.entity.User;
 import com.ynu.makeup_you.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,16 @@ public class UserServiceImpl implements UserService{
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private FavoritesService favoritesService;
+    @Autowired
+    private LikesService likesService;
+    @Autowired
+    private PostMessageService postMessageService;
+    @Autowired
+    private CommentsService commentsService;
+    @Autowired
+    private RelationService relationService;
 
     @Override
     public void addUser(User user) {
@@ -23,7 +34,13 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public void deleteUser(Integer id) {
+    public void deleteUser(String id) {
+        favoritesService.deleteByUID(id);
+        likesService.deleteByUID(id);
+        commentsService.deleteByUID(id);
+        postMessageService.deletePostByUID(id);
+        relationService.deleteByFans(id);
+        relationService.deleteByFollows(id);
         userRepository.deleteById(id);
     }
 
@@ -33,12 +50,17 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User findUser(Integer id) {
-        return userRepository.findById(id).orElse(null);
+    public List<User> findAllUser() {
+        return userRepository.findAll();
     }
 
     @Override
-    public List<User> findAllUser() {
-        return userRepository.findAll();
+    public User getUserByID(String id) {
+        return userRepository.findUserByUid(id);
+    }
+
+    @Override
+    public User getUserByName(String name) {
+        return userRepository.findUserByName(name);
     }
 }
